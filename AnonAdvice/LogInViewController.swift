@@ -7,24 +7,83 @@
 //
 
 import UIKit
+import Firebase
 
 class LogInViewController: UIViewController {
 
+    @IBOutlet weak var logInSignUpSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var confirmPasswordTextField: UITextField!
+    @IBOutlet weak var logInSignUpButton: UIButton!
+    @IBOutlet weak var errorMessageLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        layout()
+        logInSignUpSegmentedControl.addTarget(self, action: #selector(layout), for: .valueChanged)
+        
+        confirmPasswordTextField.isSecureTextEntry = true
+        passwordTextField.isSecureTextEntry = true
+        errorMessageLabel.isHidden = true
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @objc func layout(){
+        switch logInSignUpSegmentedControl.selectedSegmentIndex {
+        case 0:
+            logIn()
+        case 1:
+            signUp()
+        default:
+            logIn()
+        }
     }
-    */
-
+    
+    func logIn(){
+        confirmPasswordTextField.isHidden = true
+        logInSignUpButton.setTitle("Log In", for: .normal)
+    }
+    
+    func signUp(){
+        confirmPasswordTextField.isHidden = false
+        logInSignUpButton.setTitle("Sign Up", for: .normal)
+    }
+    
+    @IBAction func onLogInSignUp(_ sender: Any) {
+        let email = emailTextField.text!
+        let password = passwordTextField.text!
+        
+        if logInSignUpButton.currentTitle == "Log In"{
+            Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
+                if user != nil{
+                    self.performSegue(withIdentifier: "logInSegue", sender: self)
+                }else{
+                    self.errorMessageLabel.isHidden = false
+                    print(error?.localizedDescription ?? "Unknown error")
+                    self.errorMessageLabel.text = error?.localizedDescription ?? "Unknown error"
+                }
+            }
+        }else if logInSignUpButton.currentTitle == "Sign Up"{
+            if password == confirmPasswordTextField.text{
+                Auth.auth().createUser(withEmail: email, password: password) { (authResult: AuthDataResult?, error: Error?) in
+                    let user = authResult?.user
+                    
+                    if user != nil{
+                        self.performSegue(withIdentifier: "logInSegue", sender: self)
+                    }else{
+                        self.errorMessageLabel.isHidden = false
+                        self.errorMessageLabel.text = error?.localizedDescription ?? "Unknown error"
+                        print(error?.localizedDescription ?? "Unknown error")
+                    }
+                }
+            }else{ // password do not match
+                self.errorMessageLabel.isHidden = false
+                self.errorMessageLabel.text = "Passwords do not match."
+                print("Passwords do not match")
+            }
+        }
+    }
+    
+    
 }

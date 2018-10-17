@@ -6,7 +6,7 @@
 
 The following **required** functionality is completed:
 
-- [ ]  User can Sign up and Sign in with authentication.
+- [x]  User can Sign up and Sign in with authentication.
 - [ ]  User authentication persists across restarts.
 - [ ]  User can view posts asking for advice from the local area or world.
 - [ ]  Each user has a unique avatar &/ color within a post.
