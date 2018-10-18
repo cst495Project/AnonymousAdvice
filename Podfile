@@ -7,5 +7,6 @@ target 'AnonAdvice' do
 
   # Pods for AnonAdvice
   pod 'Firebase/Core'
+  pod 'Firebase/Auth'
 
 end
