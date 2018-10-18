@@ -11,7 +11,7 @@ The following **required** functionality is completed:
 - [ ]  User can view posts asking for advice from the local area or world.
 - [ ]  Each user has a unique avatar &/ color within a post.
 - [ ]  User can view advice from multiple users in a post.
-- [ ]  User can create a new post asking for advice.
+- [X]  User can create a new post asking for advice.
 - [ ]  User can leave advice on another user’s post.
 - [ ]  User can reply to another user’s advice.
 - [ ]  User can pull to refresh a list of posts.
