@@ -20,7 +20,7 @@ class LogInViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+            
         layout()
         logInSignUpSegmentedControl.addTarget(self, action: #selector(layout), for: .valueChanged)
         
@@ -70,6 +70,17 @@ class LogInViewController: UIViewController {
                     let user = authResult?.user
                     
                     if user != nil{
+                        
+                        //Adding user to the database
+                        let ref = Database.database().reference().child("users")
+                        let userObject = [
+                            "username": self.emailTextField.text!,
+                            "timestamp": [".sv": "timestamp"],
+                            "good": 0,
+                            "bad": 0 ] as [String: Any]
+                        ref.child((user?.uid)!).setValue(userObject)
+                        //End database entry
+                        
                         self.performSegue(withIdentifier: "logInSegue", sender: self)
                     }else{
                         self.errorMessageLabel.isHidden = false
