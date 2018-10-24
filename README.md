@@ -65,9 +65,13 @@ The following **stretch** features are implemented:
 
 - adorable-avatars : {our-server.com}/myAvatars/:size/:id
 
-## Wireframes
+## Video
 
 <img src='https://i.imgur.com/RSIVa5Z.png' title='Wireframes' width='' alt='Wireframes' />
+
+## Wireframes
+
+<img src='https://imgur.com/jr3qrPL.gif' title='Part 1' width='' alt='Wireframes' />
 
 ## Credits
 
