@@ -18,7 +18,7 @@ The following **required** functionality is completed:
 - [ ]  User can pull to refresh a list of posts.
 - [ ]  User can pull to refresh a list of replies.
 - [ ]  User can view their profile containing open posts.
-- [ ]  User can close or delete their own posts.
+- [X]  User can close or delete their own posts.
 
 The following **stretch** features are implemented:
 
