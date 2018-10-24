@@ -24,6 +24,8 @@ class LogInViewController: UIViewController {
         layout()
         logInSignUpSegmentedControl.addTarget(self, action: #selector(layout), for: .valueChanged)
         
+        
+        
         confirmPasswordTextField.isSecureTextEntry = true
         passwordTextField.isSecureTextEntry = true
         errorMessageLabel.isHidden = true
