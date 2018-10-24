@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class HomeViewController: UIViewController {
 
@@ -30,7 +31,12 @@ class HomeViewController: UIViewController {
     
     
     @IBAction func onLogout(_ sender: Any) {
-        self.performSegue(withIdentifier: "logoutSegue", sender: self)
+        do {
+            try Auth.auth().signOut()
+        } catch let logoutError {
+            print(logoutError.localizedDescription)
+        }
+        self.performSegue(withIdentifier: "logoutSegue", sender: nil)
     }
     
     
@@ -53,16 +59,5 @@ class HomeViewController: UIViewController {
     func worldSelected() {
         //functionality for world
     }
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

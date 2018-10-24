@@ -14,6 +14,8 @@ class NewPostViewController: UIViewController {
     @IBOutlet weak var titleLabel: UITextField!
     @IBOutlet weak var textView: UITextView!
     
+    var postId: String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -30,6 +32,7 @@ class NewPostViewController: UIViewController {
         
         postRef.setValue(postObject, withCompletionBlock: { error, ref in
             if error == nil {
+                self.postId = postRef.key
                 self.performSegue(withIdentifier: "createPost", sender: self)
             } else {
                 print(error?.localizedDescription as Any)
@@ -38,9 +41,11 @@ class NewPostViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let pvc = segue.destination as! PostViewController
+        let dest = segue.destination as! UINavigationController
+        let pvc = dest.topViewController as! PostViewController
         pvc.postTitle = titleLabel.text
         pvc.postText = textView.text
+        pvc.postId = postId
     }
     
 }

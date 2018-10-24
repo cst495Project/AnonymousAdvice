@@ -23,9 +23,6 @@ class LogInViewController: UIViewController {
             
         layout()
         logInSignUpSegmentedControl.addTarget(self, action: #selector(layout), for: .valueChanged)
-        
-        
-        
         confirmPasswordTextField.isSecureTextEntry = true
         passwordTextField.isSecureTextEntry = true
         errorMessageLabel.isHidden = true
@@ -59,7 +56,7 @@ class LogInViewController: UIViewController {
         if logInSignUpButton.currentTitle == "Log In"{
             Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
                 if user != nil{
-                    self.performSegue(withIdentifier: "logInSegue", sender: self)
+                    self.performSegue(withIdentifier: "loginSegue", sender: self)
                 }else{
                     self.errorMessageLabel.isHidden = false
                     print(error?.localizedDescription ?? "Unknown error")
@@ -83,7 +80,7 @@ class LogInViewController: UIViewController {
                         ref.child((user?.uid)!).setValue(userObject)
                         //End database entry
                         
-                        self.performSegue(withIdentifier: "logInSegue", sender: self)
+                        self.performSegue(withIdentifier: "loginSegue", sender: self)
                     }else{
                         self.errorMessageLabel.isHidden = false
                         self.errorMessageLabel.text = error?.localizedDescription ?? "Unknown error"
