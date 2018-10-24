@@ -29,7 +29,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if Auth.auth().currentUser != nil {
             self.window?.rootViewController = storyboard.instantiateViewController(withIdentifier: "NavigationController")
-            //self.presentTabBar()
             
         } else {
             self.window?.rootViewController = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
