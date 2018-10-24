@@ -8,7 +8,7 @@ The following **required** functionality is completed:
 
 - [x]  User can Sign up and Sign in with authentication.
 - [x]  User authentication persists across restarts.
-- [ ]   User can logout
+- [x]  User can logout
 - [ ]  User can view posts asking for advice from the local area or world.
 - [ ]  Each user has a unique avatar &/ color within a post.
 - [ ]  User can view advice from multiple users in a post.

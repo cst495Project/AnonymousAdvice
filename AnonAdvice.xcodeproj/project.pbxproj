@@ -11,6 +11,7 @@
 		16001A352177963C00422107 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16001A332177963C00422107 /* Main.storyboard */; };
 		16001A372177963C00422107 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 16001A362177963C00422107 /* Assets.xcassets */; };
 		16001A3A2177963C00422107 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16001A382177963C00422107 /* LaunchScreen.storyboard */; };
+		6E67B6E32180C97A00ABE358 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E67B6E22180C97900ABE358 /* PostCell.swift */; };
 		6EE556E121779A3A009E0C92 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE556E021779A3A009E0C92 /* LogInViewController.swift */; };
 		6EE556E321779B4B009E0C92 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EE556E221779B4B009E0C92 /* GoogleService-Info.plist */; };
 		7F3E61D52178266D0040AA93 /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3E61D42178266D0040AA93 /* NewPostViewController.swift */; };
@@ -31,6 +32,7 @@
 		16001A392177963C00422107 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		16001A3B2177963C00422107 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A449EAC7B0D43C41876EDE3 /* Pods-AnonAdvice.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnonAdvice.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AnonAdvice/Pods-AnonAdvice.debug.xcconfig"; sourceTree = "<group>"; };
+		6E67B6E22180C97900ABE358 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		6EE556E021779A3A009E0C92 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		6EE556E221779B4B009E0C92 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7F3E61D42178266D0040AA93 /* NewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
@@ -75,8 +77,9 @@
 		16001A2E2177963C00422107 /* AnonAdvice */ = {
 			isa = PBXGroup;
 			children = (
+				6E67B6E12180C95C00ABE358 /* View */,
 				7F3E61D6217844500040AA93 /* Models */,
-				7F3E61D3217825B50040AA93 /* View Controllers */,
+				7F3E61D3217825B50040AA93 /* Controllers */,
 				16001A2F2177963C00422107 /* AppDelegate.swift */,
 				16001A332177963C00422107 /* Main.storyboard */,
 				16001A362177963C00422107 /* Assets.xcassets */,
@@ -97,7 +100,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		7F3E61D3217825B50040AA93 /* View Controllers */ = {
+		6E67B6E12180C95C00ABE358 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				6E67B6E22180C97900ABE358 /* PostCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7F3E61D3217825B50040AA93 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				6EE556E021779A3A009E0C92 /* LogInViewController.swift */,
@@ -105,7 +116,7 @@
 				7F3E61DD217877430040AA93 /* PostViewController.swift */,
 				C26AB77A217EBEBA0020C252 /* HomeViewController.swift */,
 			);
-			path = "View Controllers";
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		7F3E61D6217844500040AA93 /* Models */ = {
@@ -258,6 +269,7 @@
 				7F3E61DE217877430040AA93 /* PostViewController.swift in Sources */,
 				C26AB77B217EBEBA0020C252 /* HomeViewController.swift in Sources */,
 				7F3E61DC217854940040AA93 /* UserService.swift in Sources */,
+				6E67B6E32180C97A00ABE358 /* PostCell.swift in Sources */,
 				16001A302177963C00422107 /* AppDelegate.swift in Sources */,
 				7F3E61DA2178464B0040AA93 /* User.swift in Sources */,
 				7F3E61D8217846370040AA93 /* Post.swift in Sources */,
