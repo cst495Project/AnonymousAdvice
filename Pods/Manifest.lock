@@ -1,4 +1,5 @@
 PODS:
+  - DateToolsSwift (4.0.0)
   - Firebase/Auth (5.9.0):
     - Firebase/CoreOnly
     - FirebaseAuth (= 5.0.4)
@@ -67,12 +68,14 @@ PODS:
   - nanopb/encode (0.3.8)
 
 DEPENDENCIES:
+  - DateToolsSwift
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Database
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - DateToolsSwift
     - Firebase
     - FirebaseAnalytics
     - FirebaseAuth
@@ -87,6 +90,7 @@ SPEC REPOS:
     - nanopb
 
 SPEC CHECKSUMS:
+  DateToolsSwift: 875d97ff9e3a5d54abdd67a269b3f51c757b71ab
   Firebase: 383fa29aca93e371cab776b48a5c66544d3c2003
   FirebaseAnalytics: 831f1f127f4a75698e9875a87bf7e2668730d953
   FirebaseAuth: 504b198ceb3472dca5c65bb95544ea44cfc9439e
@@ -100,6 +104,6 @@ SPEC CHECKSUMS:
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
 
-PODFILE CHECKSUM: ae4e08d859fd91a1862a046a3c9b22ae9fda3518
+PODFILE CHECKSUM: 68e54182c8333ab5789f88e2f984e99f8a768d73
 
 COCOAPODS: 1.5.3

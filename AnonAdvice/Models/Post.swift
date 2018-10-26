@@ -13,11 +13,11 @@ class Post {
     var author: User
     var title: String
     var text: String
-    var timestamp: Double
+    var timestamp: String
     var subject: String
     //var location
     
-    init(id: String, author: User, title: String, text: String, timestamp: Double, subject: String) {
+    init(id: String, author: User, title: String, text: String, timestamp: String, subject: String) {
         self.id = id
         self.author = author
         self.title = title
