@@ -43,8 +43,6 @@ class NewPostViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let dest = segue.destination as! UINavigationController
         let pvc = dest.topViewController as! PostViewController
-        pvc.postTitle = titleLabel.text
-        pvc.postText = textView.text
         pvc.postId = postId
     }
     

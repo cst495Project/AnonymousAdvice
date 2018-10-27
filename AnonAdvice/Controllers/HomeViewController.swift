@@ -64,6 +64,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             for child in snapshot.children{
                 let snap = child as! DataSnapshot
                 
+                let id = snap.key
                 let author = User.init(userID: "asd", username: "sd", timestamp: 5.5, good: 0, bad: 0)
                 
                 let title = snap.childSnapshot(forPath: "title").value as? String ?? "No title"
@@ -73,7 +74,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 let date = Date(timeIntervalSince1970: time/1000)
                 let timestamp = date.shortTimeAgoSinceNow + " ago"
                
-                np.append(Post.init(id: "12", author: author, title: title, text: text, timestamp: timestamp, subject: "local"))
+                np.append(Post.init(id: id, author: author, title: title, text: text, timestamp: timestamp, subject: "local"))
                 
             }
             self.posts = np.reversed()
@@ -83,6 +84,16 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        postID = posts[indexPath.row].id
+        performSegue(withIdentifier: "reply", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "reply") {
+            let dest = segue.destination as! UINavigationController
+            let pvc = dest.topViewController as! PostViewController
+            pvc.postId = postID
+        }
     }
     
     
