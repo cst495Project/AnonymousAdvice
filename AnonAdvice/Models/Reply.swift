@@ -10,19 +10,14 @@ import Foundation
 
 class Reply {
     var id: String
-    var author: User
-    var title: String
+    var author: String
     var text: String
     var timestamp: String
-    var subject: String
-    //var location
     
-    init(id: String, author: User, title: String, text: String, timestamp: String, subject: String) {
+    init(id: String, author: String, text: String, timestamp: String) {
         self.id = id
         self.author = author
-        self.title = title
         self.text = text
         self.timestamp = timestamp
-        self.subject = subject
     }
 }
