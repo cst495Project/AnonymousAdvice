@@ -10,5 +10,8 @@ target 'AnonAdvice' do
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
   pod 'DateToolsSwift'
+  pod 'GooglePlaces'
+  pod 'GooglePlacePicker'
+  pod 'GoogleMaps'
 
 end

@@ -8,8 +8,10 @@
 
 import UIKit
 import Firebase
+import GooglePlaces
+import GooglePlacePicker
 
-class LogInViewController: UIViewController {
+class LogInViewController: UIViewController, GMSAutocompleteViewControllerDelegate {
 
     @IBOutlet weak var logInSignUpSegmentedControl: UISegmentedControl!
     @IBOutlet weak var emailTextField: UITextField!
@@ -70,7 +72,7 @@ class LogInViewController: UIViewController {
                 }
             }
         }else if logInSignUpButton.currentTitle == "Sign Up"{
-            if password == confirmPasswordTextField.text{
+            if password == confirmPasswordTextField.text && cityTextField.text != ""{
                 Auth.auth().createUser(withEmail: email, password: password) { (authResult: AuthDataResult?, error: Error?) in
                     let user = authResult?.user
                     
@@ -80,6 +82,7 @@ class LogInViewController: UIViewController {
                         let ref = Database.database().reference().child("users")
                         let userObject = [
                             "username": self.emailTextField.text!,
+                            "city": self.cityTextField.text!,
                             "timestamp": [".sv": "timestamp"],
                             "good": 0,
                             "bad": 0 ] as [String: Any]
@@ -93,13 +96,41 @@ class LogInViewController: UIViewController {
                         print(error?.localizedDescription ?? "Unknown error")
                     }
                 }
-            }else{ // password do not match
+            }else if password != confirmPasswordTextField.text{ // password do not match
                 self.errorMessageLabel.isHidden = false
                 self.errorMessageLabel.text = "Passwords do not match."
+                print("Passwords do not match")
+            }else if cityTextField.text == ""{
+                self.errorMessageLabel.isHidden = false
+                self.errorMessageLabel.text = "Enter a city"
                 print("Passwords do not match")
             }
         }
     }
     
+    @IBAction func onPickCity(_ sender: Any) {
+        let placePicker = GMSAutocompleteViewController()
+        placePicker.delegate = self
+        let filter = GMSAutocompleteFilter()
+        filter.type = .establishment  //suitable filter type
+        filter.type = .city
+        placePicker.autocompleteFilter = filter
+        
+        present(placePicker, animated: true, completion: nil)
+
+    }
+    
+    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
+        cityTextField.text = place.formattedAddress!
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
+        print("Error: ", error.localizedDescription)
+    }
+    
+    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
+        self.dismiss(animated: true, completion: nil)
+    }
     
 }

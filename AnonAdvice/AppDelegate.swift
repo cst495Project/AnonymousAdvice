@@ -8,6 +8,9 @@
 
 import UIKit
 import Firebase
+import GooglePlaces
+import GooglePlacePicker
+import GoogleMaps
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -33,6 +36,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             self.window?.rootViewController = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
         }
+        
+        GMSPlacesClient.provideAPIKey("AIzaSyBZjnpo-xTuQHCFx7MHVVyFiSVhpo9mCr0") // API_KEY
     }
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
