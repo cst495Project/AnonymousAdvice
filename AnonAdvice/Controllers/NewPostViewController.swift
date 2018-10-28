@@ -8,6 +8,8 @@
 
 import UIKit
 import Firebase
+import FirebaseAuth
+import FirebaseDatabase
 
 class NewPostViewController: UIViewController {
     
@@ -28,7 +30,7 @@ class NewPostViewController: UIViewController {
             "title": titleLabel.text!,
             "text": textView.text!,
             "timestamp": [".sv": "timestamp"]
-                ] as [String: Any]
+            ] as [String: Any]
         
         postRef.setValue(postObject, withCompletionBlock: { error, ref in
             if error == nil {

@@ -129,7 +129,6 @@ class LogInViewController: UIViewController, GMSAutocompleteViewControllerDelega
         print("Error: ", error.localizedDescription)
     }
     
-    // User canceled the operation.
     func wasCancelled(_ viewController: GMSAutocompleteViewController) {
         self.dismiss(animated: true, completion: nil)
     }
