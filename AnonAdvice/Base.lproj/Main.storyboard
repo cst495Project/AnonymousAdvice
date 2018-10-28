@@ -77,7 +77,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4pg-J8-mrJ">
                                 <rect key="frame" x="16" y="360" width="382" height="30"/>
                                 <connections>
-                                    <segue destination="d6F-oU-vFp" kind="presentation" id="5a6-pH-7Ax"/>
+                                    <action selector="onPickCity:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1GN-41-XDg"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -518,34 +518,9 @@
             </objects>
             <point key="canvasLocation" x="2207" y="35"/>
         </scene>
-        <!--City Picker View Controller-->
-        <scene sceneID="qjo-gR-BuQ">
-            <objects>
-                <viewController id="d6F-oU-vFp" customClass="CityPickerViewController" customModule="AnonAdvice" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Wod-G2-BjP">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H7v-eC-OzH">
-                                <rect key="frame" x="162" y="409" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="citySelected:" destination="d6F-oU-vFp" eventType="touchUpInside" id="Hht-qg-6bB"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="tAu-5N-vIy"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Czo-1Z-r64" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="670" y="-650"/>
-        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="nGz-dA-NWZ"/>
-        <segue reference="UiA-7p-fkG"/>
+        <segue reference="OHD-Cw-ih6"/>
     </inferredMetricsTieBreakers>
 </document>
