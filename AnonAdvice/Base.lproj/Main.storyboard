@@ -54,7 +54,6 @@
                                 <state key="normal" title="Button"/>
                                 <connections>
                                     <action selector="onLogInSignUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="py8-x1-Pu0"/>
-                                    <segue destination="GV8-US-9XA" kind="presentation" identifier="loginSegue" id="mL3-Ec-LUh"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="og1-qb-aWa">
@@ -115,12 +114,15 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="cityButton" destination="4pg-J8-mrJ" id="NbK-3b-Fer"/>
+                        <outlet property="cityTextField" destination="IAN-En-il9" id="SsZ-no-vrp"/>
                         <outlet property="confirmPasswordTextField" destination="RmL-MY-bmw" id="qtk-lF-R4z"/>
                         <outlet property="emailTextField" destination="og1-qb-aWa" id="9Os-bX-HRT"/>
                         <outlet property="errorMessageLabel" destination="AzR-UO-4Yb" id="xas-GE-wuz"/>
                         <outlet property="logInSignUpButton" destination="2Cu-1w-ms8" id="8D8-bB-BcH"/>
                         <outlet property="logInSignUpSegmentedControl" destination="rDl-P8-hcV" id="3CJ-Xc-jIp"/>
                         <outlet property="passwordTextField" destination="hP3-XM-RQC" id="u1Y-kJ-1F0"/>
+                        <segue destination="GV8-US-9XA" kind="show" identifier="loginSegue" id="OHD-Cw-ih6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -529,8 +531,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
-                                    <action selector="cityPicked:" destination="d6F-oU-vFp" eventType="touchUpInside" id="4pB-ok-cb9"/>
-                                    <action selector="citySelected:" destination="d6F-oU-vFp" eventType="touchUpInside" id="5Dj-NQ-fbS"/>
+                                    <action selector="citySelected:" destination="d6F-oU-vFp" eventType="touchUpInside" id="Hht-qg-6bB"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -545,6 +546,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="nGz-dA-NWZ"/>
-        <segue reference="mL3-Ec-LUh"/>
+        <segue reference="UiA-7p-fkG"/>
     </inferredMetricsTieBreakers>
 </document>

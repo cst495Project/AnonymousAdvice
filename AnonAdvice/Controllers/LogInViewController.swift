@@ -17,6 +17,8 @@ class LogInViewController: UIViewController {
     @IBOutlet weak var confirmPasswordTextField: UITextField!
     @IBOutlet weak var logInSignUpButton: UIButton!
     @IBOutlet weak var errorMessageLabel: UILabel!
+    @IBOutlet weak var cityTextField: UITextField!
+    @IBOutlet weak var cityButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,11 +43,15 @@ class LogInViewController: UIViewController {
     
     func logIn(){
         confirmPasswordTextField.isHidden = true
+        cityTextField.isHidden = true
+        cityButton.isHidden = true
         logInSignUpButton.setTitle("Log In", for: .normal)
     }
     
     func signUp(){
         confirmPasswordTextField.isHidden = false
+        cityTextField.isHidden = false
+        cityButton.isHidden = false
         logInSignUpButton.setTitle("Sign Up", for: .normal)
     }
     
