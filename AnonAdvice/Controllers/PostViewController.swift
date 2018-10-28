@@ -8,8 +8,9 @@
 
 import UIKit
 import Firebase
+import DateToolsSwift
 
-class PostViewController: UIViewController {
+class PostViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var textLabel: UILabel!
@@ -18,10 +19,15 @@ class PostViewController: UIViewController {
     @IBOutlet weak var navBar: UINavigationItem!
     
     var postId: String?
+    var replies: [Reply] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.estimatedRowHeight = 50
         getPost()
+        getPostReplies()
     }
     
     func getPost() {
@@ -43,11 +49,31 @@ class PostViewController: UIViewController {
     }
     
     func getPostReplies() {
-        let postRef = Database.database().reference().child("posts").child(postId!)
-        postRef.observe(DataEventType.value, with: { (snapshot) in
-            let replyDict = snapshot.value as? [String : Any] ?? [:]
-            //get replies to populate table view
+        let postRef = Database.database().reference().child("posts").child(postId!).child("replies")
+        postRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            for child in snapshot.children{
+                let snap = child as! DataSnapshot
+                let id = snap.key
+                let author = snap.childSnapshot(forPath: "author").value as? String ?? ""
+                let text = snap.childSnapshot(forPath: "text").value as? String ?? "No text"
+                let time = snap.childSnapshot(forPath: "timestamp").value as? Double ?? 1
+                let date = Date(timeIntervalSince1970: time/1000)
+                let timestamp = date.shortTimeAgoSinceNow + " ago"
+                self.replies.append(Reply.init(id: id, author: author, text: text, timestamp: timestamp))
+            }
+            self.tableView.reloadData()
         })
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return replies.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ReplyCell", for: indexPath) as! ReplyCell
+        cell.replyTextLabel.text = replies[indexPath.row].text
+        cell.timestampLabel.text = "\(String(describing: replies[indexPath.row].timestamp))"
+        return cell
     }
     
     @IBAction func onHome(_ sender: Any) {
@@ -68,8 +94,16 @@ class PostViewController: UIViewController {
                 }
             }
         } else {
-            //reply to post
-            print("we are going to reply now..")
+            performSegue(withIdentifier: "createReply", sender: nil)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "createReply") {
+            let rvc = segue.destination as! ReplyViewController
+            rvc.postID = postId
+            rvc.parentTitle = titleLabel.text
+            rvc.parentText = textLabel.text
         }
     }
     
