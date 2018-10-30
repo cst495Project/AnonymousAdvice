@@ -16,20 +16,30 @@ class NewPostViewController: UIViewController {
     @IBOutlet weak var titleLabel: UITextField!
     @IBOutlet weak var textView: UITextView!
     
+    let current = Auth.auth().currentUser!.uid
+    var currentUserCity: String!
+
     var postId: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getUsersCity()
+    }
+    
+    func getUsersCity(){
+        Database.database().reference().child("users").child(current).child("city").observeSingleEvent(of: .value) { (snapshot) in
+            self.currentUserCity = snapshot.value as? String
+        }
     }
     
     @IBAction func onTapAskAdvice(_ sender: Any) {
-        let current = Auth.auth().currentUser!.uid
         let postRef = Database.database().reference().child("posts").childByAutoId()
         let postObject = [
             "author": current,
             "title": titleLabel.text!,
             "text": textView.text!,
-            "timestamp": [".sv": "timestamp"]
+            "timestamp": [".sv": "timestamp"],
+            "city" : currentUserCity!
             ] as [String: Any]
         
         postRef.setValue(postObject, withCompletionBlock: { error, ref in

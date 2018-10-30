@@ -35,6 +35,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         let postRef = Database.database().reference().child("posts").child(postId!)
         postRef.observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
+            
             let author = value!["author"]! as? String ?? ""
             self.titleLabel.text = value?["title"] as? String ?? ""
             self.textLabel.text = value?["text"] as? String ?? ""
