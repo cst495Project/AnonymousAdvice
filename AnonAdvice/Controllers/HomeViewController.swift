@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import DateToolsSwift
+import FirebaseDatabase
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -16,6 +17,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var tableView: UITableView!
     
     let postRef = Database.database().reference().child("posts")
+    let userRef = Database.database().reference().child("users")
+    let currentUser = Auth.auth().currentUser?.uid
+    var currentUserCity: String!
     var posts: [Post] = []
     var postID: String?
     
@@ -25,11 +29,18 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.delegate = self
         tableView.dataSource = self
         
-        fetchWorldPosts()
+        getUsersCity()
+        fetchLocalPosts()
         
         indexChange()
         segmentedControl.addTarget(self, action: #selector(indexChange), for: .valueChanged)
         // Do any additional setup after loading the view.
+    }
+    
+    func getUsersCity(){
+        userRef.child(currentUser!).observeSingleEvent(of: .value) { (snapshot) in
+            self.currentUserCity = (snapshot.childSnapshot(forPath: "city").value as! String)
+        }
     }
 
     
@@ -82,6 +93,31 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    func fetchLocalPosts(){
+        var newPosts: [Post] = []
+        postRef.observe(.value) { (snapshot) in
+            for child in snapshot.children{
+                let snap = child as! DataSnapshot
+                let postCity = snap.childSnapshot(forPath: "city").value as? String ?? "Unknown"
+                if(postCity == self.currentUserCity){
+                    let id = snap.key
+                    let author = User.init(userID: "asd", username: "sd", timestamp: 5.5, good: 0, bad: 0)
+                    
+                    let title = snap.childSnapshot(forPath: "title").value as? String ?? "No title"
+                    let text = snap.childSnapshot(forPath: "text").value as? String ?? "No text"
+                    
+                    let time = snap.childSnapshot(forPath: "timestamp").value as? Double ?? 1
+                    let date = Date(timeIntervalSince1970: time/1000)
+                    let timestamp = date.shortTimeAgoSinceNow + " ago"
+                    
+                    newPosts.append(Post.init(id: id, author: author, title: title, text: text, timestamp: timestamp, subject: "local"))
+                }
+            }
+            self.posts = newPosts.reversed()
+            self.tableView.reloadData()
+        }
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         postID = posts[indexPath.row].id
@@ -110,7 +146,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func localSelected(){
         //functionality for local tab
-        fetchWorldPosts()
+        fetchLocalPosts()
     }
     
     func worldSelected() {

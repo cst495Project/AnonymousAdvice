@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import GooglePlaces
 import GooglePlacePicker
+import FirebaseDatabase
 
 class LogInViewController: UIViewController, GMSAutocompleteViewControllerDelegate {
 
@@ -74,7 +75,7 @@ class LogInViewController: UIViewController, GMSAutocompleteViewControllerDelega
         }else if logInSignUpButton.currentTitle == "Sign Up"{
             if password == confirmPasswordTextField.text && cityTextField.text != ""{
                 Auth.auth().createUser(withEmail: email, password: password) { (authResult: AuthDataResult?, error: Error?) in
-                    let user = authResult?.user
+                    let user = authResult?.user.uid
                     
                     if user != nil{
                         
@@ -86,7 +87,8 @@ class LogInViewController: UIViewController, GMSAutocompleteViewControllerDelega
                             "timestamp": [".sv": "timestamp"],
                             "good": 0,
                             "bad": 0 ] as [String: Any]
-                        ref.child((user?.uid)!).setValue(userObject)
+                        ref.child((user)!).setValue(userObject)
+                        
                         //End database entry
                         
                         self.performSegue(withIdentifier: "loginSegue", sender: self)
