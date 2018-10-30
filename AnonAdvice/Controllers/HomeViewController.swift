@@ -31,10 +31,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         getUsersCity()
         fetchLocalPosts()
-        
-        indexChange()
         segmentedControl.addTarget(self, action: #selector(indexChange), for: .valueChanged)
-        // Do any additional setup after loading the view.
     }
     
     func getUsersCity(){
@@ -71,7 +68,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func fetchWorldPosts(){
         var np: [Post] = []
-        postRef.observe(.value) { (snapshot) in
+        postRef.observeSingleEvent(of: .value) { (snapshot) in
             for child in snapshot.children{
                 let snap = child as! DataSnapshot
                 
@@ -95,7 +92,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func fetchLocalPosts(){
         var newPosts: [Post] = []
-        postRef.observe(.value) { (snapshot) in
+        postRef.observeSingleEvent(of: .value) { (snapshot) in
             for child in snapshot.children{
                 let snap = child as! DataSnapshot
                 let postCity = snap.childSnapshot(forPath: "city").value as? String ?? "Unknown"
