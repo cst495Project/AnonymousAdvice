@@ -79,6 +79,7 @@ List any 3rd party libraries, icons, graphics, or other assets you used in your 
 
 - [AFNetworking](https://github.com/AFNetworking/AFNetworking) - networking task library
 - [Adorable-Avatars](https://github.com/adorableio/avatars-api-middleware) - profile avatar API
+- [Google-Place-Picker](https://developers.google.com/places/android-sdk/placepicker) - Places SDK
 - [Firebase](https://firebase.google.com/) - backend database
 
 ## License
