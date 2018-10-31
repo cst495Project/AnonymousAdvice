@@ -19,20 +19,18 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         emailLabel.text = Auth.auth().currentUser?.email
-        getCity()
-        // Do any additional setup after loading the view.
+        getUsersCity()
+    }
+    
+    let userRef = Database.database().reference().child("users")
+    let currentUser = Auth.auth().currentUser?.uid
+    func getUsersCity(){
+        userRef.child(currentUser!).observeSingleEvent(of: .value) { (snapshot) in
+            self.cityLabel.text = snapshot.childSnapshot(forPath: "city").value as? String ?? "Unknown"
+        }
     }
     
     
-    func getCity() {
-        let current = Auth.auth().currentUser!.uid
-        let postRef = Database.database().reference().child("user").child(current)
-        postRef.observeSingleEvent(of: .value, with: { (snapshot) in
-            let value = snapshot.value as? NSDictionary
-            self.cityLabel.text = value?["city"] as? String ?? ""
-            
-        })
-    }
     
     /*
     // MARK: - Navigation
