@@ -18,17 +18,38 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var rightButton: UIButton!
     @IBOutlet weak var navBar: UINavigationItem!
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     var postId: String?
     var replies: [Reply] = []
+    var refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.estimatedRowHeight = 50
+        
+        refreshControl.addTarget(self, action: #selector(PostViewController.didPullToRefresh(_ :)), for: .valueChanged)
+        
+
+        tableView.insertSubview(refreshControl, at: 0)
+        activityIndicator.startAnimating()
+        
         getPost()
         getPostReplies()
     }
+    
+    @objc func didPullToRefresh(_ refreshControl: UIRefreshControl)
+    {
+        print("refresh pull detected")
+        activityIndicator.startAnimating()
+        
+        getPostReplies()
+        
+        
+    }
+    
     
     func getPost() {
         let current = Auth.auth().currentUser!.uid
@@ -63,6 +84,10 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.replies.append(Reply.init(id: id, author: author, text: text, timestamp: timestamp))
             }
             self.tableView.reloadData()
+            
+            self.refreshControl.endRefreshing()
+            self.activityIndicator.stopAnimating()
+            
         })
     }
     

@@ -31,18 +31,24 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.delegate = self
         tableView.dataSource = self
         
+        segmentedControl.addTarget(self, action: #selector(indexChange), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(HomeViewController.didPullToRefresh(_ :)), for: .valueChanged)
+        
+        
+        tableView.insertSubview(refreshControl, at: 0)
+        activityIndicator.startAnimating()
+        
         getUsersCity()
         fetchLocalPosts()
-        segmentedControl.addTarget(self, action: #selector(indexChange), for: .valueChanged)
-        refreshControl.addTarget(self, action: #selector(HomeViewController.didPullToRefresh(_:)), for: .valueChanged)
-        refreshControl = UIRefreshControl()
         
         
-        activityIndicator.startAnimating()
+        
+        print("start detected")
         
     }
     @objc func didPullToRefresh(_ refreshControl: UIRefreshControl)
     {
+        print("refresh pull detected")
         activityIndicator.startAnimating()
         switch segmentedControl.selectedSegmentIndex {
         case 0:
@@ -52,9 +58,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         default:
             break;
         }
-        self.refreshControl.endRefreshing()
         
-        self.activityIndicator.stopAnimating()    }
+        
+    }
     
     func getUsersCity(){
         userRef.child(currentUser!).observeSingleEvent(of: .value) { (snapshot) in
@@ -109,6 +115,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             self.posts = np.reversed()
             self.tableView.reloadData()
+            self.refreshControl.endRefreshing()
+            
+            self.activityIndicator.stopAnimating()
+            
         }
     }
     
@@ -134,6 +144,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             self.posts = newPosts.reversed()
             self.tableView.reloadData()
+            self.refreshControl.endRefreshing()
+            
+            self.activityIndicator.stopAnimating()
+            
         }
     }
     

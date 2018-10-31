@@ -15,8 +15,8 @@ The following **required** functionality is completed:
 - [X]  User can create a new post asking for advice.
 - [X]  User can leave advice on another user’s post.
 - [x]  User can reply to another user’s advice.
-- [ ]  User can pull to refresh a list of posts.
-- [ ]  User can pull to refresh a list of replies.
+- [x]  User can pull to refresh a list of posts.
+- [x]  User can pull to refresh a list of replies.
 - [ ]  User can view their profile containing open posts.
 - [X]  User can close or delete their own posts.
 
