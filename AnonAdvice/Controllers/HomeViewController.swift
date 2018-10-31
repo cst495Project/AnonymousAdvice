@@ -15,6 +15,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     let postRef = Database.database().reference().child("posts")
     let userRef = Database.database().reference().child("users")
@@ -23,20 +24,47 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var posts: [Post] = []
     var postID: String?
     
+    var refreshControl = UIRefreshControl();
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
         
+        segmentedControl.addTarget(self, action: #selector(indexChange), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(HomeViewController.didPullToRefresh(_ :)), for: .valueChanged)
+        
+        
+        tableView.insertSubview(refreshControl, at: 0)
+        activityIndicator.startAnimating()
+        
         getUsersCity()
         fetchLocalPosts()
-        segmentedControl.addTarget(self, action: #selector(indexChange), for: .valueChanged)
+        
+        
+        
+        print("start detected")
+        
+    }
+    @objc func didPullToRefresh(_ refreshControl: UIRefreshControl)
+    {
+        print("refresh pull detected")
+        activityIndicator.startAnimating()
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            localSelected()
+        case 1:
+            worldSelected()
+        default:
+            break;
+        }
+        
+        
     }
     
     func getUsersCity(){
         userRef.child(currentUser!).observeSingleEvent(of: .value) { (snapshot) in
-            self.currentUserCity = (snapshot.childSnapshot(forPath: "city").value as! String)
+            self.currentUserCity = (snapshot.childSnapshot(forPath: "city").value as? String ?? "")
         }
     }
 
@@ -87,6 +115,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             self.posts = np.reversed()
             self.tableView.reloadData()
+            self.refreshControl.endRefreshing()
+            
+            self.activityIndicator.stopAnimating()
+            
         }
     }
     
@@ -112,6 +144,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             self.posts = newPosts.reversed()
             self.tableView.reloadData()
+            self.refreshControl.endRefreshing()
+            
+            self.activityIndicator.stopAnimating()
+            
         }
     }
     
