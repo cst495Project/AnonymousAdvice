@@ -73,6 +73,10 @@ The following **stretch** features are implemented:
 
 <img src='https://imgur.com/jr3qrPL.gif' title='Part 1' width='' alt='Wireframes' />
 
+## Sprint 2
+<img src='https://i.imgur.com/9C1VI15.gif' title='Wireframes' width='' alt='Wireframes' />
+
+
 ## Credits
 
 List any 3rd party libraries, icons, graphics, or other assets you used in your app.
