@@ -71,6 +71,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func getPostReplies() {
+        var nr: [Reply] = []
         let postRef = Database.database().reference().child("posts").child(postId!).child("replies")
         postRef.observeSingleEvent(of: .value, with: { (snapshot) in
             for child in snapshot.children{
@@ -81,8 +82,9 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
                 let time = snap.childSnapshot(forPath: "timestamp").value as? Double ?? 1
                 let date = Date(timeIntervalSince1970: time/1000)
                 let timestamp = date.shortTimeAgoSinceNow + " ago"
-                self.replies.append(Reply.init(id: id, author: author, text: text, timestamp: timestamp))
+                nr.append(Reply.init(id: id, author: author, text: text, timestamp: timestamp))
             }
+            self.replies = nr
             self.tableView.reloadData()
             
             self.refreshControl.endRefreshing()

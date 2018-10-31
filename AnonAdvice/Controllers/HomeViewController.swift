@@ -64,7 +64,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func getUsersCity(){
         userRef.child(currentUser!).observeSingleEvent(of: .value) { (snapshot) in
-            self.currentUserCity = (snapshot.childSnapshot(forPath: "city").value as! String)
+            self.currentUserCity = (snapshot.childSnapshot(forPath: "city").value as? String ?? "")
         }
     }
 
