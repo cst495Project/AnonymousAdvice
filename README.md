@@ -9,14 +9,14 @@ The following **required** functionality is completed:
 - [x]  User can Sign up and Sign in with authentication.
 - [x]  User authentication persists across restarts.
 - [x]   User can logout
-- [ ]  User can view posts asking for advice from the local area or world.
+- [x]  User can view posts asking for advice from the local area or world.
 - [ ]  Each user has a unique avatar &/ color within a post.
 - [X]  User can view advice from multiple users in a post.
 - [X]  User can create a new post asking for advice.
 - [X]  User can leave advice on another user’s post.
-- [ ]  User can reply to another user’s advice.
-- [ ]  User can pull to refresh a list of posts.
-- [ ]  User can pull to refresh a list of replies.
+- [x]  User can reply to another user’s advice.
+- [x]  User can pull to refresh a list of posts.
+- [x]  User can pull to refresh a list of replies.
 - [ ]  User can view their profile containing open posts.
 - [X]  User can close or delete their own posts.
 
@@ -79,6 +79,7 @@ List any 3rd party libraries, icons, graphics, or other assets you used in your 
 
 - [AFNetworking](https://github.com/AFNetworking/AFNetworking) - networking task library
 - [Adorable-Avatars](https://github.com/adorableio/avatars-api-middleware) - profile avatar API
+- [Google-Place-Picker](https://developers.google.com/places/android-sdk/placepicker) - Places SDK
 - [Firebase](https://firebase.google.com/) - backend database
 
 ## License

@@ -18,23 +18,45 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var rightButton: UIButton!
     @IBOutlet weak var navBar: UINavigationItem!
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     var postId: String?
     var replies: [Reply] = []
+    var refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.estimatedRowHeight = 50
+        
+        refreshControl.addTarget(self, action: #selector(PostViewController.didPullToRefresh(_ :)), for: .valueChanged)
+        
+
+        tableView.insertSubview(refreshControl, at: 0)
+        activityIndicator.startAnimating()
+        
         getPost()
         getPostReplies()
     }
+    
+    @objc func didPullToRefresh(_ refreshControl: UIRefreshControl)
+    {
+        print("refresh pull detected")
+        activityIndicator.startAnimating()
+        
+        getPostReplies()
+        
+        
+    }
+    
     
     func getPost() {
         let current = Auth.auth().currentUser!.uid
         let postRef = Database.database().reference().child("posts").child(postId!)
         postRef.observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
+            
             let author = value!["author"]! as? String ?? ""
             self.titleLabel.text = value?["title"] as? String ?? ""
             self.textLabel.text = value?["text"] as? String ?? ""
@@ -49,6 +71,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func getPostReplies() {
+        var nr: [Reply] = []
         let postRef = Database.database().reference().child("posts").child(postId!).child("replies")
         postRef.observeSingleEvent(of: .value, with: { (snapshot) in
             for child in snapshot.children{
@@ -59,9 +82,14 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
                 let time = snap.childSnapshot(forPath: "timestamp").value as? Double ?? 1
                 let date = Date(timeIntervalSince1970: time/1000)
                 let timestamp = date.shortTimeAgoSinceNow + " ago"
-                self.replies.append(Reply.init(id: id, author: author, text: text, timestamp: timestamp))
+                nr.append(Reply.init(id: id, author: author, text: text, timestamp: timestamp))
             }
+            self.replies = nr
             self.tableView.reloadData()
+            
+            self.refreshControl.endRefreshing()
+            self.activityIndicator.stopAnimating()
+            
         })
     }
     
