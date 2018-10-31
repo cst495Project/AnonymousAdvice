@@ -15,6 +15,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     let postRef = Database.database().reference().child("posts")
     let userRef = Database.database().reference().child("users")
@@ -23,6 +24,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var posts: [Post] = []
     var postID: String?
     
+    var refreshControl = UIRefreshControl();
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +34,27 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         getUsersCity()
         fetchLocalPosts()
         segmentedControl.addTarget(self, action: #selector(indexChange), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(HomeViewController.didPullToRefresh(_:)), for: .valueChanged)
+        refreshControl = UIRefreshControl()
+        
+        
+        activityIndicator.startAnimating()
+        
     }
+    @objc func didPullToRefresh(_ refreshControl: UIRefreshControl)
+    {
+        activityIndicator.startAnimating()
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            localSelected()
+        case 1:
+            worldSelected()
+        default:
+            break;
+        }
+        self.refreshControl.endRefreshing()
+        
+        self.activityIndicator.stopAnimating()    }
     
     func getUsersCity(){
         userRef.child(currentUser!).observeSingleEvent(of: .value) { (snapshot) in
