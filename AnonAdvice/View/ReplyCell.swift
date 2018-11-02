@@ -10,6 +10,9 @@ import UIKit
 
 class ReplyCell: UITableViewCell {
     
+    @IBOutlet weak var expandLabel: UILabel!
+    @IBOutlet weak var goodPoints: UILabel!
+    @IBOutlet weak var badPoints: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var replyTextLabel: UILabel!
 
@@ -20,5 +23,5 @@ class ReplyCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-
+    
 }

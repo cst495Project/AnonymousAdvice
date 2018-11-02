@@ -101,10 +101,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             self.posts = np.reversed()
             self.tableView.reloadData()
+            
             self.refreshControl.endRefreshing()
-            
             self.activityIndicator.stopAnimating()
-            
         }
     }
     
@@ -128,8 +127,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             self.posts = newPosts.reversed()
             self.tableView.reloadData()
-            self.refreshControl.endRefreshing()
             
+            self.refreshControl.endRefreshing()
             self.activityIndicator.stopAnimating()
             
         }
@@ -148,7 +147,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             pvc.postId = postID
         }
     }
-    
     
     @objc func indexChange() {
         switch segmentedControl.selectedSegmentIndex {

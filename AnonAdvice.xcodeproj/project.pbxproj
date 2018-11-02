@@ -18,7 +18,6 @@
 		7F3E61D52178266D0040AA93 /* NewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3E61D42178266D0040AA93 /* NewPostViewController.swift */; };
 		7F3E61D8217846370040AA93 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3E61D7217846370040AA93 /* Post.swift */; };
 		7F3E61DA2178464B0040AA93 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3E61D92178464A0040AA93 /* User.swift */; };
-		7F3E61DC217854940040AA93 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3E61DB217854940040AA93 /* UserService.swift */; };
 		7F3E61DE217877430040AA93 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3E61DD217877430040AA93 /* PostViewController.swift */; };
 		7FB9ED892184FF7E008A029C /* ReplyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FB9ED882184FF7E008A029C /* ReplyCell.swift */; };
 		7FB9ED9121850EA2008A029C /* ReplyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FB9ED9021850EA2008A029C /* ReplyViewController.swift */; };
@@ -43,7 +42,6 @@
 		7F3E61D42178266D0040AA93 /* NewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewController.swift; sourceTree = "<group>"; };
 		7F3E61D7217846370040AA93 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		7F3E61D92178464A0040AA93 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		7F3E61DB217854940040AA93 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		7F3E61DD217877430040AA93 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		7FB9ED882184FF7E008A029C /* ReplyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyCell.swift; sourceTree = "<group>"; };
 		7FB9ED9021850EA2008A029C /* ReplyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyViewController.swift; sourceTree = "<group>"; };
@@ -94,7 +92,6 @@
 				16001A382177963C00422107 /* LaunchScreen.storyboard */,
 				16001A3B2177963C00422107 /* Info.plist */,
 				6EE556E221779B4B009E0C92 /* GoogleService-Info.plist */,
-				7F3E61DB217854940040AA93 /* UserService.swift */,
 			);
 			path = AnonAdvice;
 			sourceTree = "<group>";
@@ -309,7 +306,6 @@
 				6EE556E121779A3A009E0C92 /* LogInViewController.swift in Sources */,
 				7F3E61DE217877430040AA93 /* PostViewController.swift in Sources */,
 				C26AB77B217EBEBA0020C252 /* HomeViewController.swift in Sources */,
-				7F3E61DC217854940040AA93 /* UserService.swift in Sources */,
 				6E67B6E32180C97A00ABE358 /* PostCell.swift in Sources */,
 				7F0AF2F9218457EA00DE0955 /* Reply.swift in Sources */,
 				7FB9ED9121850EA2008A029C /* ReplyViewController.swift in Sources */,

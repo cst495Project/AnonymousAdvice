@@ -15,7 +15,6 @@ class Post {
     var text: String
     var timestamp: String
     var subject: String
-    //var location
     
     init(id: String, author: User, title: String, text: String, timestamp: String, subject: String) {
         self.id = id

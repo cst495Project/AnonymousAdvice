@@ -11,6 +11,10 @@ import Firebase
 import DateToolsSwift
 
 class PostViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    //TODO: make good/bad visuals
+    //      add select cell to view more replies
+    //      add a tap author's text to expand? (maybe with a view animation)
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var textLabel: UILabel!
@@ -31,8 +35,6 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.estimatedRowHeight = 50
         
         refreshControl.addTarget(self, action: #selector(PostViewController.didPullToRefresh(_ :)), for: .valueChanged)
-        
-
         tableView.insertSubview(refreshControl, at: 0)
         activityIndicator.startAnimating()
         
@@ -44,10 +46,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     {
         print("refresh pull detected")
         activityIndicator.startAnimating()
-        
         getPostReplies()
-        
-        
     }
     
     
@@ -102,6 +101,10 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.replyTextLabel.text = replies[indexPath.row].text
         cell.timestampLabel.text = "\(String(describing: replies[indexPath.row].timestamp))"
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //exchange tableView for replies view
     }
     
     @IBAction func onHome(_ sender: Any) {
