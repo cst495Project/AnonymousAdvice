@@ -465,7 +465,7 @@
                                     </connections>
                                 </button>
                                 <connections>
-                                    <segue destination="BYZ-38-t0r" kind="presentation" identifier="logoutSegue" id="zJj-dd-CYl"/>
+                                    <segue destination="BYZ-38-t0r" kind="showDetail" identifier="logoutSegue" id="zJj-dd-CYl"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="Profile" id="9zK-Jr-UQW">
@@ -591,6 +591,7 @@
                     <connections>
                         <outlet property="cityLabel" destination="Xb0-zO-RIJ" id="fyc-ok-Z9I"/>
                         <outlet property="emailLabel" destination="LlB-De-fo5" id="Pg1-g8-kvl"/>
+                        <segue destination="BYZ-38-t0r" kind="showDetail" identifier="tooManyWrongAttemptsLogOutSegue" id="6b6-2z-6B1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="We9-EN-8bn" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -600,6 +601,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="nGz-dA-NWZ"/>
-        <segue reference="UiA-7p-fkG"/>
+        <segue reference="OHD-Cw-ih6"/>
+        <segue reference="6b6-2z-6B1"/>
     </inferredMetricsTieBreakers>
 </document>

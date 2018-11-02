@@ -25,7 +25,7 @@ The following **stretch** features are implemented:
 - [ ]  User can select the subject or type of advice they want to view or ask for.
 - [ ]  User can select the location accuracy when creating a post.
 - [ ]  User receives a notification when their post is given advice.
-- [ ]  User's profile will require password or fingerprint authentication to access after app restart
+- [x]  User's profile will require password or fingerprint authentication to access after app restart
 - [ ]  User can view open threads they have given advice on.
 - [ ]  User can rate advice good or bad.
 - [ ]  User can select the best advice on their own post.
