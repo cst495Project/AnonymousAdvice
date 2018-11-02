@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import DateToolsSwift
 
-class PostViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class PostViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, myTableDelegate {
     
     //TODO: make good/bad visuals
     //      add select cell to view more replies
@@ -44,7 +44,6 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @objc func didPullToRefresh(_ refreshControl: UIRefreshControl)
     {
-        print("refresh pull detected")
         activityIndicator.startAnimating()
         getPostReplies()
     }
@@ -81,7 +80,9 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
                 let time = snap.childSnapshot(forPath: "timestamp").value as? Double ?? 1
                 let date = Date(timeIntervalSince1970: time/1000)
                 let timestamp = date.shortTimeAgoSinceNow + " ago"
-                nr.append(Reply.init(id: id, author: author, text: text, timestamp: timestamp))
+                let good = snap.childSnapshot(forPath: "good").value as? Int ?? 0
+                let bad = snap.childSnapshot(forPath: "bad").value as? Int ?? 0
+                nr.append(Reply.init(id: id, author: author, text: text, timestamp: timestamp, good: good, bad: bad))
             }
             self.replies = nr
             self.tableView.reloadData()
@@ -100,11 +101,25 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: "ReplyCell", for: indexPath) as! ReplyCell
         cell.replyTextLabel.text = replies[indexPath.row].text
         cell.timestampLabel.text = "\(String(describing: replies[indexPath.row].timestamp))"
+        cell.goodPoints.text = String(replies[indexPath.row].good)
+        cell.badPoints.text = String(replies[indexPath.row].bad)
+        cell.reply = replies[indexPath.row]
+        cell.delegate = self
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //exchange tableView for replies view
+        tableView.deselectRow(at: indexPath, animated: true)
+        let reply = replies[indexPath.row]
+        let cell = tableView.cellForRow(at: indexPath) as! ReplyCell
+        
+    }
+    
+    func myTableDelegate(sender: String, reply: Reply) {
+        print(sender)
+        print(reply.id)
+        print("tapped")
     }
     
     @IBAction func onHome(_ sender: Any) {
