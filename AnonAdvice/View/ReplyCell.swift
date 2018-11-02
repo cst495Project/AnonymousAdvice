@@ -27,6 +27,10 @@ class ReplyCell: UITableViewCell {
         self.goodPoints.addGestureRecognizer(goodTapGesture)
         self.badPoints.addGestureRecognizer(badTapGesture)
     }
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+    }
     
     @objc func tapEdit(sender: UITapGestureRecognizer) {
         if sender == goodTapGesture {
@@ -34,16 +38,10 @@ class ReplyCell: UITableViewCell {
         } else {
             delegate?.myTableDelegate(sender: "bad", reply: reply)
         }
-        
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
     }
     
     @IBAction func onReply(_ sender: Any) {
-        print(reply.id)
-        print("was pressed")
+        delegate?.myTableDelegate(sender: "reply", reply: reply)
     }
     
 }

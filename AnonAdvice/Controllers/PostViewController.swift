@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import DateToolsSwift
+import SCLAlertView
 
 class PostViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, myTableDelegate {
     
@@ -21,7 +22,6 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var rightButton: UIButton!
     @IBOutlet weak var navBar: UINavigationItem!
-    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var postId: String?
@@ -109,17 +109,33 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //exchange tableView for replies view
         tableView.deselectRow(at: indexPath, animated: true)
         let reply = replies[indexPath.row]
         let cell = tableView.cellForRow(at: indexPath) as! ReplyCell
-        
+        //show expanded cell with it's replies
     }
     
     func myTableDelegate(sender: String, reply: Reply) {
-        print(sender)
-        print(reply.id)
-        print("tapped")
+        if sender == "reply" {
+            let width = UIScreen.main.bounds.width
+            let appearance = SCLAlertView.SCLAppearance(
+                kWindowWidth: CGFloat(width * 0.9),
+                kTitleFont: UIFont(name: "HelveticaNeue", size: 20)!,
+                kTextFont: UIFont(name: "HelveticaNeue", size: 14)!,
+                kButtonFont: UIFont(name: "HelveticaNeue-Bold", size: 14)!,
+                showCloseButton: false
+            )
+            let alert = SCLAlertView(appearance: appearance)
+            let txt = alert.addTextField("Enter your name")
+            alert.addButton("Reply") {
+                print("Text value: \(txt.text ?? "")")
+            }
+            alert.showEdit("Comment", subTitle: reply.text)
+        } else if sender == "good" {
+            
+        } else {
+            
+        }
     }
     
     @IBAction func onHome(_ sender: Any) {
