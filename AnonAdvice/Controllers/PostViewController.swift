@@ -11,9 +11,9 @@ import Firebase
 import DateToolsSwift
 import SCLAlertView
 
-class PostViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, myTableDelegate {
+class PostViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    //TODO: make good/bad visuals
+    //TODO:
     //      add select cell to view more replies
     //      add a tap author's text to expand? (maybe with a view animation)
 
@@ -47,7 +47,6 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         activityIndicator.startAnimating()
         getPostReplies()
     }
-    
     
     func getPost() {
         let current = Auth.auth().currentUser!.uid
@@ -89,7 +88,6 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             self.refreshControl.endRefreshing()
             self.activityIndicator.stopAnimating()
-            
         })
     }
     
@@ -104,40 +102,10 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.goodPoints.text = String(replies[indexPath.row].good)
         cell.badPoints.text = String(replies[indexPath.row].bad)
         cell.reply = replies[indexPath.row]
-        cell.delegate = self
+        cell.postId = postId
         return cell
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        let reply = replies[indexPath.row]
-        let cell = tableView.cellForRow(at: indexPath) as! ReplyCell
-        //show expanded cell with it's replies
-    }
-    
-    func myTableDelegate(sender: String, reply: Reply) {
-        if sender == "reply" {
-            let width = UIScreen.main.bounds.width
-            let appearance = SCLAlertView.SCLAppearance(
-                kWindowWidth: CGFloat(width * 0.9),
-                kTitleFont: UIFont(name: "HelveticaNeue", size: 20)!,
-                kTextFont: UIFont(name: "HelveticaNeue", size: 14)!,
-                kButtonFont: UIFont(name: "HelveticaNeue-Bold", size: 14)!,
-                showCloseButton: false
-            )
-            let alert = SCLAlertView(appearance: appearance)
-            let txt = alert.addTextField("Enter your name")
-            alert.addButton("Reply") {
-                print("Text value: \(txt.text ?? "")")
-            }
-            alert.showEdit("Comment", subTitle: reply.text)
-        } else if sender == "good" {
-            
-        } else {
-            
-        }
-    }
-    
+
     @IBAction func onHome(_ sender: Any) {
         performSegue(withIdentifier: "home", sender: nil)
     }
