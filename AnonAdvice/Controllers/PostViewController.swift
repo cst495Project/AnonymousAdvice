@@ -16,6 +16,9 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     //TODO:
     //      add select cell to view more replies
     //      add a tap author's text to expand? (maybe with a view animation)
+    //      resize cell upon selection
+    //      check for empty comments & replies & posts
+    //      add more alerts to buttons
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var textLabel: UILabel!
@@ -81,7 +84,8 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
                 let timestamp = date.shortTimeAgoSinceNow + " ago"
                 let good = snap.childSnapshot(forPath: "good").value as? Int ?? 0
                 let bad = snap.childSnapshot(forPath: "bad").value as? Int ?? 0
-                nr.append(Reply.init(id: id, author: author, text: text, timestamp: timestamp, good: good, bad: bad))
+                let comments = snap.childSnapshot(forPath: "comments")
+                nr.append(Reply.init(id: id, author: author, text: text, timestamp: timestamp, good: good, bad: bad, comments: comments))
             }
             self.replies = nr
             self.tableView.reloadData()
@@ -102,8 +106,39 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.goodPoints.text = String(replies[indexPath.row].good)
         cell.badPoints.text = String(replies[indexPath.row].bad)
         cell.reply = replies[indexPath.row]
+        cell.replyId = replies[indexPath.row].id
         cell.postId = postId
+        let commentSnap = replies[indexPath.row].comments
+        let comments = getComments(commentSnap: commentSnap!)
+        let commentLabel = addComments(comments: comments)
+        cell.comments = comments
+        cell.commentCount = comments.count
+        cell.commentsLabel.text = String(comments.count)
+        cell.commentLabel.text = commentLabel
         return cell
+    }
+    
+    func addComments(comments: [Comment]) -> String {
+        var newString: String = ""
+        for comment in comments {
+            newString = newString + "\(comment.text)\n-----------\n"
+        }
+        return newString
+    }
+    
+    func getComments(commentSnap: DataSnapshot) -> [Comment] {
+        var nr: [Comment] = []
+        for child in commentSnap.children {
+            let snap = child as! DataSnapshot
+            let id = snap.key
+            let author = snap.childSnapshot(forPath: "author").value as? String ?? ""
+            let text = snap.childSnapshot(forPath: "text").value as? String ?? "No text"
+            let time = snap.childSnapshot(forPath: "timestamp").value as? Double ?? 1
+            let date = Date(timeIntervalSince1970: time/1000)
+            let timestamp = date.shortTimeAgoSinceNow + " ago"
+            nr.append(Comment.init(id: id, author: author, text: text, timestamp: timestamp))
+        }
+        return nr
     }
 
     @IBAction func onHome(_ sender: Any) {

@@ -16,12 +16,19 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var badPoints: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var replyTextLabel: UILabel!
+    @IBOutlet weak var commentsLabel: UILabel!
+    @IBOutlet weak var commentLabel: UILabel!
     
     var goodTapGesture: UITapGestureRecognizer!
     var badTapGesture: UITapGestureRecognizer!
     var postId: String!
+    var replyId: String!
     var reply: Reply!
     var charCountLabel: UILabel!
+    var commentSnap: DataSnapshot!
+    var comments: [Comment] = []
+    var commentCount: Int!
+    var hide: Bool!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -30,19 +37,41 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
         badTapGesture = UITapGestureRecognizer(target: self, action: #selector(ReplyCell.tapEdit(sender:)))
         self.goodPoints.addGestureRecognizer(goodTapGesture)
         self.badPoints.addGestureRecognizer(badTapGesture)
+        //self.commentLabel.isHidden = true
+        //self.hide = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+        //self.commentLabel.isHidden = hide
+        //self.hide = !self.hide
     }
     
     @objc func tapEdit(sender: UITapGestureRecognizer) {
         if sender == goodTapGesture {
-            let goodRef = Database.database().reference().child("posts").child(postId!).child("replies").child(reply.id).child("good")
-                //save the point value into database
+            //TODO: stop user from liking more than once
+            let goodCount = reply.good + 1
+            goodPoints.text = String(goodCount)
+            let goodRef = Database.database().reference().child("posts").child(postId!).child("replies").child(replyId).child("good")
+            goodRef.setValue(goodCount, withCompletionBlock: { error, ref in
+                if error == nil {
+                    print("Good Points Saved")
+                } else {
+                    print(error?.localizedDescription as Any)
+                }
+            })
         } else {
-            let badRef = Database.database().reference().child("posts").child(postId!).child("replies").child(reply.id).child("bad")
-                //save the point value into database
+            //TODO: stop user from disliking more than once
+            let badCount = reply.good + 1
+            badPoints.text = String(badCount)
+            let badRef = Database.database().reference().child("posts").child(postId!).child("replies").child(replyId).child("bad")
+            badRef.setValue(badCount, withCompletionBlock: { error, ref in
+                if error == nil {
+                    print("Bad Points Saved")
+                } else {
+                    print(error?.localizedDescription as Any)
+                }
+            })
         }
     }
     
@@ -82,8 +111,22 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
     }
     
     func commentOnReply(comment: String) {
-        let replyRef = Database.database().reference().child("posts").child(postId!).child("replies").child(reply.id)
-            //save the comment into database
+        let current = Auth.auth().currentUser!.uid
+        let replyRef = Database.database().reference().child("posts").child(postId!).child("replies").child(replyId).child("comments").childByAutoId()
+        let commentObject = [
+            "author": current,
+            "text": comment,
+            "timestamp": [".sv": "timestamp"]
+            ] as [String: Any]
+        replyRef.setValue(commentObject, withCompletionBlock: { error, ref in
+            if error == nil {
+                print("Success!")
+                self.commentCount = self.commentCount + 1
+                self.commentsLabel.text = String(self.commentCount)
+            } else {
+                print(error?.localizedDescription as Any)
+            }
+        })
     }
     
 }
