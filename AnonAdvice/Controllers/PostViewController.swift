@@ -9,15 +9,19 @@
 import UIKit
 import Firebase
 import DateToolsSwift
+import SCLAlertView
 
 class PostViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    //TODO:
+    //      add a tap author's text to expand? (maybe with a view animation)
+    //      resize cell upon selection
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var textLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var rightButton: UIButton!
     @IBOutlet weak var navBar: UINavigationItem!
-    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var postId: String?
@@ -29,10 +33,9 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.delegate = self
         tableView.dataSource = self
         tableView.estimatedRowHeight = 50
+        tableView.rowHeight = UITableViewAutomaticDimension
         
         refreshControl.addTarget(self, action: #selector(PostViewController.didPullToRefresh(_ :)), for: .valueChanged)
-        
-
         tableView.insertSubview(refreshControl, at: 0)
         activityIndicator.startAnimating()
         
@@ -42,14 +45,9 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @objc func didPullToRefresh(_ refreshControl: UIRefreshControl)
     {
-        print("refresh pull detected")
         activityIndicator.startAnimating()
-        
         getPostReplies()
-        
-        
     }
-    
     
     func getPost() {
         let current = Auth.auth().currentUser!.uid
@@ -82,15 +80,32 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
                 let time = snap.childSnapshot(forPath: "timestamp").value as? Double ?? 1
                 let date = Date(timeIntervalSince1970: time/1000)
                 let timestamp = date.shortTimeAgoSinceNow + " ago"
-                nr.append(Reply.init(id: id, author: author, text: text, timestamp: timestamp))
+                let comments = snap.childSnapshot(forPath: "comments")
+                let rated = snap.childSnapshot(forPath: "rated")
+                let scores = self.getRatings(ratings: rated)
+                let good = scores["good"] ?? 0
+                let bad = scores["bad"] ?? 0
+                nr.append(Reply.init(id: id, author: author, text: text, timestamp: timestamp, good: good, bad: bad, comments: comments))
             }
             self.replies = nr
             self.tableView.reloadData()
             
             self.refreshControl.endRefreshing()
             self.activityIndicator.stopAnimating()
-            
         })
+    }
+
+    func getRatings(ratings: DataSnapshot) -> [String: Int] {
+        var scores = [ "good": 0, "bad": 0 ] as [String: Int]
+        for child in ratings.children {
+            let snap = child as! DataSnapshot
+            if snap.value as? String == "good" {
+                scores["good"] = scores["good"]! + 1
+            } else {
+                scores["bad"] = scores["bad"]! + 1
+            }
+        }
+        return scores
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -101,9 +116,45 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: "ReplyCell", for: indexPath) as! ReplyCell
         cell.replyTextLabel.text = replies[indexPath.row].text
         cell.timestampLabel.text = "\(String(describing: replies[indexPath.row].timestamp))"
+        cell.goodPoints.text = "good: \(String(replies[indexPath.row].good))"
+        cell.badPoints.text = "bad: \(String(replies[indexPath.row].bad))"
+        cell.reply = replies[indexPath.row]
+        cell.replyId = replies[indexPath.row].id
+        cell.postId = postId
+        cell.gPoints = replies[indexPath.row].good
+        cell.bPoints = replies[indexPath.row].bad
+        let commentSnap = replies[indexPath.row].comments
+        let comments = getComments(commentSnap: commentSnap!)
+        let commentLabel = addComments(comments: comments)
+        cell.commentCount = comments.count
+        cell.commentsLabel.text = "comments: \(String(comments.count))"
+        cell.commentLabel.text = commentLabel
         return cell
     }
     
+    func addComments(comments: [Comment]) -> String {
+        var newString: String = ""
+        for comment in comments {
+            newString = newString + "-------------------\n\(comment.text)\n"
+        }
+        return newString
+    }
+    
+    func getComments(commentSnap: DataSnapshot) -> [Comment] {
+        var nr: [Comment] = []
+        for child in commentSnap.children {
+            let snap = child as! DataSnapshot
+            let id = snap.key
+            let author = snap.childSnapshot(forPath: "author").value as? String ?? ""
+            let text = snap.childSnapshot(forPath: "text").value as? String ?? "No text"
+            let time = snap.childSnapshot(forPath: "timestamp").value as? Double ?? 1
+            let date = Date(timeIntervalSince1970: time/1000)
+            let timestamp = date.shortTimeAgoSinceNow + " ago"
+            nr.append(Comment.init(id: id, author: author, text: text, timestamp: timestamp))
+        }
+        return nr
+    }
+
     @IBAction func onHome(_ sender: Any) {
         performSegue(withIdentifier: "home", sender: nil)
     }
@@ -112,15 +163,18 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         let postRef = Database.database().reference().child("posts").child(postId!)
         if sender.title(for: .normal) == "Delete" {
             //get confirmation here
-            postRef.removeValue() { error, completed  in
-                if error != nil {
-                    print("Error occured:")
-                    print(error?.localizedDescription as Any)
-                    //show alert dialogue
-                } else {
-                    self.performSegue(withIdentifier: "home", sender: self)
+            let alert = SCLAlertView()
+            alert.addButton("Delete") {
+                postRef.removeValue() { error, completed  in
+                    if error != nil {
+                        print("Error occured:")
+                        print(error?.localizedDescription as Any)
+                    } else {
+                        self.performSegue(withIdentifier: "home", sender: self)
+                    }
                 }
             }
+            alert.showWarning("Confirmation Needed", subTitle: "Are you sure you want to delete your post?")
         } else {
             performSegue(withIdentifier: "createReply", sender: nil)
         }
