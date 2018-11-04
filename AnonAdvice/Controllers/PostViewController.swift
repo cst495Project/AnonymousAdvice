@@ -11,7 +11,7 @@ import Firebase
 import DateToolsSwift
 import SCLAlertView
 
-class PostViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class PostViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, cellDelegate {
     
     //TODO:
     //      add a tap author's text to expand? (maybe with a view animation)
@@ -108,8 +108,18 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         return scores
     }
     
+    func cellDelegate() {
+        getPostReplies()
+        tableView.reloadData()
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return replies.count
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.isSelected = false
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -121,14 +131,13 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.reply = replies[indexPath.row]
         cell.replyId = replies[indexPath.row].id
         cell.postId = postId
-        cell.gPoints = replies[indexPath.row].good
-        cell.bPoints = replies[indexPath.row].bad
         let commentSnap = replies[indexPath.row].comments
         let comments = getComments(commentSnap: commentSnap!)
         let commentLabel = addComments(comments: comments)
         cell.commentCount = comments.count
         cell.commentsLabel.text = "comments: \(String(comments.count))"
         cell.commentLabel.text = commentLabel
+        cell.delegate = self
         return cell
     }
     
@@ -141,7 +150,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func getComments(commentSnap: DataSnapshot) -> [Comment] {
-        var nr: [Comment] = []
+        var nc: [Comment] = []
         for child in commentSnap.children {
             let snap = child as! DataSnapshot
             let id = snap.key
@@ -150,9 +159,9 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             let time = snap.childSnapshot(forPath: "timestamp").value as? Double ?? 1
             let date = Date(timeIntervalSince1970: time/1000)
             let timestamp = date.shortTimeAgoSinceNow + " ago"
-            nr.append(Comment.init(id: id, author: author, text: text, timestamp: timestamp))
+            nc.append(Comment.init(id: id, author: author, text: text, timestamp: timestamp))
         }
-        return nr
+        return nc
     }
 
     @IBAction func onHome(_ sender: Any) {

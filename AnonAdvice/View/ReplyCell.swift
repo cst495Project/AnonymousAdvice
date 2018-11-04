@@ -10,6 +10,10 @@ import UIKit
 import Firebase
 import SCLAlertView
 
+protocol cellDelegate {
+    func cellDelegate()
+}
+
 class ReplyCell: UITableViewCell, UITextViewDelegate {
 
     @IBOutlet weak var goodPoints: UILabel!
@@ -19,13 +23,13 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var commentsLabel: UILabel!
     @IBOutlet weak var commentLabel: UILabel!
     
+    var delegate: cellDelegate?
+    
     var goodTapGesture: UITapGestureRecognizer!
     var badTapGesture: UITapGestureRecognizer!
     var postId: String!
     var replyId: String!
     var reply: Reply!
-    var gPoints: Int!
-    var bPoints: Int!
     var charCountLabel: UILabel!
     var commentCount: Int!
     let current = Auth.auth().currentUser!.uid
@@ -51,18 +55,18 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
                 self.currentRating = snapshot.value! as? String
                 if self.currentRating == "good" && sender == self.badTapGesture {
                     self.rate(type: "bad")
-                    self.badPoints.text = "bad: \(String(self.bPoints + 1))"
+                    //self.badPoints.text = "bad: \(String(self.bPoints + 1))"
                 } else if self.currentRating == "bad" && sender == self.goodTapGesture {
                     self.rate(type: "good")
-                    self.goodPoints.text = "good: \(String(self.gPoints + 1))"
+                    //self.goodPoints.text = "good: \(String(self.gPoints + 1))"
                 }
             } else {
                 if sender == self.goodTapGesture {
                     self.rate(type: "good")
-                    self.goodPoints.text = "good: \(String(self.gPoints + 1))"
+                    //self.goodPoints.text = "good: \(String(self.gPoints + 1))"
                 } else {
                     self.rate(type: "bad")
-                    self.badPoints.text = "bad: \(String(self.bPoints + 1))"
+                    //self.badPoints.text = "bad: \(String(self.bPoints + 1))"
                 }
             }
         })
@@ -72,7 +76,7 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
         let replyRef = Database.database().reference().child("posts").child(postId!).child("replies").child(replyId).child("rated").child(current)
         replyRef.setValue(type, withCompletionBlock: { error, ref in
             if error == nil {
-                print("Rated: \(type)")
+                self.delegate?.cellDelegate()
             } else {
                 print(error?.localizedDescription as Any)
             }
@@ -130,6 +134,7 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
                 print("Success!")
                 self.commentCount = self.commentCount + 1
                 self.commentsLabel.text = "comments: \(String(self.commentCount))"
+                self.delegate?.cellDelegate()
             } else {
                 print(error?.localizedDescription as Any)
             }
