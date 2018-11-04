@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FirebaseAuth
 import FirebaseDatabase
+import SCLAlertView
 
 class NewPostViewController: UIViewController {
     
@@ -33,23 +34,27 @@ class NewPostViewController: UIViewController {
     }
     
     @IBAction func onTapAskAdvice(_ sender: Any) {
-        let postRef = Database.database().reference().child("posts").childByAutoId()
-        let postObject = [
-            "author": current,
-            "title": titleLabel.text!,
-            "text": textView.text!,
-            "timestamp": [".sv": "timestamp"],
-            "city" : currentUserCity!
-            ] as [String: Any]
-        
-        postRef.setValue(postObject, withCompletionBlock: { error, ref in
-            if error == nil {
-                self.postId = postRef.key
-                self.performSegue(withIdentifier: "createPost", sender: self)
-            } else {
-                print(error?.localizedDescription as Any)
-            }
-        })
+        if titleLabel.text != "" && textView.text != "" {
+            let postRef = Database.database().reference().child("posts").childByAutoId()
+            let postObject = [
+                "author": current,
+                "title": titleLabel.text!,
+                "text": textView.text!,
+                "timestamp": [".sv": "timestamp"],
+                "city" : currentUserCity!
+                ] as [String: Any]
+            
+            postRef.setValue(postObject, withCompletionBlock: { error, ref in
+                if error == nil {
+                    self.postId = postRef.key
+                    self.performSegue(withIdentifier: "createPost", sender: self)
+                } else {
+                    print(error?.localizedDescription as Any)
+                }
+            })
+        } else {
+            SCLAlertView().showError("Post Creation Failed", subTitle: "One or more empty fields!")
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

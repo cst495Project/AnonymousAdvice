@@ -24,11 +24,12 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
     var postId: String!
     var replyId: String!
     var reply: Reply!
+    var gPoints: Int!
+    var bPoints: Int!
     var charCountLabel: UILabel!
-    var commentSnap: DataSnapshot!
-    var comments: [Comment] = []
     var commentCount: Int!
-    var hide: Bool!
+    let current = Auth.auth().currentUser!.uid
+    var currentRating: String!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -37,42 +38,45 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
         badTapGesture = UITapGestureRecognizer(target: self, action: #selector(ReplyCell.tapEdit(sender:)))
         self.goodPoints.addGestureRecognizer(goodTapGesture)
         self.badPoints.addGestureRecognizer(badTapGesture)
-        //self.commentLabel.isHidden = true
-        //self.hide = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        //self.commentLabel.isHidden = hide
-        //self.hide = !self.hide
     }
     
     @objc func tapEdit(sender: UITapGestureRecognizer) {
-        if sender == goodTapGesture {
-            //TODO: stop user from liking more than once
-            let goodCount = reply.good + 1
-            goodPoints.text = String(goodCount)
-            let goodRef = Database.database().reference().child("posts").child(postId!).child("replies").child(replyId).child("good")
-            goodRef.setValue(goodCount, withCompletionBlock: { error, ref in
-                if error == nil {
-                    print("Good Points Saved")
-                } else {
-                    print(error?.localizedDescription as Any)
+        let replyRef = Database.database().reference().child("posts").child(postId!).child("replies").child(replyId).child("rated")
+        replyRef.child(self.current).observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.exists() {
+                self.currentRating = snapshot.value! as? String
+                if self.currentRating == "good" && sender == self.badTapGesture {
+                    self.rate(type: "bad")
+                    self.badPoints.text = "bad: \(String(self.bPoints + 1))"
+                } else if self.currentRating == "bad" && sender == self.goodTapGesture {
+                    self.rate(type: "good")
+                    self.goodPoints.text = "good: \(String(self.gPoints + 1))"
                 }
-            })
-        } else {
-            //TODO: stop user from disliking more than once
-            let badCount = reply.good + 1
-            badPoints.text = String(badCount)
-            let badRef = Database.database().reference().child("posts").child(postId!).child("replies").child(replyId).child("bad")
-            badRef.setValue(badCount, withCompletionBlock: { error, ref in
-                if error == nil {
-                    print("Bad Points Saved")
+            } else {
+                if sender == self.goodTapGesture {
+                    self.rate(type: "good")
+                    self.goodPoints.text = "good: \(String(self.gPoints + 1))"
                 } else {
-                    print(error?.localizedDescription as Any)
+                    self.rate(type: "bad")
+                    self.badPoints.text = "bad: \(String(self.bPoints + 1))"
                 }
-            })
-        }
+            }
+        })
+    }
+    
+    func rate(type: String) {
+        let replyRef = Database.database().reference().child("posts").child(postId!).child("replies").child(replyId).child("rated").child(current)
+        replyRef.setValue(type, withCompletionBlock: { error, ref in
+            if error == nil {
+                print("Rated: \(type)")
+            } else {
+                print(error?.localizedDescription as Any)
+            }
+        })
     }
     
     @IBAction func onReply(_ sender: Any) {
@@ -96,9 +100,12 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
         let txt = alert.addTextView()
         txt.delegate = self
         alert.addButton("Comment") {
-            print("Text value: \(txt.text ?? "")")
             let comment = txt.text ?? ""
-            self.commentOnReply(comment: comment)
+            if comment != "" {
+                self.commentOnReply(comment: comment)
+            } else {
+                SCLAlertView().showError("Comment Creation Error", subTitle: "Comments cannot be empty!")
+            }
         }
         alert.showInfo(reply.text, subTitle: "")
     }
@@ -122,7 +129,7 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
             if error == nil {
                 print("Success!")
                 self.commentCount = self.commentCount + 1
-                self.commentsLabel.text = String(self.commentCount)
+                self.commentsLabel.text = "comments: \(String(self.commentCount))"
             } else {
                 print(error?.localizedDescription as Any)
             }
