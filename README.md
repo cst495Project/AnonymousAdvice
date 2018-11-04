@@ -27,7 +27,7 @@ The following **stretch** features are implemented:
 - [ ]  User receives a notification when their post is given advice.
 - [x]  User's profile will require password or fingerprint authentication to access after app restart
 - [ ]  User can view open threads they have given advice on.
-- [ ]  User can rate advice good or bad.
+- [X]  User can rate advice good or bad.
 - [ ]  User can select the best advice on their own post.
 - [ ]  Users have a total advice score (good or bad advice points)
 - [ ]  Posts in the local or global section are sorted by popularity or newest.
@@ -65,16 +65,16 @@ The following **stretch** features are implemented:
 
 - adorable-avatars : {our-server.com}/myAvatars/:size/:id
 
-## Video
-
-<img src='https://i.imgur.com/RSIVa5Z.png' title='Wireframes' width='' alt='Wireframes' />
-
 ## Wireframes
 
-<img src='https://imgur.com/jr3qrPL.gif' title='Part 1' width='' alt='Wireframes' />
+<img src='https://i.imgur.com/RSIVa5Z.png' title='Wireframes' width='400' alt='Wireframes' />
+
+## Sprint 1
+
+<img src='https://imgur.com/jr3qrPL.gif' title='Part 1' width='' alt='sprint1' />
 
 ## Sprint 2
-<img src='https://i.imgur.com/9C1VI15.gif' title='Wireframes' width='' alt='Wireframes' />
+<img src='https://i.imgur.com/9C1VI15.gif' title='Wireframes' width='' alt='sprint2' />
 
 
 ## Credits
@@ -84,6 +84,7 @@ List any 3rd party libraries, icons, graphics, or other assets you used in your 
 - [AFNetworking](https://github.com/AFNetworking/AFNetworking) - networking task library
 - [Adorable-Avatars](https://github.com/adorableio/avatars-api-middleware) - profile avatar API
 - [Google-Place-Picker](https://developers.google.com/places/android-sdk/placepicker) - Places SDK
+- [SCLAlertView](https://github.com/vikmeup/SCLAlertView-Swift) - Custom Alert Views
 - [Firebase](https://firebase.google.com/) - backend database
 
 ## License
