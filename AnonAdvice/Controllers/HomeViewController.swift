@@ -87,7 +87,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 let snap = child as! DataSnapshot
                 
                 let id = snap.key
-                let author = User.init(userID: "asd", username: "sd", timestamp: 5.5, good: 0, bad: 0)
+                let author = snap.childSnapshot(forPath: "author").value as? String ?? "No author"
                 
                 let title = snap.childSnapshot(forPath: "title").value as? String ?? "No title"
                 let text = snap.childSnapshot(forPath: "text").value as? String ?? "No text"
@@ -114,7 +114,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             for child in snapshot.children{
                 let snap = child as! DataSnapshot
                 let id = snap.key
-                let author = User.init(userID: "asd", username: "sd", timestamp: 5.5, good: 0, bad: 0)
+                let author = snap.childSnapshot(forPath: "author").value as? String ?? "No author"
                 
                 let title = snap.childSnapshot(forPath: "title").value as? String ?? "No title"
                 let text = snap.childSnapshot(forPath: "text").value as? String ?? "No text"

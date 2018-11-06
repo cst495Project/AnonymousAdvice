@@ -395,12 +395,14 @@
                             <constraint firstItem="kmI-yK-8NO" firstAttribute="leading" secondItem="PEn-oO-Keh" secondAttribute="leading" constant="8" id="Qt9-4D-nMW"/>
                             <constraint firstItem="PEn-oO-Keh" firstAttribute="trailing" secondItem="W83-2q-d31" secondAttribute="trailing" constant="8" id="RJh-uM-7lN"/>
                             <constraint firstItem="kmI-yK-8NO" firstAttribute="top" secondItem="PEn-oO-Keh" secondAttribute="top" constant="8" id="T1H-TL-yHQ"/>
+                            <constraint firstItem="PEn-oO-Keh" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="kmI-yK-8NO" secondAttribute="trailing" symbolic="YES" id="XGu-0A-50I"/>
                             <constraint firstItem="euK-3Z-Xtu" firstAttribute="top" secondItem="W83-2q-d31" secondAttribute="bottom" constant="52" id="afp-c3-Hg3"/>
                             <constraint firstItem="PEn-oO-Keh" firstAttribute="trailing" secondItem="euK-3Z-Xtu" secondAttribute="trailing" constant="141" id="faX-3v-h9o"/>
                             <constraint firstItem="euK-3Z-Xtu" firstAttribute="leading" secondItem="PEn-oO-Keh" secondAttribute="leading" constant="142" id="fjM-Ku-A4g"/>
                             <constraint firstItem="W83-2q-d31" firstAttribute="top" secondItem="VU3-l0-GCq" secondAttribute="bottom" constant="52" id="ggV-06-Abz"/>
                             <constraint firstItem="VU3-l0-GCq" firstAttribute="leading" secondItem="PEn-oO-Keh" secondAttribute="leading" constant="8" id="hPg-Ue-hji"/>
                             <constraint firstItem="VU3-l0-GCq" firstAttribute="top" secondItem="kmI-yK-8NO" secondAttribute="bottom" constant="8" id="nQ4-kj-nc7"/>
+                            <constraint firstItem="PEn-oO-Keh" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="VU3-l0-GCq" secondAttribute="trailing" symbolic="YES" id="nXe-oL-Vr9"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="PEn-oO-Keh"/>
                     </view>
@@ -654,7 +656,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="nGz-dA-NWZ"/>
+        <segue reference="7fz-g3-Xlc"/>
         <segue reference="UiA-7p-fkG"/>
         <segue reference="6b6-2z-6B1"/>
     </inferredMetricsTieBreakers>
