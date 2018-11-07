@@ -81,6 +81,29 @@ class AnonFB {  // Singleton class for managing Firebase Events.
             }
         }
     }
+    // Retrieve all Posts created by a User as Post Objects
+    static func fetchUserPosts(userId: String!, completionblock: @escaping ((_ posts: [Post])-> Void )) {
+        var posts: [Post] = []
+        let query = postRef.queryOrdered(byChild: "author").queryEqual(toValue: userId)
+        query.observeSingleEvent(of: .value) { (snapshot) in
+            if snapshot.exists() {
+                for child in snapshot.children{
+                    let snap = child as! DataSnapshot
+                    let id = snap.key
+                    let author = snap.childSnapshot(forPath: "author").value as? String ?? "No author"
+                    let title = snap.childSnapshot(forPath: "title").value as? String ?? "No title"
+                    let text = snap.childSnapshot(forPath: "text").value as? String ?? "No text"
+                    let time = snap.childSnapshot(forPath: "timestamp").value as? Double ?? 1
+                    let date = Date(timeIntervalSince1970: time/1000)
+                    let timestamp = date.shortTimeAgoSinceNow + " ago"
+                    posts.append(Post.init(id: id, author: author, title: title, text: text, timestamp: timestamp, subject: "world"))
+                }
+                completionblock(posts)
+            } else {
+                print("No posts found")
+            }
+        }
+    }
     // Retrieve all posts as snapshot
     static func fetchPostsData(completionblock: @escaping ((_ data: DataSnapshot)-> Void )) {
         postRef.observeSingleEvent(of: .value) { (snapshot) in
