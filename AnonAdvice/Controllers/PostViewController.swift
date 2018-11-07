@@ -108,9 +108,20 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.reply = replies[indexPath.row]
         cell.replyId = replies[indexPath.row].id
         cell.postId = postId
+        
+        let urlBaseString = "https://api.adorable.io/avatars/75/"
+        let urlMiddleString1 = replies[indexPath.row].author
+        var urlMiddleString2 = postId!
+        urlMiddleString2.remove(at: urlMiddleString2.startIndex)
+        print("reply author:" + urlMiddleString1)
+        print("post id:" + urlMiddleString2)
+        let urlEndString = ".png"
+        let url = URL(string: urlBaseString + urlMiddleString1 + urlMiddleString2 + urlEndString)
+        cell.avatarImage.af_setImage(withURL: url!)
+        
         let commentSnap = replies[indexPath.row].comments
-        let comments = AnonFB.getComments(commentSnap: commentSnap!)
-        let commentLabel = setComments(comments: comments)
+        let comments = getComments(commentSnap: commentSnap!)
+        let commentLabel = addComments(comments: comments)
         cell.commentCount = comments.count
         cell.commentsLabel.text = "comments: \(String(comments.count))"
         cell.commentLabel.text = commentLabel
@@ -189,50 +200,6 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         }
         return scores
-    }
-    
-    func cellDelegate() {
-        getPostReplies()
-        tableView.reloadData()
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return replies.count
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
-        cell?.isSelected = false
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ReplyCell", for: indexPath) as! ReplyCell
-        cell.replyTextLabel.text = replies[indexPath.row].text
-        cell.timestampLabel.text = "\(String(describing: replies[indexPath.row].timestamp))"
-        cell.goodPoints.text = "good: \(String(replies[indexPath.row].good))"
-        cell.badPoints.text = "bad: \(String(replies[indexPath.row].bad))"
-        cell.reply = replies[indexPath.row]
-        cell.replyId = replies[indexPath.row].id
-        cell.postId = postId
-        
-        let urlBaseString = "https://api.adorable.io/avatars/75/"
-        let urlMiddleString1 = replies[indexPath.row].author
-        var urlMiddleString2 = postId!
-        urlMiddleString2.remove(at: urlMiddleString2.startIndex)
-        print("reply author:" + urlMiddleString1)
-        print("post id:" + urlMiddleString2)
-        let urlEndString = ".png"
-        let url = URL(string: urlBaseString + urlMiddleString1 + urlMiddleString2 + urlEndString)
-        cell.avatarImage.af_setImage(withURL: url!)
-        
-        let commentSnap = replies[indexPath.row].comments
-        let comments = getComments(commentSnap: commentSnap!)
-        let commentLabel = addComments(comments: comments)
-        cell.commentCount = comments.count
-        cell.commentsLabel.text = "comments: \(String(comments.count))"
-        cell.commentLabel.text = commentLabel
-        cell.delegate = self
-        return cell
     }
     
     func addComments(comments: [Comment]) -> String {
