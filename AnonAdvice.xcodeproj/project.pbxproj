@@ -23,6 +23,7 @@
 		7F3E61DE217877430040AA93 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3E61DD217877430040AA93 /* PostViewController.swift */; };
 		7FB9ED892184FF7E008A029C /* ReplyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FB9ED882184FF7E008A029C /* ReplyCell.swift */; };
 		7FB9ED9121850EA2008A029C /* ReplyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FB9ED9021850EA2008A029C /* ReplyViewController.swift */; };
+		7FDE6143219159FE003D8553 /* AnonFB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FDE6142219159FE003D8553 /* AnonFB.swift */; };
 		BFA5A828DC332505CD822B71 /* Pods_AnonAdvice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E2FBB942C5BBDFEA52C7EFA /* Pods_AnonAdvice.framework */; };
 		C2250C39218811E000DB8D1A /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2250C38218811E000DB8D1A /* ProfileViewController.swift */; };
 		C26AB77B217EBEBA0020C252 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26AB77A217EBEBA0020C252 /* HomeViewController.swift */; };
@@ -49,6 +50,7 @@
 		7F3E61DD217877430040AA93 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		7FB9ED882184FF7E008A029C /* ReplyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyCell.swift; sourceTree = "<group>"; };
 		7FB9ED9021850EA2008A029C /* ReplyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyViewController.swift; sourceTree = "<group>"; };
+		7FDE6142219159FE003D8553 /* AnonFB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonFB.swift; sourceTree = "<group>"; };
 		C2250C38218811E000DB8D1A /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		C26AB77A217EBEBA0020C252 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E3741B985EDF8303E6A05705 /* Pods-AnonAdvice.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnonAdvice.release.xcconfig"; path = "Pods/Target Support Files/Pods-AnonAdvice/Pods-AnonAdvice.release.xcconfig"; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 				16001A382177963C00422107 /* LaunchScreen.storyboard */,
 				16001A3B2177963C00422107 /* Info.plist */,
 				6EE556E221779B4B009E0C92 /* GoogleService-Info.plist */,
+				7FDE6142219159FE003D8553 /* AnonFB.swift */,
 			);
 			path = AnonAdvice;
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7F3E61D52178266D0040AA93 /* NewPostViewController.swift in Sources */,
+				7FDE6143219159FE003D8553 /* AnonFB.swift in Sources */,
 				6EE556E121779A3A009E0C92 /* LogInViewController.swift in Sources */,
 				7F3E61DE217877430040AA93 /* PostViewController.swift in Sources */,
 				C26AB77B217EBEBA0020C252 /* HomeViewController.swift in Sources */,
