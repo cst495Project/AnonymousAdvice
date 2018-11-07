@@ -22,8 +22,6 @@ The following **required** functionality is completed:
 
 The following **stretch** features are implemented:
 
-- [ ]  Posts in the home view are marked if they are by the current user.
-- [ ]  The segmented control in the home view will be in the same state it was in when the user returns to it from another view.
 - [ ]  User can select the subject or type of advice they want to view or ask for.
 - [ ]  User can select the location accuracy when creating a post.
 - [ ]  User receives a notification when their post is given advice.
