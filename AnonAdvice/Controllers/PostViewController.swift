@@ -45,11 +45,91 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         getPostReplies()
     }
     
+    @IBAction func onHome(_ sender: Any) {
+        performSegue(withIdentifier: "home", sender: nil)
+    }
+    
+    @IBAction func onRightButton(_ sender: UIButton) {
+        let postRef = Database.database().reference().child("posts").child(postId!)
+        if sender.title(for: .normal) == "Delete" {
+            //get confirmation here
+            let alert = SCLAlertView()
+            alert.addButton("Delete") {
+                postRef.removeValue() { error, completed  in
+                    if error != nil {
+                        print("Error occured:")
+                        print(error?.localizedDescription as Any)
+                    } else {
+                        self.performSegue(withIdentifier: "home", sender: self)
+                    }
+                }
+            }
+            alert.showWarning("Confirmation Needed", subTitle: "Are you sure you want to delete your post?")
+        } else {
+            performSegue(withIdentifier: "createReply", sender: nil)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "createReply") {
+            let rvc = segue.destination as! ReplyViewController
+            rvc.postID = postId
+            rvc.parentTitle = titleLabel.text
+            rvc.parentText = textLabel.text
+        }
+    }
+    
     @objc func didPullToRefresh(_ refreshControl: UIRefreshControl)
     {
         activityIndicator.startAnimating()
         getPostReplies()
     }
+    
+    func cellDelegate() {
+        getPostReplies()
+        tableView.reloadData()
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return replies.count
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.isSelected = false
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ReplyCell", for: indexPath) as! ReplyCell
+        cell.replyTextLabel.text = replies[indexPath.row].text
+        cell.timestampLabel.text = "\(String(describing: replies[indexPath.row].timestamp))"
+        cell.goodPoints.text = "good: \(String(replies[indexPath.row].good))"
+        cell.badPoints.text = "bad: \(String(replies[indexPath.row].bad))"
+        cell.reply = replies[indexPath.row]
+        cell.replyId = replies[indexPath.row].id
+        cell.postId = postId
+        
+        let urlBaseString = "https://api.adorable.io/avatars/75/"
+        let urlMiddleString1 = replies[indexPath.row].author
+        var urlMiddleString2 = postId!
+        urlMiddleString2.remove(at: urlMiddleString2.startIndex)
+        print("reply author:" + urlMiddleString1)
+        print("post id:" + urlMiddleString2)
+        let urlEndString = ".png"
+        let url = URL(string: urlBaseString + urlMiddleString1 + urlMiddleString2 + urlEndString)
+        cell.avatarImage.af_setImage(withURL: url!)
+        
+        let commentSnap = replies[indexPath.row].comments
+        let comments = getComments(commentSnap: commentSnap!)
+        let commentLabel = addComments(comments: comments)
+        cell.commentCount = comments.count
+        cell.commentsLabel.text = "comments: \(String(comments.count))"
+        cell.commentLabel.text = commentLabel
+        cell.delegate = self
+        return cell
+    }
+    
+    // ******** DATABASE & SNAPSHOT CALLS ********
     
     func getPost() {
         let current = Auth.auth().currentUser!.uid
@@ -108,7 +188,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.activityIndicator.stopAnimating()
         })
     }
-
+    
     func getRatings(ratings: DataSnapshot) -> [String: Int] {
         var scores = [ "good": 0, "bad": 0 ] as [String: Int]
         for child in ratings.children {
@@ -122,50 +202,6 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         return scores
     }
     
-    func cellDelegate() {
-        getPostReplies()
-        tableView.reloadData()
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return replies.count
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
-        cell?.isSelected = false
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ReplyCell", for: indexPath) as! ReplyCell
-        cell.replyTextLabel.text = replies[indexPath.row].text
-        cell.timestampLabel.text = "\(String(describing: replies[indexPath.row].timestamp))"
-        cell.goodPoints.text = "good: \(String(replies[indexPath.row].good))"
-        cell.badPoints.text = "bad: \(String(replies[indexPath.row].bad))"
-        cell.reply = replies[indexPath.row]
-        cell.replyId = replies[indexPath.row].id
-        cell.postId = postId
-        
-        let urlBaseString = "https://api.adorable.io/avatars/75/"
-        let urlMiddleString1 = replies[indexPath.row].author
-        var urlMiddleString2 = postId!
-        urlMiddleString2.remove(at: urlMiddleString2.startIndex)
-        print("reply author:" + urlMiddleString1)
-        print("post id:" + urlMiddleString2)
-        let urlEndString = ".png"
-        let url = URL(string: urlBaseString + urlMiddleString1 + urlMiddleString2 + urlEndString)
-        cell.avatarImage.af_setImage(withURL: url!)
-        
-        let commentSnap = replies[indexPath.row].comments
-        let comments = getComments(commentSnap: commentSnap!)
-        let commentLabel = addComments(comments: comments)
-        cell.commentCount = comments.count
-        cell.commentsLabel.text = "comments: \(String(comments.count))"
-        cell.commentLabel.text = commentLabel
-        cell.delegate = self
-        return cell
-    }
-    
     func addComments(comments: [Comment]) -> String {
         var newString: String = ""
         for comment in comments {
@@ -173,7 +209,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         return newString
     }
-    
+
     func getComments(commentSnap: DataSnapshot) -> [Comment] {
         var nc: [Comment] = []
         for child in commentSnap.children {
@@ -187,40 +223,6 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             nc.append(Comment.init(id: id, author: author, text: text, timestamp: timestamp))
         }
         return nc
-    }
-
-    @IBAction func onHome(_ sender: Any) {
-        performSegue(withIdentifier: "home", sender: nil)
-    }
-    
-    @IBAction func onRightButton(_ sender: UIButton) {
-        let postRef = Database.database().reference().child("posts").child(postId!)
-        if sender.title(for: .normal) == "Delete" {
-            //get confirmation here
-            let alert = SCLAlertView()
-            alert.addButton("Delete") {
-                postRef.removeValue() { error, completed  in
-                    if error != nil {
-                        print("Error occured:")
-                        print(error?.localizedDescription as Any)
-                    } else {
-                        self.performSegue(withIdentifier: "home", sender: self)
-                    }
-                }
-            }
-            alert.showWarning("Confirmation Needed", subTitle: "Are you sure you want to delete your post?")
-        } else {
-            performSegue(withIdentifier: "createReply", sender: nil)
-        }
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "createReply") {
-            let rvc = segue.destination as! ReplyViewController
-            rvc.postID = postId
-            rvc.parentTitle = titleLabel.text
-            rvc.parentText = textLabel.text
-        }
     }
     
 }
