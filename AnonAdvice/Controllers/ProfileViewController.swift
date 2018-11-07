@@ -13,7 +13,6 @@ import LocalAuthentication
 
 class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var anon: AnonFB!
     
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
@@ -85,13 +84,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         tableView.delegate = self
         tableView.dataSource = self
-        //tableView.reloadData()
-        
         
         emailTextField.text = currentUser?.email
         emailLabel.text = Auth.auth().currentUser?.email
+        
         getUsersCity()
         getPosts()
         blurLayout()
@@ -111,10 +110,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         print("GOOF")
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as! PostCell
-        //print("GOOF")
-        //cell.titleLabel.text = "temp"//posts[indexPath.row].title
+        cell.titleLabel.text = posts[indexPath.row].title
+        cell.postTextLabel.text = posts[indexPath.row].text
         
-       // cell.postTextLabel.text = posts[indexPath.row].text
         return cell
     }
     
@@ -124,7 +122,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.posts = Post
             print("HERE")
             print(self.posts)
+            self.tableView.reloadData()
         }
+        
     }
     
     
