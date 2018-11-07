@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import DateToolsSwift
 import SCLAlertView
+import AlamofireImage
 
 class PostViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, cellDelegate {
     
@@ -23,6 +24,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var rightButton: UIButton!
     @IBOutlet weak var navBar: UINavigationItem!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var avatarImage: UIImageView!
     
     var postId: String?
     var replies: [Reply] = []
@@ -124,6 +126,18 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         postRef.observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
             
+            
+            let urlBaseString = "https://api.adorable.io/avatars/75/"
+            let urlMiddleString1 = value!["author"]! as? String ?? ""
+            var urlMiddleString2 = self.postId!
+            urlMiddleString2.remove(at: urlMiddleString2.startIndex)
+            print("post author:" + urlMiddleString1)
+            print("post id:" + urlMiddleString2)
+            let urlEndString = ".png"
+            let url = URL(string: urlBaseString + urlMiddleString1 + urlMiddleString2 + urlEndString)
+            
+            self.avatarImage.af_setImage(withURL: url!)
+            
             let author = value!["author"]! as? String ?? ""
             self.titleLabel.text = value?["title"] as? String ?? ""
             self.textLabel.text = value?["text"] as? String ?? ""
@@ -177,27 +191,71 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         return scores
     }
     
-    func setComments(comments: [Comment]) -> String {
+    func cellDelegate() {
+        getPostReplies()
+        tableView.reloadData()
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return replies.count
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.isSelected = false
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ReplyCell", for: indexPath) as! ReplyCell
+        cell.replyTextLabel.text = replies[indexPath.row].text
+        cell.timestampLabel.text = "\(String(describing: replies[indexPath.row].timestamp))"
+        cell.goodPoints.text = "good: \(String(replies[indexPath.row].good))"
+        cell.badPoints.text = "bad: \(String(replies[indexPath.row].bad))"
+        cell.reply = replies[indexPath.row]
+        cell.replyId = replies[indexPath.row].id
+        cell.postId = postId
+        
+        let urlBaseString = "https://api.adorable.io/avatars/75/"
+        let urlMiddleString1 = replies[indexPath.row].author
+        var urlMiddleString2 = postId!
+        urlMiddleString2.remove(at: urlMiddleString2.startIndex)
+        print("reply author:" + urlMiddleString1)
+        print("post id:" + urlMiddleString2)
+        let urlEndString = ".png"
+        let url = URL(string: urlBaseString + urlMiddleString1 + urlMiddleString2 + urlEndString)
+        cell.avatarImage.af_setImage(withURL: url!)
+        
+        let commentSnap = replies[indexPath.row].comments
+        let comments = getComments(commentSnap: commentSnap!)
+        let commentLabel = addComments(comments: comments)
+        cell.commentCount = comments.count
+        cell.commentsLabel.text = "comments: \(String(comments.count))"
+        cell.commentLabel.text = commentLabel
+        cell.delegate = self
+        return cell
+    }
+    
+    func addComments(comments: [Comment]) -> String {
         var newString: String = ""
         for comment in comments {
             newString = newString + "-------------------\n\(comment.text)\n"
         }
         return newString
     }
-//
-//    func getComments(commentSnap: DataSnapshot) -> [Comment] {
-//        var nc: [Comment] = []
-//        for child in commentSnap.children {
-//            let snap = child as! DataSnapshot
-//            let id = snap.key
-//            let author = snap.childSnapshot(forPath: "author").value as? String ?? ""
-//            let text = snap.childSnapshot(forPath: "text").value as? String ?? "No text"
-//            let time = snap.childSnapshot(forPath: "timestamp").value as? Double ?? 1
-//            let date = Date(timeIntervalSince1970: time/1000)
-//            let timestamp = date.shortTimeAgoSinceNow + " ago"
-//            nc.append(Comment.init(id: id, author: author, text: text, timestamp: timestamp))
-//        }
-//        return nc
-//    }
+
+    func getComments(commentSnap: DataSnapshot) -> [Comment] {
+        var nc: [Comment] = []
+        for child in commentSnap.children {
+            let snap = child as! DataSnapshot
+            let id = snap.key
+            let author = snap.childSnapshot(forPath: "author").value as? String ?? ""
+            let text = snap.childSnapshot(forPath: "text").value as? String ?? "No text"
+            let time = snap.childSnapshot(forPath: "timestamp").value as? Double ?? 1
+            let date = Date(timeIntervalSince1970: time/1000)
+            let timestamp = date.shortTimeAgoSinceNow + " ago"
+            nc.append(Comment.init(id: id, author: author, text: text, timestamp: timestamp))
+        }
+        return nc
+    }
     
 }
