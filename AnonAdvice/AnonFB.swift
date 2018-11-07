@@ -28,7 +28,7 @@ class AnonFB {  // Singleton class for managing Firebase Events.
             }
         })
     }
-    // Authenticate new user and create a new Users value
+    // Authenticate new user and create a new Users value in the database
     static func signUpUser(_ email: String!, password: String, city:String!, completionBlock: @escaping ((_ error: Error?)-> Void )) {
         Auth.auth().createUser(withEmail: email, password: password, completion: {(user, error) in
             if user != nil{
