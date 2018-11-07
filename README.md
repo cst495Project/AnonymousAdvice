@@ -10,7 +10,7 @@ The following **required** functionality is completed:
 - [x]  User authentication persists across restarts.
 - [x]   User can logout
 - [x]  User can view posts asking for advice from the local area or world.
-- [ ]  Each user has a unique avatar &/ color within a post.
+- [x]  Each user has a unique avatar within a post.
 - [X]  User can view advice from multiple users in a post.
 - [X]  User can create a new post asking for advice.
 - [X]  User can leave advice on another user’s post.
@@ -23,7 +23,7 @@ The following **required** functionality is completed:
 The following **stretch** features are implemented:
 
 - [ ]  User can select the subject or type of advice they want to view or ask for.
-- [ ]  User can select the location accuracy when creating a post.
+- [ ]  User can change their location from their profile page.
 - [ ]  User receives a notification when their post is given advice.
 - [x]  User's profile will require password or fingerprint authentication to access after app restart
 - [ ]  User can view open threads they have given advice on.
@@ -76,6 +76,8 @@ The following **stretch** features are implemented:
 ## Sprint 2
 <img src='https://i.imgur.com/9C1VI15.gif' title='Wireframes' width='' alt='sprint2' />
 
+## Sprint 3
+<img src='https://imgur.com/XapYyZW.gif' title='Wireframes' width='' alt='sprint2' />
 
 ## Credits
 
