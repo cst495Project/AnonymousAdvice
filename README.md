@@ -10,7 +10,7 @@ The following **required** functionality is completed:
 - [x]  User authentication persists across restarts.
 - [x]   User can logout
 - [x]  User can view posts asking for advice from the local area or world.
-- [ ]  Each user has a unique avatar &/ color within a post.
+- [x]  Each user has a unique avatar within a post.
 - [X]  User can view advice from multiple users in a post.
 - [X]  User can create a new post asking for advice.
 - [X]  User can leave advice on another user’s post.
@@ -22,6 +22,8 @@ The following **required** functionality is completed:
 
 The following **stretch** features are implemented:
 
+- [ ]  Posts in the home view are marked if they are by the current user.
+- [ ]  The segmented control in the home view will be in the same state it was in when the user returns to it from another view.
 - [ ]  User can select the subject or type of advice they want to view or ask for.
 - [ ]  User can select the location accuracy when creating a post.
 - [ ]  User receives a notification when their post is given advice.

@@ -60,7 +60,8 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             let urlBaseString = "https://api.adorable.io/avatars/75/"
             let urlMiddleString1 = value!["author"]! as? String ?? ""
-            let urlMiddleString2 = self.postId!
+            var urlMiddleString2 = self.postId!
+            urlMiddleString2.remove(at: urlMiddleString2.startIndex)
             print("post author:" + urlMiddleString1)
             print("post id:" + urlMiddleString2)
             let urlEndString = ".png"
@@ -147,7 +148,8 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let urlBaseString = "https://api.adorable.io/avatars/75/"
         let urlMiddleString1 = replies[indexPath.row].author
-        let urlMiddleString2 = postId!
+        var urlMiddleString2 = postId!
+        urlMiddleString2.remove(at: urlMiddleString2.startIndex)
         print("reply author:" + urlMiddleString1)
         print("post id:" + urlMiddleString2)
         let urlEndString = ".png"
