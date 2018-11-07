@@ -1,28 +1,18 @@
 //
-//  ProfileViewController.swift
+//  VerifyUserView.swift
 //  AnonAdvice
 //
-//  Created by Raeleen Watson on 10/29/18.
+//  Created by Jesus Andres Bernal Lopez on 11/7/18.
 //  Copyright © 2018 AnonAdvice. All rights reserved.
 //
 
 import UIKit
 import Firebase
-import FirebaseDatabase
-import LocalAuthentication
 
-class ProfileViewController: UIViewController {
-
-    @IBOutlet weak var emailLabel: UILabel!
-    @IBOutlet weak var cityLabel: UILabel!
+class VerifyUserView: UIView {
     
-    let userRef = Database.database().reference().child("users")
-    let currentUser = Auth.auth().currentUser
-    var userId: String!
-    let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.extraLight))
     var wrongAttempts = 2
-    let localAuthenticationContext = LAContext()
-    var authError: NSError?
+    let currentUser = Auth.auth().currentUser
     
     let popUpView: UIView = {
         let v = UIView()
@@ -38,7 +28,7 @@ class ProfileViewController: UIViewController {
         t.isUserInteractionEnabled = false
         return t
     }()
-
+    
     let passwordTextField: UITextField = {
         let t = UITextField()
         t.translatesAutoresizingMaskIntoConstraints = false
@@ -48,7 +38,7 @@ class ProfileViewController: UIViewController {
         t.autocapitalizationType = .none
         return t
     }()
-
+    
     let verifyLabel: UILabel = {
         let l = UILabel()
         l.translatesAutoresizingMaskIntoConstraints = false
@@ -56,16 +46,16 @@ class ProfileViewController: UIViewController {
         l.text = "We need to verify it is actually you"
         return l
     }()
-
+    
     let verifyButton: UIButton = {
         let b = UIButton()
         b.translatesAutoresizingMaskIntoConstraints = false
         b.backgroundColor = #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)
         b.setTitle("Verify", for: .normal)
-        b.addTarget(self, action: #selector(verifyUser), for: .touchUpInside)
+//        b.addTarget(self, action: #selector(verifyUser), for: .touchUpInside)
         return b
     }()
-
+    
     let errorMessageLabel: UILabel = {
         let l = UILabel()
         l.translatesAutoresizingMaskIntoConstraints = false
@@ -75,66 +65,44 @@ class ProfileViewController: UIViewController {
         l.numberOfLines = 0
         return l
     }()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        emailTextField.text = currentUser?.email
-        emailLabel.text = Auth.auth().currentUser?.email
-        getUsersCity()
-        blurLayout()
-        logInPopUp()
-        isBiometricsSetUp()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.logInPopUp()
     }
     
-    func getUsersCity(){
-        userRef.child((currentUser?.uid)!).observeSingleEvent(of: .value) { (snapshot) in
-            self.cityLabel.text = snapshot.childSnapshot(forPath: "city").value as? String ?? "Unknown"
-        }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
-    func isBiometricsSetUp(){
-        if localAuthenticationContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
-             localAuthenticationContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "reasonString") {
-                success, evaluateError in
-                if success{
-                    DispatchQueue.main.async {
-                        self.visualEffectView.effect = nil
-                        self.popUpView.removeFromSuperview()
-                    }
-                }
-            }
-        }
-    }
-    
-    @objc func verifyUser(){
-        let password = passwordTextField.text
-        
-        Auth.auth().signIn(withEmail: self.currentUser!.email!, password: password!) { (authData: AuthDataResult?, error: Error?) in
-                if authData != nil{
-                    self.popUpView.removeFromSuperview()
-                    self.visualEffectView.effect = nil
-                    return
-                }else{
-                    self.errorMessageLabel.isHidden = false
-                    self.errorMessageLabel.text = error?.localizedDescription ?? "Unknown error"
-                    self.wrongAttempts -= 1
-                }
-        }
-        
-        if wrongAttempts == 0{
-            do {
-                try Auth.auth().signOut()
-            } catch let logoutError {
-                print(logoutError.localizedDescription)
-            }
-            self.performSegue(withIdentifier: "tooManyWrongAttemptsLogOutSegue", sender: nil)
-        }
-    }
+//    @objc func verifyUser(){
+//        let password = passwordTextField.text
+//
+//        Auth.auth().signIn(withEmail: self.currentUser!.email!, password: password!) { (authData: AuthDataResult?, error: Error?) in
+//            if authData != nil{
+//                self.popUpView.removeFromSuperview()
+//                self.visualEffectView.effect = nil
+//                return
+//            }else{
+//                self.errorMessageLabel.isHidden = false
+//                self.errorMessageLabel.text = error?.localizedDescription ?? "Unknown error"
+//                self.wrongAttempts -= 1
+//            }
+//        }
+//
+//        if wrongAttempts == 0{
+//            do {
+//                try Auth.auth().signOut()
+//            } catch let logoutError {
+//                print(logoutError.localizedDescription)
+//            }
+//            self.performSegue(withIdentifier: "tooManyWrongAttemptsLogOutSegue", sender: nil)
+//        }
+//    }
     
     func logInPopUp(){
-        view.addSubview(popUpView)
-        popUpView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
-        popUpView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor).isActive = true
+        addSubview(popUpView)
+        popUpView.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor).isActive = true
+        popUpView.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor).isActive = true
         popUpView.heightAnchor.constraint(equalToConstant: 300).isActive = true
         popUpView.widthAnchor.constraint(equalToConstant: 300).isActive = true
         
@@ -168,14 +136,4 @@ class ProfileViewController: UIViewController {
         verifyButton.centerXAnchor.constraint(equalTo: popUpView.centerXAnchor).isActive = true
         verifyButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
     }
-    
-    func blurLayout(){
-        view.addSubview(visualEffectView)
-        visualEffectView.translatesAutoresizingMaskIntoConstraints = false
-        visualEffectView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        visualEffectView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        visualEffectView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        visualEffectView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-    }
-    
 }
