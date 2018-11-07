@@ -26,7 +26,7 @@ class LogInViewController: UIViewController, GMSAutocompleteViewControllerDelega
     override func viewDidLoad() {
         super.viewDidLoad()
             
-        layout()
+        logIn()
         logInSignUpSegmentedControl.addTarget(self, action: #selector(layout), for: .valueChanged)
         confirmPasswordTextField.isSecureTextEntry = true
         passwordTextField.isSecureTextEntry = true
@@ -40,7 +40,7 @@ class LogInViewController: UIViewController, GMSAutocompleteViewControllerDelega
         case 1:
             signUp()
         default:
-            logIn()
+            break
         }
     }
     

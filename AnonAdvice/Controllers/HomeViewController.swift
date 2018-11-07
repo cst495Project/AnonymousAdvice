@@ -24,47 +24,33 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var posts: [Post] = []
     var postID: String?
     
-    var refreshControl = UIRefreshControl();
+    var refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         tableView.delegate = self
         tableView.dataSource = self
         
         segmentedControl.addTarget(self, action: #selector(indexChange), for: .valueChanged)
         refreshControl.addTarget(self, action: #selector(HomeViewController.didPullToRefresh(_ :)), for: .valueChanged)
         
+        getUsersCity()
         
         tableView.insertSubview(refreshControl, at: 0)
         activityIndicator.startAnimating()
         
-        getUsersCity()
-        fetchLocalPosts()
-        
-        
-        
-        print("start detected")
-        
     }
     @objc func didPullToRefresh(_ refreshControl: UIRefreshControl)
     {
-        print("refresh pull detected")
         activityIndicator.startAnimating()
-        switch segmentedControl.selectedSegmentIndex {
-        case 0:
-            localSelected()
-        case 1:
-            worldSelected()
-        default:
-            break;
-        }
-        
-        
+        indexChange()
     }
     
     func getUsersCity(){
         userRef.child(currentUser!).observeSingleEvent(of: .value) { (snapshot) in
             self.currentUserCity = (snapshot.childSnapshot(forPath: "city").value as? String ?? "")
+            self.fetchLocalPosts()
         }
     }
 
@@ -115,37 +101,34 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             self.posts = np.reversed()
             self.tableView.reloadData()
+            
             self.refreshControl.endRefreshing()
-            
             self.activityIndicator.stopAnimating()
-            
         }
     }
     
     func fetchLocalPosts(){
         var newPosts: [Post] = []
-        postRef.observeSingleEvent(of: .value) { (snapshot) in
+        let query = postRef.queryOrdered(byChild: "city").queryEqual(toValue: self.currentUserCity)
+        query.observeSingleEvent(of: .value) { (snapshot) in
             for child in snapshot.children{
                 let snap = child as! DataSnapshot
-                let postCity = snap.childSnapshot(forPath: "city").value as? String ?? "Unknown"
-                if(postCity == self.currentUserCity){
-                    let id = snap.key
-                    let author = User.init(userID: "asd", username: "sd", timestamp: 5.5, good: 0, bad: 0)
-                    
-                    let title = snap.childSnapshot(forPath: "title").value as? String ?? "No title"
-                    let text = snap.childSnapshot(forPath: "text").value as? String ?? "No text"
-                    
-                    let time = snap.childSnapshot(forPath: "timestamp").value as? Double ?? 1
-                    let date = Date(timeIntervalSince1970: time/1000)
-                    let timestamp = date.shortTimeAgoSinceNow + " ago"
-                    
-                    newPosts.append(Post.init(id: id, author: author, title: title, text: text, timestamp: timestamp, subject: "local"))
-                }
+                let id = snap.key
+                let author = User.init(userID: "asd", username: "sd", timestamp: 5.5, good: 0, bad: 0)
+                
+                let title = snap.childSnapshot(forPath: "title").value as? String ?? "No title"
+                let text = snap.childSnapshot(forPath: "text").value as? String ?? "No text"
+                
+                let time = snap.childSnapshot(forPath: "timestamp").value as? Double ?? 1
+                let date = Date(timeIntervalSince1970: time/1000)
+                let timestamp = date.shortTimeAgoSinceNow + " ago"
+                
+                newPosts.append(Post.init(id: id, author: author, title: title, text: text, timestamp: timestamp, subject: "local"))
             }
             self.posts = newPosts.reversed()
             self.tableView.reloadData()
-            self.refreshControl.endRefreshing()
             
+            self.refreshControl.endRefreshing()
             self.activityIndicator.stopAnimating()
             
         }
@@ -165,26 +148,15 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    
     @objc func indexChange() {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
-            localSelected()
+            fetchLocalPosts()
         case 1:
-            worldSelected()
+            fetchWorldPosts()
         default:
             break;
         }
-    }
-    
-    func localSelected(){
-        //functionality for local tab
-        fetchLocalPosts()
-    }
-    
-    func worldSelected() {
-        //functionality for world
-        fetchWorldPosts()
     }
 
 }

@@ -49,6 +49,7 @@ NS_SWIFT_NAME(UserInfo)
  */
 @property(nonatomic, copy, readonly, nullable) NSString *email;
 
+
 /** @property phoneNumber
     @brief A phone number associated with the user.
     @remarks This property is only available for users authenticated via phone number auth.
