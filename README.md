@@ -77,7 +77,7 @@ The following **stretch** features are implemented:
 <img src='https://i.imgur.com/9C1VI15.gif' title='Wireframes' width='' alt='sprint2' />
 
 ## Sprint 3
-<img src='https://imgur.com/BSVIiV4.gif' title='Wireframes' width='' alt='sprint2' />
+<img src='https://imgur.com/XapYyZW.gif' title='Wireframes' width='' alt='sprint2' />
 
 ## Credits
 
