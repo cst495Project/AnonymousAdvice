@@ -22,6 +22,7 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var replyTextLabel: UILabel!
     @IBOutlet weak var commentsLabel: UILabel!
     @IBOutlet weak var commentLabel: UILabel!
+    @IBOutlet weak var avatarImage: UIImageView!
     
     var delegate: cellDelegate?
     
@@ -34,7 +35,8 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
     var commentCount: Int!
     let current = Auth.auth().currentUser!.uid
     var currentRating: String!
-
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         charCountLabel = UILabel(frame: CGRect(x:0,y:0,width:10, height: 10))
