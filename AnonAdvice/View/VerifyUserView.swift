@@ -10,11 +10,16 @@ import UIKit
 import Firebase
 import FirebaseAuth
 import FirebaseDatabase
+import LocalAuthentication
 
 class VerifyUserView: UIView {
     
     let currentUser = Auth.auth().currentUser
     let userRef = Database.database().reference().child("users")
+    var delegate: CellTapped!
+    var wrongAttempts = 2
+    let localAuthenticationContext = LAContext()
+    var authError: NSError?
 
     let emailTextField: UITextField = {
         let t = UITextField()
@@ -49,6 +54,7 @@ class VerifyUserView: UIView {
         b.translatesAutoresizingMaskIntoConstraints = false
         b.backgroundColor = #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)
         b.setTitle("Verify", for: .normal)
+        b.addTarget(self, action: #selector(verifyUser), for: .touchUpInside)
         return b
     }()
     
@@ -66,11 +72,53 @@ class VerifyUserView: UIView {
         self.logInPopUp()
         self.emailTextField.text = currentUser?.email
         self.emailTextField.isUserInteractionEnabled = false
+        self.isBiometricsSetUp()
 
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
+    }
+    
+    @objc func verifyUser(){
+        let password = passwordTextField.text
+        
+        Auth.auth().signIn(withEmail: self.currentUser!.email!, password: password!) { (authData: AuthDataResult?, error: Error?) in
+            if authData != nil{
+                self.delegate.successfullLogIn()
+//                self.visualEffectView.effect = nil
+                self.removeFromSuperview()
+            }else{
+                self.errorMessageLabel.isHidden = false
+                self.errorMessageLabel.text = error?.localizedDescription ?? "Unknown error"
+                self.wrongAttempts -= 1
+            }
+        }
+        
+        if wrongAttempts == 0 {
+            do {
+                try Auth.auth().signOut()
+            } catch let logoutError {
+                print(logoutError.localizedDescription)
+            }
+            self.delegate.tooManyWrongAttempts()
+//            self.performSegue(withIdentifier: "tooManyWrongAttemptsLogOutSegue", sender: nil)
+        }
+    }
+    
+    func isBiometricsSetUp(){
+        if localAuthenticationContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
+            localAuthenticationContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "I need your fingerprint") {
+                success, evaluateError in
+                if success{
+                    DispatchQueue.main.async {
+                        self.delegate.successfullLogIn()
+                        self.removeFromSuperview()
+//                        self.visualEffectView.effect = nil
+                    }
+                }
+            }
+        }
     }
     
     func logInPopUp(){
@@ -104,4 +152,9 @@ class VerifyUserView: UIView {
         verifyButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         verifyButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
     }
+}
+
+protocol CellTapped: class {
+    func tooManyWrongAttempts()
+    func successfullLogIn()
 }
