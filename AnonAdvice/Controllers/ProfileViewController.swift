@@ -17,7 +17,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
-    
 
     var posts: [Post] = []
     var currentUserPost: String!
@@ -87,10 +86,11 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         tableView.delegate = self
         tableView.dataSource = self
-        
+        tableView.reloadData()
         emailTextField.text = currentUser?.email
         emailLabel.text = Auth.auth().currentUser?.email
         
+       
         getUsersCity()
         getPosts()
         blurLayout()
@@ -98,17 +98,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         isBiometricsSetUp()
         
         
-        
     }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("IM HERE")
         return posts.count
         
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print("GOOF")
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as! PostCell
         cell.titleLabel.text = posts[indexPath.row].title
         cell.postTextLabel.text = posts[indexPath.row].text
@@ -120,11 +116,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         let current = Auth.auth().currentUser!.uid
         AnonFB.fetchUserPosts(userId: current) { (Post) in
             self.posts = Post
-            print("HERE")
             print(self.posts)
             self.tableView.reloadData()
         }
-        
     }
     
     
