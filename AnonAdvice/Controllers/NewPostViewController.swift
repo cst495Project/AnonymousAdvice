@@ -25,6 +25,8 @@ class NewPostViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getUsersCity()
+        
+        
     }
     
     func getUsersCity(){

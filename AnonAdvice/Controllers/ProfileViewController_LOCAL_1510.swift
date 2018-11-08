@@ -13,16 +13,11 @@ import FirebaseDatabase
 import LocalAuthentication
 import LocalAuthentication
 
-class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
-    
+class ProfileViewController: UIViewController {
+
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
-    @IBOutlet weak var tableView: UITableView!
-
-    var posts: [Post] = []
-    var currentUserPost: String!
-    let postRef = Database.database().reference().child("posts")
+    
     let userRef = Database.database().reference().child("users")
     let currentUser = Auth.auth().currentUser
     var userId: String!
@@ -34,39 +29,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.reloadData()
-        
-        emailLabel.text = currentUser?.email
-       
         getUsersCity()
-        getPosts()
         blurLayout()
         isBiometricsSetUp()
         logInScreen()
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return posts.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as! PostCell
-        cell.titleLabel.text = posts[indexPath.row].title
-        cell.postTextLabel.text = posts[indexPath.row].text
-        
-        return cell
-    }
-    
-    func getPosts() {
-        let current = Auth.auth().currentUser!.uid
-        AnonFB.fetchUserPosts(userId: current) { (Post) in
-            self.posts = Post
-            print(self.posts)
-            self.tableView.reloadData()
-        }
     }
     
     func logInScreen(){
@@ -76,15 +42,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         theView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         theView.heightAnchor.constraint(equalToConstant: 300).isActive = true
         theView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        
         theView.verifyButton.addTarget(self, action: #selector(verifyUser), for: .touchUpInside)
     }
-
-    func getUsersCity(){
-        userRef.child((currentUser?.uid)!).observeSingleEvent(of: .value) { (snapshot) in
-        self.cityLabel.text = snapshot.childSnapshot(forPath: "city").value as? String ?? "Unknown"
-        }
-    }
-
+    
     func isBiometricsSetUp(){
         if localAuthenticationContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
             localAuthenticationContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "I need your fingerprint") {
@@ -123,6 +84,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
+    func getUsersCity(){
+        userRef.child((currentUser?.uid)!).observeSingleEvent(of: .value) { (snapshot) in
+            self.cityLabel.text = snapshot.childSnapshot(forPath: "city").value as? String ?? "Unknown"
+        }
+    }
+
     func blurLayout(){
         view.addSubview(visualEffectView)
         visualEffectView.translatesAutoresizingMaskIntoConstraints = false
