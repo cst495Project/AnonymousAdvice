@@ -17,7 +17,7 @@ The following **required** functionality is completed:
 - [x]  User can reply to another user’s advice.
 - [x]  User can pull to refresh a list of posts.
 - [x]  User can pull to refresh a list of replies.
-- [ ]  User can view their profile containing open posts.
+- [X]  User can view their profile containing open posts.
 - [X]  User can close or delete their own posts.
 
 The following **stretch** features are implemented:
