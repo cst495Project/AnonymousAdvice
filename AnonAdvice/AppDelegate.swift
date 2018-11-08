@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import FirebaseAuth
 import GooglePlaces
 import GooglePlacePicker
 import GoogleMaps
