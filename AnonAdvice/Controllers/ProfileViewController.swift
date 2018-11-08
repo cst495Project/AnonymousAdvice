@@ -10,11 +10,8 @@ import UIKit
 import Firebase
 import FirebaseAuth
 import FirebaseDatabase
-import LocalAuthentication
-import LocalAuthentication
 
-class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
+class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CellTapped {
     
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
@@ -28,12 +25,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     var userId: String!
     let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.extraLight))
     let theView = VerifyUserView()
-    var wrongAttempts = 2
-    let localAuthenticationContext = LAContext()
-    var authError: NSError?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        theView.delegate = self
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -44,7 +39,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         getUsersCity()
         getPosts()
         blurLayout()
-        isBiometricsSetUp()
         logInScreen()
     }
 
@@ -76,7 +70,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         theView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         theView.heightAnchor.constraint(equalToConstant: 300).isActive = true
         theView.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        theView.verifyButton.addTarget(self, action: #selector(verifyUser), for: .touchUpInside)
     }
 
     func getUsersCity(){
@@ -84,45 +77,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.cityLabel.text = snapshot.childSnapshot(forPath: "city").value as? String ?? "Unknown"
         }
     }
-
-    func isBiometricsSetUp(){
-        if localAuthenticationContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
-            localAuthenticationContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "I need your fingerprint") {
-                success, evaluateError in
-                if success{
-                    DispatchQueue.main.async {
-                        self.theView.removeFromSuperview()
-                        self.visualEffectView.effect = nil
-                    }
-                }
-            }
-        }
-    }
-    
-    @objc func verifyUser(){
-        let password = theView.passwordTextField.text
-        
-        Auth.auth().signIn(withEmail: self.currentUser!.email!, password: password!) { (authData: AuthDataResult?, error: Error?) in
-            if authData != nil{
-                self.visualEffectView.effect = nil
-                self.theView.removeFromSuperview()
-            }else{
-                self.theView.errorMessageLabel.isHidden = false
-                self.theView.errorMessageLabel.text = error?.localizedDescription ?? "Unknown error"
-                self.wrongAttempts -= 1
-            }
-        }
-        
-        if wrongAttempts == 0 {
-            do {
-                try Auth.auth().signOut()
-            } catch let logoutError {
-                print(logoutError.localizedDescription)
-            }
-            self.performSegue(withIdentifier: "tooManyWrongAttemptsLogOutSegue", sender: nil)
-        }
-    }
-    
+  
     func blurLayout(){
         view.addSubview(visualEffectView)
         visualEffectView.translatesAutoresizingMaskIntoConstraints = false
@@ -130,5 +85,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         visualEffectView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         visualEffectView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         visualEffectView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+    }
+    
+    func tooManyWrongAttempts() {
+        self.performSegue(withIdentifier: "tooManyWrongAttemptsLogOutSegue", sender: nil)
+    }
+    
+    func successfullLogIn() {
+        self.visualEffectView.effect = nil
     }
 }
