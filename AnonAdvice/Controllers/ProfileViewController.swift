@@ -11,11 +11,16 @@ import Firebase
 import FirebaseDatabase
 import LocalAuthentication
 
-class ProfileViewController: UIViewController {
-
+class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
-    
+    @IBOutlet weak var tableView: UITableView!
+
+    var posts: [Post] = []
+    var currentUserPost: String!
+    let postRef = Database.database().reference().child("posts")
     let userRef = Database.database().reference().child("users")
     let currentUser = Auth.auth().currentUser
     var userId: String!
@@ -78,13 +83,44 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.reloadData()
         emailTextField.text = currentUser?.email
         emailLabel.text = Auth.auth().currentUser?.email
+        
+       
         getUsersCity()
+        getPosts()
         blurLayout()
         logInPopUp()
         isBiometricsSetUp()
+        
+        
     }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return posts.count
+        
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as! PostCell
+        cell.titleLabel.text = posts[indexPath.row].title
+        cell.postTextLabel.text = posts[indexPath.row].text
+        
+        return cell
+    }
+    
+    func getPosts() {
+        let current = Auth.auth().currentUser!.uid
+        AnonFB.fetchUserPosts(userId: current) { (Post) in
+            self.posts = Post
+            print(self.posts)
+            self.tableView.reloadData()
+        }
+    }
+    
     
     func getUsersCity(){
         userRef.child((currentUser?.uid)!).observeSingleEvent(of: .value) { (snapshot) in
@@ -92,9 +128,10 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    
     func isBiometricsSetUp(){
         if localAuthenticationContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
-             localAuthenticationContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "reasonString") {
+            localAuthenticationContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "reasonString") {
                 success, evaluateError in
                 if success{
                     DispatchQueue.main.async {
@@ -110,15 +147,15 @@ class ProfileViewController: UIViewController {
         let password = passwordTextField.text
         
         Auth.auth().signIn(withEmail: self.currentUser!.email!, password: password!) { (authData: AuthDataResult?, error: Error?) in
-                if authData != nil{
-                    self.popUpView.removeFromSuperview()
-                    self.visualEffectView.effect = nil
-                    return
-                }else{
-                    self.errorMessageLabel.isHidden = false
-                    self.errorMessageLabel.text = error?.localizedDescription ?? "Unknown error"
-                    self.wrongAttempts -= 1
-                }
+            if authData != nil{
+                self.popUpView.removeFromSuperview()
+                self.visualEffectView.effect = nil
+                return
+            }else{
+                self.errorMessageLabel.isHidden = false
+                self.errorMessageLabel.text = error?.localizedDescription ?? "Unknown error"
+                self.wrongAttempts -= 1
+            }
         }
         
         if wrongAttempts == 0{
@@ -179,3 +216,4 @@ class ProfileViewController: UIViewController {
     }
     
 }
+
