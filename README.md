@@ -17,7 +17,7 @@ The following **required** functionality is completed:
 - [x]  User can reply to another user’s advice.
 - [x]  User can pull to refresh a list of posts.
 - [x]  User can pull to refresh a list of replies.
-- [ ]  User can view their profile containing open posts.
+- [X]  User can view their profile containing open posts.
 - [X]  User can close or delete their own posts.
 
 The following **stretch** features are implemented:
@@ -77,7 +77,7 @@ The following **stretch** features are implemented:
 <img src='https://i.imgur.com/9C1VI15.gif' title='Wireframes' width='' alt='sprint2' />
 
 ## Sprint 3
-<img src='https://imgur.com/XapYyZW.gif' title='Wireframes' width='' alt='sprint2' />
+<img src='https://i.imgur.com/43P4YsC.gif' title='Wireframes' width='' alt='sprint2' />
 
 ## Credits
 
