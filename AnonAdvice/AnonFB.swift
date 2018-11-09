@@ -42,6 +42,7 @@ class AnonFB {  // Singleton class for managing Firebase Events.
                 completionBlock(error)
             }else{
                 print(error?.localizedDescription as Any)
+                completionBlock(error)
             }
         })
     }
@@ -96,7 +97,7 @@ class AnonFB {  // Singleton class for managing Firebase Events.
                     let time = snap.childSnapshot(forPath: "timestamp").value as? Double ?? 1
                     let date = Date(timeIntervalSince1970: time/1000)
                     let timestamp = date.shortTimeAgoSinceNow + " ago"
-                    posts.append(Post.init(id: id, author: author, title: title, text: text, timestamp: timestamp, subject: "world"))
+                    posts.append(Post.init(id: id, author: author, title: title, text: text, timestamp: timestamp, subject: "local"))
                 }
                 completionblock(posts)
             } else {
@@ -114,9 +115,29 @@ class AnonFB {  // Singleton class for managing Firebase Events.
             }
         }
     }
+    // Retrieve a Post Object from a postId
+    static func fetchPost(postId: String!, completionblock: @escaping ((_ post: Post)-> Void )) {
+        var post: Post!
+        let singlePostRef = postRef.child(postId!)
+        singlePostRef.observeSingleEvent(of: .value, with: { (snap) in
+            if snap.exists() {
+                let id = snap.key
+                let author = snap.childSnapshot(forPath: "author").value as? String ?? "No author"
+                let title = snap.childSnapshot(forPath: "title").value as? String ?? "No title"
+                let text = snap.childSnapshot(forPath: "text").value as? String ?? "No text"
+                let time = snap.childSnapshot(forPath: "timestamp").value as? Double ?? 1
+                let date = Date(timeIntervalSince1970: time/1000)
+                let timestamp = date.shortTimeAgoSinceNow + " ago"
+                post = Post.init(id: id, author: author, title: title, text: text, timestamp: timestamp, subject: "world")
+                completionblock(post)
+            } else {
+                print("No post by that ID found")
+            }
+        })
+    }
     // Retrieve all Local Posts as Post Objects
     static func fetchLocalPosts(_ currentCity: String!, completionblock: @escaping ((_ snapshot: DataSnapshot)-> Void )) {
-        let query = usersRef.queryOrdered(byChild: "city").queryEqual(toValue: currentCity)
+        let query = postRef.queryOrdered(byChild: "city").queryEqual(toValue: currentCity)
         query.observeSingleEvent(of: .value) { (snapshot) in
             if snapshot.exists() {
                 completionblock(snapshot)
@@ -145,6 +166,17 @@ class AnonFB {  // Singleton class for managing Firebase Events.
             print("No posts found")
         }
     }
+    // Delete a Post from FIrebase
+    static func deletePost(_ postId: String!, completionblock: @escaping ((_ error: Error?)-> Void )) {
+        let deleteRef = postRef.child(postId!)
+        deleteRef.removeValue() { error, completed  in
+            if error != nil {
+                print(error?.localizedDescription as Any)
+            } else {
+                completionblock(error)
+            }
+        }
+    }
     // Retrieve replies of a post as Reply Objects
     static func fetchReplies(_ postId: String!, completionblock: @escaping ((_ replies: [Reply])-> Void )) {
         var replies: [Reply] = []
@@ -166,6 +198,7 @@ class AnonFB {  // Singleton class for managing Firebase Events.
                     let bad = scores["bad"] ?? 0
                     replies.append(Reply.init(id: id, author: author, text: text, timestamp: timestamp, good: good, bad: bad, comments: comments))
                 }
+                completionblock(replies)
             } else {
                 print("No replies found")
             }
@@ -198,6 +231,23 @@ class AnonFB {  // Singleton class for managing Firebase Events.
             comments.append(Comment.init(id: id, author: author, text: text, timestamp: timestamp))
         }
         return comments
+    }
+    // Create a Comment on a Reply
+    static func createComment(_ comment: String!, postId: String!, replyId: String!, completionblock: @escaping ((_ error: Error?)-> Void )) {
+        let current = Auth.auth().currentUser!.uid
+        let replyRef = postRef.child(postId!).child("replies").child(replyId).child("comments").childByAutoId()
+        let commentObject = [
+            "author": current,
+            "text": comment,
+            "timestamp": [".sv": "timestamp"]
+            ] as [String: Any]
+        replyRef.setValue(commentObject, withCompletionBlock: { error, ref  in
+            if error == nil {
+                completionblock(error)
+            } else {
+                print(error?.localizedDescription as Any)
+            }
+        })
     }
     
 }

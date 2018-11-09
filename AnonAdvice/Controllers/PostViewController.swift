@@ -9,7 +9,6 @@
 import UIKit
 import Firebase
 import DateToolsSwift
-import SCLAlertView
 import AlamofireImage
 
 class PostViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, cellDelegate {
@@ -50,24 +49,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @IBAction func onRightButton(_ sender: UIButton) {
-        let postRef = Database.database().reference().child("posts").child(postId!)
-        if sender.title(for: .normal) == "Delete" {
-            //get confirmation here
-            let alert = SCLAlertView()
-            alert.addButton("Delete") {
-                postRef.removeValue() { error, completed  in
-                    if error != nil {
-                        print("Error occured:")
-                        print(error?.localizedDescription as Any)
-                    } else {
-                        self.performSegue(withIdentifier: "home", sender: self)
-                    }
-                }
-            }
-            alert.showWarning("Confirmation Needed", subTitle: "Are you sure you want to delete your post?")
-        } else {
-            performSegue(withIdentifier: "createReply", sender: nil)
-        }
+        performSegue(withIdentifier: "createReply", sender: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -113,14 +95,12 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         let urlMiddleString1 = replies[indexPath.row].author
         var urlMiddleString2 = postId!
         urlMiddleString2.remove(at: urlMiddleString2.startIndex)
-        print("reply author:" + urlMiddleString1)
-        print("post id:" + urlMiddleString2)
         let urlEndString = ".png"
         let url = URL(string: urlBaseString + urlMiddleString1 + urlMiddleString2 + urlEndString)
         cell.avatarImage.af_setImage(withURL: url!)
         
         let commentSnap = replies[indexPath.row].comments
-        let comments = getComments(commentSnap: commentSnap!)
+        let comments = AnonFB.getComments(commentSnap: commentSnap!)
         let commentLabel = addComments(comments: comments)
         cell.commentCount = comments.count
         cell.commentsLabel.text = "comments: \(String(comments.count))"
@@ -132,74 +112,25 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     // ******** DATABASE & SNAPSHOT CALLS ********
     
     func getPost() {
-        let current = Auth.auth().currentUser!.uid
-        let postRef = Database.database().reference().child("posts").child(postId!)
-        postRef.observeSingleEvent(of: .value, with: { (snapshot) in
-            let value = snapshot.value as? NSDictionary
-            
-            
-            let urlBaseString = "https://api.adorable.io/avatars/75/"
-            let urlMiddleString1 = value!["author"]! as? String ?? ""
+        AnonFB.fetchPost(postId: postId!) { (post) in
+            let urlBaseString = "https://api.adorable.io/avatars/75/\(post.author)"
             var urlMiddleString2 = self.postId!
             urlMiddleString2.remove(at: urlMiddleString2.startIndex)
-            print("post author:" + urlMiddleString1)
-            print("post id:" + urlMiddleString2)
             let urlEndString = ".png"
-            let url = URL(string: urlBaseString + urlMiddleString1 + urlMiddleString2 + urlEndString)
-            
+            let url = URL(string: urlBaseString + urlMiddleString2 + urlEndString)
             self.avatarImage.af_setImage(withURL: url!)
-            
-            let author = value!["author"]! as? String ?? ""
-            self.titleLabel.text = value?["title"] as? String ?? ""
-            self.textLabel.text = value?["text"] as? String ?? ""
-            if current == author {
-                self.rightButton.setTitle("Delete", for: .normal)
-                self.navBar.title = "Your Post"
-            } else {
-                self.rightButton.setTitle("Reply", for: .normal)
-                self.navBar.title = "Post"
-            }
-        })
+            self.titleLabel.text = post.title
+            self.textLabel.text = post.text
+        }
     }
     
     func getPostReplies() {
-        var nr: [Reply] = []
-        let postRef = Database.database().reference().child("posts").child(postId!).child("replies")
-        postRef.observeSingleEvent(of: .value, with: { (snapshot) in
-            for child in snapshot.children{
-                let snap = child as! DataSnapshot
-                let id = snap.key
-                let author = snap.childSnapshot(forPath: "author").value as? String ?? ""
-                let text = snap.childSnapshot(forPath: "text").value as? String ?? "No text"
-                let time = snap.childSnapshot(forPath: "timestamp").value as? Double ?? 1
-                let date = Date(timeIntervalSince1970: time/1000)
-                let timestamp = date.shortTimeAgoSinceNow + " ago"
-                let comments = snap.childSnapshot(forPath: "comments")
-                let rated = snap.childSnapshot(forPath: "rated")
-                let scores = self.getRatings(ratings: rated)
-                let good = scores["good"] ?? 0
-                let bad = scores["bad"] ?? 0
-                nr.append(Reply.init(id: id, author: author, text: text, timestamp: timestamp, good: good, bad: bad, comments: comments))
-            }
-            self.replies = nr
+        AnonFB.fetchReplies(postId!) { (Replies) in
+            self.replies = Replies
             self.tableView.reloadData()
-            
-            self.refreshControl.endRefreshing()
-            self.activityIndicator.stopAnimating()
-        })
-    }
-    
-    func getRatings(ratings: DataSnapshot) -> [String: Int] {
-        var scores = [ "good": 0, "bad": 0 ] as [String: Int]
-        for child in ratings.children {
-            let snap = child as! DataSnapshot
-            if snap.value as? String == "good" {
-                scores["good"] = scores["good"]! + 1
-            } else {
-                scores["bad"] = scores["bad"]! + 1
-            }
         }
-        return scores
+        self.refreshControl.endRefreshing()
+        self.activityIndicator.stopAnimating()
     }
     
     func addComments(comments: [Comment]) -> String {
@@ -208,21 +139,6 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             newString = newString + "-------------------\n\(comment.text)\n"
         }
         return newString
-    }
-
-    func getComments(commentSnap: DataSnapshot) -> [Comment] {
-        var nc: [Comment] = []
-        for child in commentSnap.children {
-            let snap = child as! DataSnapshot
-            let id = snap.key
-            let author = snap.childSnapshot(forPath: "author").value as? String ?? ""
-            let text = snap.childSnapshot(forPath: "text").value as? String ?? "No text"
-            let time = snap.childSnapshot(forPath: "timestamp").value as? Double ?? 1
-            let date = Date(timeIntervalSince1970: time/1000)
-            let timestamp = date.shortTimeAgoSinceNow + " ago"
-            nc.append(Comment.init(id: id, author: author, text: text, timestamp: timestamp))
-        }
-        return nc
     }
     
 }

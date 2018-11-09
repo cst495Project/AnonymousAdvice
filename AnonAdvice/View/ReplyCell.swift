@@ -25,7 +25,6 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var avatarImage: UIImageView!
     
     var delegate: cellDelegate?
-    
     var goodTapGesture: UITapGestureRecognizer!
     var badTapGesture: UITapGestureRecognizer!
     var postId: String!
@@ -36,10 +35,9 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
     let current = Auth.auth().currentUser!.uid
     var currentRating: String!
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
-        charCountLabel = UILabel(frame: CGRect(x:0,y:0,width:10, height: 10))
+        charCountLabel = UILabel(frame: CGRect(x:0, y:0, width:10, height: 10))
         goodTapGesture = UITapGestureRecognizer(target: self, action: #selector(ReplyCell.tapEdit(sender:)))
         badTapGesture = UITapGestureRecognizer(target: self, action: #selector(ReplyCell.tapEdit(sender:)))
         self.goodPoints.addGestureRecognizer(goodTapGesture)
@@ -57,18 +55,14 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
                 self.currentRating = snapshot.value! as? String
                 if self.currentRating == "good" && sender == self.badTapGesture {
                     self.rate(type: "bad")
-                    //self.badPoints.text = "bad: \(String(self.bPoints + 1))"
                 } else if self.currentRating == "bad" && sender == self.goodTapGesture {
                     self.rate(type: "good")
-                    //self.goodPoints.text = "good: \(String(self.gPoints + 1))"
                 }
             } else {
                 if sender == self.goodTapGesture {
                     self.rate(type: "good")
-                    //self.goodPoints.text = "good: \(String(self.gPoints + 1))"
                 } else {
                     self.rate(type: "bad")
-                    //self.badPoints.text = "bad: \(String(self.bPoints + 1))"
                 }
             }
         })
@@ -124,23 +118,11 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
     }
     
     func commentOnReply(comment: String) {
-        let current = Auth.auth().currentUser!.uid
-        let replyRef = Database.database().reference().child("posts").child(postId!).child("replies").child(replyId).child("comments").childByAutoId()
-        let commentObject = [
-            "author": current,
-            "text": comment,
-            "timestamp": [".sv": "timestamp"]
-            ] as [String: Any]
-        replyRef.setValue(commentObject, withCompletionBlock: { error, ref in
-            if error == nil {
-                print("Success!")
-                self.commentCount = self.commentCount + 1
-                self.commentsLabel.text = "comments: \(String(self.commentCount))"
-                self.delegate?.cellDelegate()
-            } else {
-                print(error?.localizedDescription as Any)
-            }
-        })
+        AnonFB.createComment(comment, postId: postId, replyId: replyId) { (Error) in
+            self.commentCount = self.commentCount + 1
+            self.commentsLabel.text = "comments: \(String(self.commentCount))"
+            self.delegate?.cellDelegate()
+        }
     }
     
 }
