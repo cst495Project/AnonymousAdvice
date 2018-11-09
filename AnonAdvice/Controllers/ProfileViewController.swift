@@ -35,7 +35,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        theView.delegate = self
+        //theView.delegate = self
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -44,8 +44,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         emailLabel.text = currentUser?.email
        
-        blurLayout()
-        logInScreen()
+        //blurLayout()
+        //logInScreen()
         getUsersCity()
         getPosts()
     }
@@ -55,7 +55,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as! PostCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "UserPostCell", for: indexPath) as! UserPostCell
         cell.titleLabel.text = posts[indexPath.row].title
         cell.postTextLabel.text = posts[indexPath.row].text
         //cell.timestampLabel.text = posts[indexPath.row].timestamp
@@ -79,8 +79,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     func getPosts() {
         let current = Auth.auth().currentUser!.uid
         AnonFB.fetchUserPosts(userId: current) { (Post) in
-            self.posts = Post
-            self.tableView.reloadData()
+            AnonFB.getPostsInfo(Post, completionblock: { (Post) in
+                self.posts = Post
+                self.tableView.reloadData()
+            })
+            AnonFB.fetchUserReplyData(Post) { (snapshot) in
+                
+            }
         }
     }
     

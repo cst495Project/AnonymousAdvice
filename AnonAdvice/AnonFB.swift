@@ -82,28 +82,38 @@ class AnonFB {  // Singleton class for managing Firebase Events.
             }
         }
     }
-    // Retrieve all Posts created by a User as Post Objects
-    static func fetchUserPosts(userId: String!, completionblock: @escaping ((_ posts: [Post])-> Void )) {
-        var posts: [Post] = []
+    // Retrieve all Posts created by a User as Post snapshot
+    static func fetchUserPosts(userId: String!, completionblock: @escaping ((_ posts: DataSnapshot)-> Void )) {
         let query = postRef.queryOrdered(byChild: "author").queryEqual(toValue: userId)
         query.observeSingleEvent(of: .value) { (snapshot) in
             if snapshot.exists() {
-                for child in snapshot.children{
-                    let snap = child as! DataSnapshot
-                    let id = snap.key
-                    let author = snap.childSnapshot(forPath: "author").value as? String ?? "No author"
-                    let title = snap.childSnapshot(forPath: "title").value as? String ?? "No title"
-                    let text = snap.childSnapshot(forPath: "text").value as? String ?? "No text"
-                    let time = snap.childSnapshot(forPath: "timestamp").value as? Double ?? 1
-                    let date = Date(timeIntervalSince1970: time/1000)
-                    let timestamp = date.shortTimeAgoSinceNow + " ago"
-                    posts.append(Post.init(id: id, author: author, title: title, text: text, timestamp: timestamp, subject: "local"))
-                }
-                completionblock(posts)
+                completionblock(snapshot)
             } else {
                 print("No posts found")
             }
         }
+    }
+    // retrieve all Replies created by a User as a Reply snapshot given User's posts Snapshot
+    static func fetchUserReplyData(_ userPosts: DataSnapshot, completionblock: @escaping ((_ data: DataSnapshot)-> Void )) {
+        if userPosts.exists() {
+            for child in userPosts.children{
+                let snap = child as! DataSnapshot
+                let replies = snap.childSnapshot(forPath: "replies")
+                for reply in replies.children {
+                    let x = reply as! DataSnapshot
+                    print(x.childSnapshot(forPath: "rated"))
+                }
+                //getRatings(ratings: ratings)
+            }
+        }
+//        let query = postRef.child("rated").queryEqual(toValue: "rated")
+//        query.observeSingleEvent(of: .value) { (snapshot) in
+//            if snapshot.exists() {
+//                completionblock(snapshot)
+//            } else {
+//                print("No posts found")
+//            }
+//        }
     }
     // Retrieve all posts as snapshot
     static func fetchPostsData(completionblock: @escaping ((_ data: DataSnapshot)-> Void )) {
@@ -166,7 +176,7 @@ class AnonFB {  // Singleton class for managing Firebase Events.
             print("No posts found")
         }
     }
-    // Delete a Post from FIrebase
+    // Delete a Post from Firebase
     static func deletePost(_ postId: String!, completionblock: @escaping ((_ error: Error?)-> Void )) {
         let deleteRef = postRef.child(postId!)
         deleteRef.removeValue() { error, completed  in

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -190,7 +191,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dnT-sq-jjC">
-                                <rect key="frame" x="0.0" y="111" width="414" height="625"/>
+                                <rect key="frame" x="0.0" y="155" width="414" height="581"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ReplyCell" rowHeight="96" id="KJ0-SN-Ggg" customClass="ReplyCell" customModule="AnonAdvice">
@@ -301,20 +302,20 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title of the post" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gz3-uH-MDQ">
-                                <rect key="frame" x="94" y="28" width="300" height="20.333333333333329"/>
+                                <rect key="frame" x="94" y="72" width="300" height="20.333333333333329"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9ox-0U-zTd">
-                                <rect key="frame" x="11" y="29" width="75" height="75"/>
+                                <rect key="frame" x="11" y="73" width="75" height="75"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="75" id="QXw-Db-guu"/>
                                     <constraint firstAttribute="height" constant="75" id="rwj-Oa-abI"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Author's post for help here." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TvZ-b5-eC4">
-                                <rect key="frame" x="94" y="56.333333333333336" width="300" height="20.333333333333336"/>
+                                <rect key="frame" x="94" y="100.33333333333333" width="300" height="20.333333333333329"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -629,7 +630,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PostCell" rowHeight="107" id="jbu-o7-2d8" customClass="PostCell" customModule="AnonAdvice" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserPostCell" rowHeight="107" id="jbu-o7-2d8" customClass="UserPostCell" customModule="AnonAdvice">
                                         <rect key="frame" x="0.0" y="28" width="414" height="107"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jbu-o7-2d8" id="xeq-GW-jTC">
@@ -660,8 +661,8 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="postTextLabel" destination="mEt-D8-ocg" id="13k-eW-agk"/>
-                                            <outlet property="titleLabel" destination="97L-Hy-JRo" id="47k-z9-LRw"/>
+                                            <outlet property="postTextLabel" destination="mEt-D8-ocg" id="Lfa-ov-wXL"/>
+                                            <outlet property="titleLabel" destination="97L-Hy-JRo" id="ENB-iK-ZDb"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -709,7 +710,7 @@
                         <outlet property="emailLabel" destination="LlB-De-fo5" id="Pg1-g8-kvl"/>
                         <outlet property="tableView" destination="gZ5-3H-fw8" id="ymj-lv-Qib"/>
                         <segue destination="BYZ-38-t0r" kind="showDetail" identifier="tooManyWrongAttemptsLogOutSegue" id="6b6-2z-6B1"/>
-                        <segue destination="4dm-0A-9iR" kind="presentation" identifier="userPost" id="Tdg-Ja-GR4"/>
+                        <segue destination="jgf-W4-hof" kind="show" identifier="userPost" id="aYb-1E-4nK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="We9-EN-8bn" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -718,9 +719,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="nGz-dA-NWZ"/>
+        <segue reference="aYb-1E-4nK"/>
         <segue reference="UiA-7p-fkG"/>
-        <segue reference="Tdg-Ja-GR4"/>
         <segue reference="6b6-2z-6B1"/>
     </inferredMetricsTieBreakers>
 </document>
