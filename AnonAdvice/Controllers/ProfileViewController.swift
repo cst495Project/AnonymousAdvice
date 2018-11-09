@@ -8,10 +8,15 @@
 
 import UIKit
 import Firebase
-import FirebaseAuth
-import FirebaseDatabase
+import SCLAlertView
 
 class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CellTapped {
+    
+    // TODO:
+    // Get deletion of a post working
+    // Fix tableview not scrolling and cells not selecting?
+    // Highlight a cell when post has been replied to
+    // Add total advice scores
     
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
@@ -23,6 +28,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     let userRef = Database.database().reference().child("users")
     let currentUser = Auth.auth().currentUser
     var userId: String!
+    var postID: String!
+    var selectedPostId: String!
     let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.extraLight))
     let theView = VerifyUserView()
     
@@ -32,14 +39,15 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.reloadData()
+        tableView.estimatedRowHeight = 50
+        tableView.rowHeight = UITableViewAutomaticDimension
         
         emailLabel.text = currentUser?.email
        
-        getUsersCity()
-        getPosts()
         blurLayout()
         logInScreen()
+        getUsersCity()
+        getPosts()
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -50,17 +58,44 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as! PostCell
         cell.titleLabel.text = posts[indexPath.row].title
         cell.postTextLabel.text = posts[indexPath.row].text
-        
+        //cell.timestampLabel.text = posts[indexPath.row].timestamp
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        postID = posts[indexPath.row].id
+        performSegue(withIdentifier: "userPost", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "userPost") {
+            let dest = segue.destination as! UINavigationController
+            let pvc = dest.topViewController as! PostViewController
+            pvc.postId = postID
+        }
     }
     
     func getPosts() {
         let current = Auth.auth().currentUser!.uid
         AnonFB.fetchUserPosts(userId: current) { (Post) in
             self.posts = Post
-            print(self.posts)
             self.tableView.reloadData()
         }
+    }
+    
+    @IBAction func onDelete(_ sender: Any) {
+        let alert = SCLAlertView()
+        alert.addButton("Delete") {
+            AnonFB.deletePost(self.selectedPostId!, completionblock: { (Error) in
+                if Error != nil {
+                    print(Error?.localizedDescription as Any)
+                } else {
+                    self.tableView.reloadData()
+                }
+            })
+        }
+        alert.showWarning("Confirmation Needed", subTitle: "Are you sure you want to delete your post?")
     }
     
     func logInScreen(){
@@ -74,7 +109,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     func getUsersCity(){
         userRef.child((currentUser?.uid)!).observeSingleEvent(of: .value) { (snapshot) in
-        self.cityLabel.text = snapshot.childSnapshot(forPath: "city").value as? String ?? "Unknown"
+            self.cityLabel.text = snapshot.childSnapshot(forPath: "city").value as? String ?? "Unknown"
         }
     }
   

@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Firebase
+import SCLAlertView
 
 class PostCell: UITableViewCell {
     

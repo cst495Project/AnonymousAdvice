@@ -181,7 +181,7 @@
             </objects>
             <point key="canvasLocation" x="1488.8" y="35.532233883058474"/>
         </scene>
-        <!--Your Post-->
+        <!--Anon Post-->
         <scene sceneID="9CI-qN-AcI">
             <objects>
                 <viewController storyboardIdentifier="PostViewController" id="4dm-0A-9iR" customClass="PostViewController" customModule="AnonAdvice" sceneMemberID="viewController">
@@ -190,7 +190,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dnT-sq-jjC">
-                                <rect key="frame" x="0.0" y="155" width="414" height="581"/>
+                                <rect key="frame" x="0.0" y="111" width="414" height="625"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ReplyCell" rowHeight="96" id="KJ0-SN-Ggg" customClass="ReplyCell" customModule="AnonAdvice">
@@ -301,20 +301,20 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title of the post" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gz3-uH-MDQ">
-                                <rect key="frame" x="94" y="72" width="300" height="20.333333333333329"/>
+                                <rect key="frame" x="94" y="28" width="300" height="20.333333333333329"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9ox-0U-zTd">
-                                <rect key="frame" x="11" y="73" width="75" height="75"/>
+                                <rect key="frame" x="11" y="29" width="75" height="75"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="75" id="QXw-Db-guu"/>
                                     <constraint firstAttribute="height" constant="75" id="rwj-Oa-abI"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Author's post for help here." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TvZ-b5-eC4">
-                                <rect key="frame" x="94" y="100.33333333333333" width="300" height="20.333333333333329"/>
+                                <rect key="frame" x="94" y="56.333333333333336" width="300" height="20.333333333333336"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -339,7 +339,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="OQN-lr-E7f"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Your Post" id="hVS-3R-mfW">
+                    <navigationItem key="navigationItem" title="Anon Post" id="hVS-3R-mfW">
                         <barButtonItem key="leftBarButtonItem" style="plain" id="30D-ld-Aur">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="fAw-O0-bUK">
                                 <rect key="frame" x="20" y="7" width="92" height="30"/>
@@ -354,7 +354,7 @@
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="pht-9l-RTP">
                                 <rect key="frame" x="302" y="7" width="92" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
+                                <state key="normal" title="Reply"/>
                                 <connections>
                                     <action selector="onRightButton:" destination="4dm-0A-9iR" eventType="touchUpInside" id="taT-oa-yZe"/>
                                 </connections>
@@ -386,19 +386,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title of Parent Post" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kmI-yK-8NO">
-                                <rect key="frame" x="8" y="72" width="146" height="21"/>
+                                <rect key="frame" x="8" y="28" width="146" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text of Parent Post" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VU3-l0-GCq">
-                                <rect key="frame" x="8" y="101" width="145" height="21"/>
+                                <rect key="frame" x="8" y="57" width="145" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="W83-2q-d31">
-                                <rect key="frame" x="8" y="174" width="398" height="416"/>
+                                <rect key="frame" x="8" y="130" width="398" height="460"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -709,6 +709,7 @@
                         <outlet property="emailLabel" destination="LlB-De-fo5" id="Pg1-g8-kvl"/>
                         <outlet property="tableView" destination="gZ5-3H-fw8" id="ymj-lv-Qib"/>
                         <segue destination="BYZ-38-t0r" kind="showDetail" identifier="tooManyWrongAttemptsLogOutSegue" id="6b6-2z-6B1"/>
+                        <segue destination="4dm-0A-9iR" kind="presentation" identifier="userPost" id="Tdg-Ja-GR4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="We9-EN-8bn" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -719,6 +720,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="nGz-dA-NWZ"/>
         <segue reference="UiA-7p-fkG"/>
+        <segue reference="Tdg-Ja-GR4"/>
         <segue reference="6b6-2z-6B1"/>
     </inferredMetricsTieBreakers>
 </document>

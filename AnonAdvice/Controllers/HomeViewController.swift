@@ -9,7 +9,6 @@
 import UIKit
 import Firebase
 import DateToolsSwift
-import FirebaseDatabase
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -53,7 +52,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.fetchLocalPosts()
         }
     }
-
     
     @IBAction func onCompose(_ sender: Any) {
         self.performSegue(withIdentifier: "composeSegue", sender: self)
@@ -80,57 +78,25 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         return cell
     }
     
-    func fetchWorldPosts(){
-        var np: [Post] = []
-        postRef.observeSingleEvent(of: .value) { (snapshot) in
-            for child in snapshot.children{
-                let snap = child as! DataSnapshot
-                
-                let id = snap.key
-                let author = snap.childSnapshot(forPath: "author").value as? String ?? "No author"
-                
-                let title = snap.childSnapshot(forPath: "title").value as? String ?? "No title"
-                let text = snap.childSnapshot(forPath: "text").value as? String ?? "No text"
-                
-                let time = snap.childSnapshot(forPath: "timestamp").value as? Double ?? 1
-                let date = Date(timeIntervalSince1970: time/1000)
-                let timestamp = date.shortTimeAgoSinceNow + " ago"
-               
-                np.append(Post.init(id: id, author: author, title: title, text: text, timestamp: timestamp, subject: "local"))
-                
-            }
-            self.posts = np.reversed()
-            self.tableView.reloadData()
-            
-            self.refreshControl.endRefreshing()
-            self.activityIndicator.stopAnimating()
+    func fetchWorldPosts() {
+        AnonFB.fetchPostsData { (snapshot) in
+            AnonFB.getPostsInfo(snapshot, completionblock: { (Post) in
+                self.posts = Post.reversed()
+                self.tableView.reloadData()
+                self.refreshControl.endRefreshing()
+                self.activityIndicator.stopAnimating()
+            })
         }
     }
     
     func fetchLocalPosts(){
-        var newPosts: [Post] = []
-        let query = postRef.queryOrdered(byChild: "city").queryEqual(toValue: self.currentUserCity)
-        query.observeSingleEvent(of: .value) { (snapshot) in
-            for child in snapshot.children{
-                let snap = child as! DataSnapshot
-                let id = snap.key
-                let author = snap.childSnapshot(forPath: "author").value as? String ?? "No author"
-                
-                let title = snap.childSnapshot(forPath: "title").value as? String ?? "No title"
-                let text = snap.childSnapshot(forPath: "text").value as? String ?? "No text"
-                
-                let time = snap.childSnapshot(forPath: "timestamp").value as? Double ?? 1
-                let date = Date(timeIntervalSince1970: time/1000)
-                let timestamp = date.shortTimeAgoSinceNow + " ago"
-                
-                newPosts.append(Post.init(id: id, author: author, title: title, text: text, timestamp: timestamp, subject: "local"))
-            }
-            self.posts = newPosts.reversed()
-            self.tableView.reloadData()
-            
-            self.refreshControl.endRefreshing()
-            self.activityIndicator.stopAnimating()
-            
+        AnonFB.fetchLocalPosts(self.currentUserCity) { (snapshot) in
+            AnonFB.getPostsInfo(snapshot, completionblock: { (Post) in
+                self.posts = Post.reversed()
+                self.tableView.reloadData()
+                self.refreshControl.endRefreshing()
+                self.activityIndicator.stopAnimating()
+            })
         }
     }
     

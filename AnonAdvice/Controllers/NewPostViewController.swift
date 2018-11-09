@@ -8,8 +8,6 @@
 
 import UIKit
 import Firebase
-import FirebaseAuth
-import FirebaseDatabase
 import SCLAlertView
 
 class NewPostViewController: UIViewController {
@@ -19,14 +17,11 @@ class NewPostViewController: UIViewController {
     
     let current = Auth.auth().currentUser!.uid
     var currentUserCity: String!
-
     var postId: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         getUsersCity()
-        
-        
     }
     
     func getUsersCity(){
@@ -45,7 +40,6 @@ class NewPostViewController: UIViewController {
                 "timestamp": [".sv": "timestamp"],
                 "city" : currentUserCity!
                 ] as [String: Any]
-            
             postRef.setValue(postObject, withCompletionBlock: { error, ref in
                 if error == nil {
                     self.postId = postRef.key
