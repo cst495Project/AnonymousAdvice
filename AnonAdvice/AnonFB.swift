@@ -36,8 +36,7 @@ class AnonFB {  // Singleton class for managing Firebase Events.
                     "username": email,
                     "city": city,
                     "timestamp": [".sv": "timestamp"],
-                    "good": 0,
-                    "bad": 0 ] as [String: Any]
+                    "score": ["good": 0, "bad": 0] ] as [String: Any]
                 self.usersRef.child(user!.user.uid).setValue(userObject)
                 completionBlock(error)
             }else{
@@ -94,20 +93,14 @@ class AnonFB {  // Singleton class for managing Firebase Events.
         }
     }
     // retrieve a User's total Advice Score (good and bad)
-    static func fetchUserAdviceScore(_ userId: String!, completionblock: @escaping ((_ data: DataSnapshot)-> Void )) {
-        let userReplyRef = usersRef.child(userId).child("replies")
-        userReplyRef.observeSingleEvent(of: .value) { (snapshot) in
+    static func fetchUserAdviceScore(_ userId: String!, completionblock: @escaping ((_ scores: [String: Int])-> Void )) {
+        var scores = [ "good": 0, "bad": 0 ] as [String: Int]
+        let scoreRef = usersRef.child(userId).child("score")
+        scoreRef.observeSingleEvent(of: .value) { (snapshot) in
             if snapshot.exists() {
-                for child in snapshot.children {
-                    let snap = child as! DataSnapshot
-                    let replyRef = postRef.child(snap.key).child("replies")
-                    replyRef.observeSingleEvent(of: .value, with: { (replySnapshot) in
-                        for reply in replySnapshot.children {
-                            let r = reply as! DataSnapshot
-                            // read each reply rated section
-                        }
-                    })
-                }
+                scores["good"] = snapshot.childSnapshot(forPath: "good").value as? Int
+                scores["bad"] = snapshot.childSnapshot(forPath: "bad").value as? Int
+                completionblock(scores)
             } else {
                 print("No data found")
             }
@@ -251,8 +244,8 @@ class AnonFB {  // Singleton class for managing Firebase Events.
             ] as [String: Any]
         replyRef.setValue(commentObject, withCompletionBlock: { error, ref  in
             if error == nil {
-                let user = usersRef.child(current).child("comments")
-                user.child(replyRef.key!).setValue(comment)
+//                let user = usersRef.child(current).child("comments")
+//                user.child(replyRef.key!).setValue(comment)
                 completionblock(error)
             } else {
                 print(error?.localizedDescription as Any)

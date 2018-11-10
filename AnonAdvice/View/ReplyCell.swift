@@ -55,14 +55,20 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
                 self.currentRating = snapshot.value! as? String
                 if self.currentRating == "good" && sender == self.badTapGesture {
                     self.rate(type: "bad")
+                    self.increaseScore(type: "bad")
+                    self.decreaseScore(type: self.currentRating)
                 } else if self.currentRating == "bad" && sender == self.goodTapGesture {
                     self.rate(type: "good")
+                    self.increaseScore(type: "good")
+                    self.decreaseScore(type: self.currentRating)
                 }
             } else {
                 if sender == self.goodTapGesture {
                     self.rate(type: "good")
+                    self.increaseScore(type: "good")
                 } else {
                     self.rate(type: "bad")
+                    self.increaseScore(type: "bad")
                 }
             }
         })
@@ -75,6 +81,30 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
                 self.delegate?.cellDelegate()
             } else {
                 print(error?.localizedDescription as Any)
+            }
+        })
+    }
+    
+    func increaseScore(type: String!) {
+        let userRef = Database.database().reference().child("users").child(self.reply.author).child("score").child(type)
+        userRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.exists() {
+                let score = snapshot.value as? Int
+                userRef.setValue(score! + 1)
+            } else {
+                userRef.setValue(1)
+            }
+        })
+    }
+    
+    func decreaseScore(type: String!) {
+        let userRef = Database.database().reference().child("users").child(self.reply.author).child("score").child(type)
+        userRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.exists() {
+                let score = snapshot.value! as? Int
+                if score! > 0 {
+                    userRef.setValue(score! - 1)
+                }
             }
         })
     }

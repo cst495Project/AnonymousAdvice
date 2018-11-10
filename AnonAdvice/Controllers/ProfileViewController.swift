@@ -16,12 +16,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     // Get deletion of a post working
     // Fix tableview not scrolling and cells not selecting?
     // Highlight a cell when post has been replied to
-    // Add total advice scores
     
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
-
+    @IBOutlet weak var goodLabel: UILabel!
+    @IBOutlet weak var badLabel: UILabel!
+    
     var posts: [Post] = []
     var currentUserPost: String!
     let postRef = Database.database().reference().child("posts")
@@ -43,7 +44,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.rowHeight = UITableViewAutomaticDimension
         
         emailLabel.text = currentUser?.email
-       
+        AnonFB.fetchUserAdviceScore(currentUser!.uid) { (scores) in
+            self.goodLabel.text = String(scores["good"]!)
+            self.badLabel.text = String(scores["bad"]!)
+        }
         //blurLayout()
         //logInScreen()
         getUsersCity()
