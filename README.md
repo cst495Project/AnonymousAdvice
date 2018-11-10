@@ -29,7 +29,7 @@ The following **stretch** features are implemented:
 - [ ]  User can view open threads they have given advice on.
 - [X]  User can rate advice good or bad.
 - [ ]  User can select the best advice on their own post.
-- [ ]  Users have a total advice score (good or bad advice points)
+- [X]  Users have a total advice score (good or bad advice points)
 - [ ]  Posts in the local or global section are sorted by popularity or newest.
 - [ ]  Advice in a post is sorted by good or bad rating.
 - [ ]  Views can be switched to night mode.
