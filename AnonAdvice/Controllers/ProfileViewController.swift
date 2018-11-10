@@ -78,12 +78,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func getPosts() {
         let current = Auth.auth().currentUser!.uid
-        AnonFB.fetchUserPosts(userId: current) { (Post) in
+        AnonFB.fetchUserPosts(current) { (Post) in
             AnonFB.getPostsInfo(Post, completionblock: { (Post) in
                 self.posts = Post
                 self.tableView.reloadData()
             })
-            AnonFB.fetchUserReplyData(Post) { (snapshot) in
+            AnonFB.fetchUserAdviceScore(current) { (snapshot) in
                 
             }
         }

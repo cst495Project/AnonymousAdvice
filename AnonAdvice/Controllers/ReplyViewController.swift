@@ -38,6 +38,8 @@ class ReplyViewController: UIViewController {
                 ] as [String: Any]
             replyRef.setValue(replyObject, withCompletionBlock: { error, ref in
                 if error == nil {
+                    let user = Database.database().reference().child("users").child(current).child("replies")
+                    user.child(replyRef.key!).setValue(self.replyTextView.text!)
                     self.dismiss(animated: true, completion: nil)
                 } else {
                     print(error?.localizedDescription as Any)

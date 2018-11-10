@@ -83,7 +83,7 @@ class AnonFB {  // Singleton class for managing Firebase Events.
         }
     }
     // Retrieve all Posts created by a User as Post snapshot
-    static func fetchUserPosts(userId: String!, completionblock: @escaping ((_ posts: DataSnapshot)-> Void )) {
+    static func fetchUserPosts(_ userId: String!, completionblock: @escaping ((_ posts: DataSnapshot)-> Void )) {
         let query = postRef.queryOrdered(byChild: "author").queryEqual(toValue: userId)
         query.observeSingleEvent(of: .value) { (snapshot) in
             if snapshot.exists() {
@@ -93,27 +93,25 @@ class AnonFB {  // Singleton class for managing Firebase Events.
             }
         }
     }
-    // retrieve all Replies created by a User as a Reply snapshot given User's posts Snapshot
-    static func fetchUserReplyData(_ userPosts: DataSnapshot, completionblock: @escaping ((_ data: DataSnapshot)-> Void )) {
-        if userPosts.exists() {
-            for child in userPosts.children{
-                let snap = child as! DataSnapshot
-                let replies = snap.childSnapshot(forPath: "replies")
-                for reply in replies.children {
-                    let x = reply as! DataSnapshot
-                    print(x.childSnapshot(forPath: "rated"))
+    // retrieve a User's total Advice Score (good and bad)
+    static func fetchUserAdviceScore(_ userId: String!, completionblock: @escaping ((_ data: DataSnapshot)-> Void )) {
+        let userReplyRef = usersRef.child(userId).child("replies")
+        userReplyRef.observeSingleEvent(of: .value) { (snapshot) in
+            if snapshot.exists() {
+                for child in snapshot.children {
+                    let snap = child as! DataSnapshot
+                    let replyRef = postRef.child(snap.key).child("replies")
+                    replyRef.observeSingleEvent(of: .value, with: { (replySnapshot) in
+                        for reply in replySnapshot.children {
+                            let r = reply as! DataSnapshot
+                            // read each reply rated section
+                        }
+                    })
                 }
-                //getRatings(ratings: ratings)
+            } else {
+                print("No data found")
             }
         }
-//        let query = postRef.child("rated").queryEqual(toValue: "rated")
-//        query.observeSingleEvent(of: .value) { (snapshot) in
-//            if snapshot.exists() {
-//                completionblock(snapshot)
-//            } else {
-//                print("No posts found")
-//            }
-//        }
     }
     // Retrieve all posts as snapshot
     static func fetchPostsData(completionblock: @escaping ((_ data: DataSnapshot)-> Void )) {
@@ -126,7 +124,7 @@ class AnonFB {  // Singleton class for managing Firebase Events.
         }
     }
     // Retrieve a Post Object from a postId
-    static func fetchPost(postId: String!, completionblock: @escaping ((_ post: Post)-> Void )) {
+    static func fetchPost(_ postId: String!, completionblock: @escaping ((_ post: Post)-> Void )) {
         var post: Post!
         let singlePostRef = postRef.child(postId!)
         singlePostRef.observeSingleEvent(of: .value, with: { (snap) in
@@ -253,6 +251,8 @@ class AnonFB {  // Singleton class for managing Firebase Events.
             ] as [String: Any]
         replyRef.setValue(commentObject, withCompletionBlock: { error, ref  in
             if error == nil {
+                let user = usersRef.child(current).child("comments")
+                user.child(replyRef.key!).setValue(comment)
                 completionblock(error)
             } else {
                 print(error?.localizedDescription as Any)
