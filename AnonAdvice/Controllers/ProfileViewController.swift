@@ -10,11 +10,9 @@ import UIKit
 import Firebase
 import SCLAlertView
 
-class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CellTapped {
+class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CellTapped{
     
     // TODO:
-    // Get deletion of a post working
-    // Fix tableview not scrolling and cells not selecting?
     // Highlight a cell when post has been replied to
     
     @IBOutlet weak var emailLabel: UILabel!
@@ -62,7 +60,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         let cell = tableView.dequeueReusableCell(withIdentifier: "UserPostCell", for: indexPath) as! UserPostCell
         cell.titleLabel.text = posts[indexPath.row].title
         cell.postTextLabel.text = posts[indexPath.row].text
-        //cell.timestampLabel.text = posts[indexPath.row].timestamp
+        cell.timestampLabel.text = posts[indexPath.row].timestamp
+        AnonFB.getReplyCount(posts[indexPath.row].id, completionblock: { (count) in
+            cell.replyLabel.text = "Replies: \(String(count))"
+        })
         return cell
     }
     
@@ -70,6 +71,21 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.deselectRow(at: indexPath, animated: true)
         postID = posts[indexPath.row].id
         performSegue(withIdentifier: "userPost", sender: nil)
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            deletePost(indexPath: indexPath) {
+                tableView.beginUpdates()
+                self.posts.remove(at: indexPath.row)
+                self.tableView.deleteRows(at: [indexPath], with: .automatic)
+                tableView.endUpdates()
+            }
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -84,23 +100,29 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         let current = Auth.auth().currentUser!.uid
         AnonFB.fetchUserPosts(current) { (Post) in
             AnonFB.getPostsInfo(Post, completionblock: { (Post) in
-                self.posts = Post
+                self.posts = Post.reversed()
                 self.tableView.reloadData()
             })
-            AnonFB.fetchUserAdviceScore(current) { (snapshot) in
-                
-            }
         }
     }
     
-    @IBAction func onDelete(_ sender: Any) {
+    func deletePost(indexPath: IndexPath, completionblock: @escaping (()-> Void )) {
         let alert = SCLAlertView()
         alert.addButton("Delete") {
-            AnonFB.deletePost(self.selectedPostId!, completionblock: { (Error) in
-                if Error != nil {
-                    print(Error?.localizedDescription as Any)
-                } else {
-                    self.tableView.reloadData()
+        let pid = self.posts[indexPath.row].id
+        AnonFB.deletePost(pid, completionblock: { (Error) in
+            if Error != nil {
+            print(Error?.localizedDescription as Any)
+            } else {
+                let current = Auth.auth().currentUser?.uid
+                let userRef = Database.database().reference().child("users").child(current!).child("posts").child(pid)
+                    userRef.removeValue()  { error, completed  in
+                        if error != nil {
+                            print(error?.localizedDescription as Any)
+                        } else {
+                            completionblock()
+                        }
+                    }
                 }
             })
         }

@@ -7,12 +7,15 @@
 //
 
 import UIKit
+import SCLAlertView
+import Firebase
 
 class UserPostCell: UITableViewCell {
     
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var postTextLabel: UILabel!
+    @IBOutlet weak var replyLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()

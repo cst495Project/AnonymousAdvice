@@ -136,7 +136,7 @@ class AnonFB {  // Singleton class for managing Firebase Events.
             }
         })
     }
-    // Retrieve all Local Posts as Post Objects
+    // Retrieve all Local Posts as Post Snapshot
     static func fetchLocalPosts(_ currentCity: String!, completionblock: @escaping ((_ snapshot: DataSnapshot)-> Void )) {
         let query = postRef.queryOrdered(byChild: "city").queryEqual(toValue: currentCity)
         query.observeSingleEvent(of: .value) { (snapshot) in
@@ -177,6 +177,20 @@ class AnonFB {  // Singleton class for managing Firebase Events.
                 completionblock(error)
             }
         }
+    }
+    // Retrieve the number of replies of a post
+    static func getReplyCount(_ postId: String!,  completionblock: @escaping ((_ count: UInt)-> Void )) {
+        var count: UInt!
+        let replyRef = postRef.child(postId!).child("replies")
+        replyRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.hasChildren() {
+                count = snapshot.childrenCount
+            } else {
+                count = 0
+                print("No replies found")
+            }
+            completionblock(count)
+        })
     }
     // Retrieve replies of a post as Reply Objects
     static func fetchReplies(_ postId: String!, completionblock: @escaping ((_ replies: [Reply])-> Void )) {

@@ -126,7 +126,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func getPostReplies() {
         AnonFB.fetchReplies(postId!) { (Replies) in
-            self.replies = Replies
+            self.replies = Replies.sorted(by: {$0.good > $1.good})
             self.tableView.reloadData()
         }
         self.refreshControl.endRefreshing()

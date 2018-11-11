@@ -224,7 +224,7 @@
                                                     <rect key="frame" x="91" y="0.0" width="39" height="30"/>
                                                     <state key="normal" title="Reply"/>
                                                     <connections>
-                                                        <action selector="onReply:" destination="KJ0-SN-Ggg" eventType="touchUpInside" id="d7u-st-HDF"/>
+                                                        <action selector="onReply:" destination="KJ0-SN-Ggg" eventType="touchUpInside" id="wvP-iA-ZFL"/>
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Replies: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Igg-Ro-4KQ">
@@ -637,30 +637,49 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="97L-Hy-JRo">
-                                                    <rect key="frame" x="14" y="0.0" width="374" height="21"/>
+                                                    <rect key="frame" x="8" y="33" width="36.333333333333336" height="21"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Post" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mEt-D8-ocg">
-                                                    <rect key="frame" x="14" y="25" width="374" height="20.333333333333329"/>
+                                                    <rect key="frame" x="8" y="62.000000000000007" width="398" height="20.333333333333336"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3d" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8wl-gW-if2">
+                                                    <rect key="frame" x="388.66666666666669" y="8" width="17.333333333333314" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Replies: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ZO-ao-sIX">
+                                                    <rect key="frame" x="8.0000000000000036" y="8" width="63.333333333333343" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" red="0.16754910379999999" green="0.55555610129999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="mEt-D8-ocg" secondAttribute="trailing" constant="26" id="9fM-91-lJh"/>
-                                                <constraint firstItem="mEt-D8-ocg" firstAttribute="top" secondItem="97L-Hy-JRo" secondAttribute="bottom" constant="4" id="Hic-16-Byj"/>
-                                                <constraint firstItem="97L-Hy-JRo" firstAttribute="leading" secondItem="xeq-GW-jTC" secondAttribute="leading" constant="14" id="TyP-2x-a04"/>
-                                                <constraint firstAttribute="trailing" secondItem="97L-Hy-JRo" secondAttribute="trailing" constant="26" id="ZDr-sq-Z1z"/>
-                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="mEt-D8-ocg" secondAttribute="bottom" constant="10.67" id="laq-hl-OST"/>
-                                                <constraint firstItem="mEt-D8-ocg" firstAttribute="leading" secondItem="xeq-GW-jTC" secondAttribute="leading" constant="14" id="tp2-5h-41i"/>
-                                                <constraint firstItem="97L-Hy-JRo" firstAttribute="top" secondItem="xeq-GW-jTC" secondAttribute="top" id="vTF-Vt-gMB"/>
+                                                <constraint firstItem="8ZO-ao-sIX" firstAttribute="leading" secondItem="xeq-GW-jTC" secondAttribute="leading" constant="8" id="4O3-bC-VaC"/>
+                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="mEt-D8-ocg" secondAttribute="bottom" constant="8" id="58r-98-CU4"/>
+                                                <constraint firstItem="8wl-gW-if2" firstAttribute="top" secondItem="xeq-GW-jTC" secondAttribute="top" constant="8" id="EMa-DZ-qlj"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="97L-Hy-JRo" secondAttribute="trailing" constant="20" symbolic="YES" id="NDp-hC-ncT"/>
+                                                <constraint firstItem="97L-Hy-JRo" firstAttribute="top" secondItem="8ZO-ao-sIX" secondAttribute="bottom" constant="8" id="NYx-MS-vrL"/>
+                                                <constraint firstItem="8wl-gW-if2" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8ZO-ao-sIX" secondAttribute="trailing" constant="8" symbolic="YES" id="QuE-Oa-NJr"/>
+                                                <constraint firstAttribute="trailing" secondItem="mEt-D8-ocg" secondAttribute="trailing" constant="8" id="Ugf-AG-Hkq"/>
+                                                <constraint firstItem="mEt-D8-ocg" firstAttribute="top" secondItem="97L-Hy-JRo" secondAttribute="bottom" constant="8" id="VbJ-2s-wtB"/>
+                                                <constraint firstItem="8ZO-ao-sIX" firstAttribute="top" secondItem="xeq-GW-jTC" secondAttribute="top" constant="8" id="YdR-op-913"/>
+                                                <constraint firstItem="mEt-D8-ocg" firstAttribute="leading" secondItem="xeq-GW-jTC" secondAttribute="leading" constant="8" id="k2T-Yv-URZ"/>
+                                                <constraint firstAttribute="trailing" secondItem="8wl-gW-if2" secondAttribute="trailing" constant="8" id="tUy-8t-dy8"/>
+                                                <constraint firstItem="97L-Hy-JRo" firstAttribute="leading" secondItem="xeq-GW-jTC" secondAttribute="leading" constant="8" id="uXc-qX-6Be"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="postTextLabel" destination="mEt-D8-ocg" id="Lfa-ov-wXL"/>
+                                            <outlet property="replyLabel" destination="8ZO-ao-sIX" id="8qY-HD-qjH"/>
+                                            <outlet property="timestampLabel" destination="8wl-gW-if2" id="Tva-Jq-xgW"/>
                                             <outlet property="titleLabel" destination="97L-Hy-JRo" id="ENB-iK-ZDb"/>
                                         </connections>
                                     </tableViewCell>
