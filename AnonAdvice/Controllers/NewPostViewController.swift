@@ -43,6 +43,8 @@ class NewPostViewController: UIViewController {
             postRef.setValue(postObject, withCompletionBlock: { error, ref in
                 if error == nil {
                     self.postId = postRef.key
+                    let user = Database.database().reference().child("users").child(self.current).child("posts")
+                    user.child(postRef.key!).setValue(self.titleLabel.text!)
                     self.performSegue(withIdentifier: "createPost", sender: self)
                 } else {
                     print(error?.localizedDescription as Any)

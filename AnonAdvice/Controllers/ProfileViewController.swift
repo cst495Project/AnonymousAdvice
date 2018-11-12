@@ -10,18 +10,17 @@ import UIKit
 import Firebase
 import SCLAlertView
 
-class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CellTapped {
+class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CellTapped{
     
     // TODO:
-    // Get deletion of a post working
-    // Fix tableview not scrolling and cells not selecting?
     // Highlight a cell when post has been replied to
-    // Add total advice scores
     
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
-
+    @IBOutlet weak var goodLabel: UILabel!
+    @IBOutlet weak var badLabel: UILabel!
+    
     var posts: [Post] = []
     var currentUserPost: String!
     let postRef = Database.database().reference().child("posts")
@@ -35,7 +34,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        theView.delegate = self
+        //theView.delegate = self
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -43,9 +42,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.rowHeight = UITableViewAutomaticDimension
         
         emailLabel.text = currentUser?.email
-       
-        blurLayout()
-        logInScreen()
+        AnonFB.fetchUserAdviceScore(currentUser!.uid) { (scores) in
+            self.goodLabel.text = String(scores["good"]!)
+            self.badLabel.text = String(scores["bad"]!)
+        }
+        //blurLayout()
+        //logInScreen()
         getUsersCity()
         getPosts()
     }
@@ -55,10 +57,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as! PostCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "UserPostCell", for: indexPath) as! UserPostCell
         cell.titleLabel.text = posts[indexPath.row].title
         cell.postTextLabel.text = posts[indexPath.row].text
-        //cell.timestampLabel.text = posts[indexPath.row].timestamp
+        cell.timestampLabel.text = posts[indexPath.row].timestamp
+        AnonFB.getReplyCount(posts[indexPath.row].id, completionblock: { (count) in
+            cell.replyLabel.text = "Replies: \(String(count))"
+        })
         return cell
     }
     
@@ -66,6 +71,21 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.deselectRow(at: indexPath, animated: true)
         postID = posts[indexPath.row].id
         performSegue(withIdentifier: "userPost", sender: nil)
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            deletePost(indexPath: indexPath) {
+                tableView.beginUpdates()
+                self.posts.remove(at: indexPath.row)
+                self.tableView.deleteRows(at: [indexPath], with: .automatic)
+                tableView.endUpdates()
+            }
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -78,20 +98,31 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func getPosts() {
         let current = Auth.auth().currentUser!.uid
-        AnonFB.fetchUserPosts(userId: current) { (Post) in
-            self.posts = Post
-            self.tableView.reloadData()
+        AnonFB.fetchUserPosts(current) { (Post) in
+            AnonFB.getPostsInfo(Post, completionblock: { (Post) in
+                self.posts = Post.reversed()
+                self.tableView.reloadData()
+            })
         }
     }
     
-    @IBAction func onDelete(_ sender: Any) {
+    func deletePost(indexPath: IndexPath, completionblock: @escaping (()-> Void )) {
         let alert = SCLAlertView()
         alert.addButton("Delete") {
-            AnonFB.deletePost(self.selectedPostId!, completionblock: { (Error) in
-                if Error != nil {
-                    print(Error?.localizedDescription as Any)
-                } else {
-                    self.tableView.reloadData()
+        let pid = self.posts[indexPath.row].id
+        AnonFB.deletePost(pid, completionblock: { (Error) in
+            if Error != nil {
+            print(Error?.localizedDescription as Any)
+            } else {
+                let current = Auth.auth().currentUser?.uid
+                let userRef = Database.database().reference().child("users").child(current!).child("posts").child(pid)
+                    userRef.removeValue()  { error, completed  in
+                        if error != nil {
+                            print(error?.localizedDescription as Any)
+                        } else {
+                            completionblock()
+                        }
+                    }
                 }
             })
         }

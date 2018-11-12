@@ -112,7 +112,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     // ******** DATABASE & SNAPSHOT CALLS ********
     
     func getPost() {
-        AnonFB.fetchPost(postId: postId!) { (post) in
+        AnonFB.fetchPost(postId!) { (post) in
             let urlBaseString = "https://api.adorable.io/avatars/75/\(post.author)"
             var urlMiddleString2 = self.postId!
             urlMiddleString2.remove(at: urlMiddleString2.startIndex)
@@ -126,7 +126,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func getPostReplies() {
         AnonFB.fetchReplies(postId!) { (Replies) in
-            self.replies = Replies
+            self.replies = Replies.sorted(by: {$0.good > $1.good})
             self.tableView.reloadData()
         }
         self.refreshControl.endRefreshing()

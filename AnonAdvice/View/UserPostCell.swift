@@ -1,18 +1,21 @@
 //
-//  PostCell.swift
+//  UserPostCell.swift
 //  AnonAdvice
 //
-//  Created by Jesus Andres Bernal Lopez on 10/24/18.
+//  Created by Devin Hight on 11/9/18.
 //  Copyright © 2018 AnonAdvice. All rights reserved.
 //
 
 import UIKit
+import SCLAlertView
+import Firebase
 
-class PostCell: UITableViewCell {
+class UserPostCell: UITableViewCell {
     
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var postTextLabel: UILabel!
+    @IBOutlet weak var replyLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
