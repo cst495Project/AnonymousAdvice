@@ -14,7 +14,6 @@ import FirebaseDatabase
 import FirebaseAuth
 
 class LogInViewController: UIViewController, GMSAutocompleteViewControllerDelegate {
-    
 
     @IBOutlet weak var logInSignUpSegmentedControl: UISegmentedControl!
     @IBOutlet weak var emailTextField: UITextField!
@@ -95,8 +94,8 @@ class LogInViewController: UIViewController, GMSAutocompleteViewControllerDelega
                         self.performSegue(withIdentifier: "loginSegue", sender: self)
                     } else {
                         self.errorMessageLabel.isHidden = false
-                        self.errorMessageLabel.text = Error?.localizedDescription ?? "Unknown error"
-                        print(Error?.localizedDescription ?? "Unknown error")
+                        self.errorMessageLabel.text = error?.localizedDescription ?? "Unknown error"
+                        print(error?.localizedDescription ?? "Unknown error")
                     }
                 }
             }else if password != confirmPasswordTextField.text{ // password do not match

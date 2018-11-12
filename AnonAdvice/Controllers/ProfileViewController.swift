@@ -42,10 +42,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.rowHeight = UITableViewAutomaticDimension
         
         emailLabel.text = currentUser?.email
-        AnonFB.fetchUserAdviceScore(currentUser!.uid) { (scores) in
-            self.goodLabel.text = String(scores["good"]!)
-            self.badLabel.text = String(scores["bad"]!)
-        }
+        
         verifyUserView.delegate = self
         
         cityLabel.isHidden = true
@@ -156,6 +153,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.isHidden = false
         emailLabel.isHidden = false
         cityLabel.isHidden = false
-        
+        AnonFB.fetchUserAdviceScore(currentUser!.uid) { (scores) in
+            self.goodLabel.text = String(scores["good"]!)
+            self.badLabel.text = String(scores["bad"]!)
+        }
     }
 }
