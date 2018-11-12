@@ -74,29 +74,15 @@ class LogInViewController: UIViewController, GMSAutocompleteViewControllerDelega
             }
         }else if logInSignUpButton.currentTitle == "Sign Up"{
             if password == confirmPasswordTextField.text && cityTextField.text != ""{
-                Auth.auth().createUser(withEmail: email, password: password) { (authResult: AuthDataResult?, error: Error?) in
-                    let user = authResult?.user.uid
-                    
-                    if user != nil{
-                        
-                        //Adding user to the database
-                        let ref = Database.database().reference().child("users")
-                        let userObject = [
-                            "username": self.emailTextField.text!,
-                            "city": self.cityTextField.text!,
-                            "timestamp": [".sv": "timestamp"],
-                            "good": 0,
-                            "bad": 0 ] as [String: Any]
-                        ref.child((user)!).setValue(userObject)
-                        
-                        //End database entry
-                        
+                AnonFB.signUpUser(email, password: password, city: cityTextField.text!) { (Error) in
+                    if Error == nil {
                         self.performSegue(withIdentifier: "loginSegue", sender: self)
                     } else {
                         self.errorMessageLabel.isHidden = false
-                        self.errorMessageLabel.text = error?.localizedDescription ?? "Unknown error"
-                        print(error?.localizedDescription ?? "Unknown error")
+                        self.errorMessageLabel.text = Error?.localizedDescription ?? "Unknown error"
+                        print(Error?.localizedDescription ?? "Unknown error")
                     }
+                    
                 }
             }else if password != confirmPasswordTextField.text{ // password do not match
                 self.errorMessageLabel.isHidden = false
