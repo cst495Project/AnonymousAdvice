@@ -16,7 +16,7 @@ class VerifyUserView: UIView {
     
     let currentUser = Auth.auth().currentUser
     let userRef = Database.database().reference().child("users")
-    var delegate: CellTapped!
+    weak var delegate: LogInAttemptDelegate!
     var wrongAttempts = 2
     let localAuthenticationContext = LAContext()
     var authError: NSError?
@@ -86,7 +86,6 @@ class VerifyUserView: UIView {
         Auth.auth().signIn(withEmail: self.currentUser!.email!, password: password!) { (authData: AuthDataResult?, error: Error?) in
             if authData != nil{
                 self.delegate.successfullLogIn()
-//                self.visualEffectView.effect = nil
                 self.removeFromSuperview()
             }else{
                 self.errorMessageLabel.isHidden = false
@@ -102,7 +101,6 @@ class VerifyUserView: UIView {
                 print(logoutError.localizedDescription)
             }
             self.delegate.tooManyWrongAttempts()
-//            self.performSegue(withIdentifier: "tooManyWrongAttemptsLogOutSegue", sender: nil)
         }
     }
     
@@ -114,7 +112,6 @@ class VerifyUserView: UIView {
                     DispatchQueue.main.async {
                         self.delegate.successfullLogIn()
                         self.removeFromSuperview()
-//                        self.visualEffectView.effect = nil
                     }
                 }
             }
@@ -154,7 +151,7 @@ class VerifyUserView: UIView {
     }
 }
 
-protocol CellTapped: class {
+protocol LogInAttemptDelegate: class {
     func tooManyWrongAttempts()
     func successfullLogIn()
 }

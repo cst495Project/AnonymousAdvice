@@ -10,10 +10,7 @@ import UIKit
 import Firebase
 import SCLAlertView
 
-class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CellTapped{
-    
-    // TODO:
-    // Highlight a cell when post has been replied to
+class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, LogInAttemptDelegate {
     
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
@@ -30,12 +27,15 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     var postID: String!
     var selectedPostId: String!
     let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.extraLight))
-    let theView = VerifyUserView()
+    let verifyUserView = VerifyUserView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //theView.delegate = self
         
+        emailLabel.text = currentUser?.email
+        emailLabel.isHidden = true
+        
+        tableView.isHidden = true
         tableView.delegate = self
         tableView.dataSource = self
         tableView.estimatedRowHeight = 50
@@ -46,10 +46,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.goodLabel.text = String(scores["good"]!)
             self.badLabel.text = String(scores["bad"]!)
         }
-        //blurLayout()
-        //logInScreen()
+        verifyUserView.delegate = self
+        
+        cityLabel.isHidden = true
+
         getUsersCity()
         getPosts()
+        logInScreen()
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -130,12 +133,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func logInScreen(){
-        view.addSubview(theView)
-        theView.translatesAutoresizingMaskIntoConstraints = false
-        theView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        theView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        theView.heightAnchor.constraint(equalToConstant: 300).isActive = true
-        theView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        view.addSubview(verifyUserView)
+        verifyUserView.translatesAutoresizingMaskIntoConstraints = false
+        verifyUserView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        verifyUserView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        verifyUserView.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        verifyUserView.widthAnchor.constraint(equalToConstant: 300).isActive = true
     }
 
     func getUsersCity(){
@@ -143,21 +146,16 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.cityLabel.text = snapshot.childSnapshot(forPath: "city").value as? String ?? "Unknown"
         }
     }
-  
-    func blurLayout(){
-        view.addSubview(visualEffectView)
-        visualEffectView.translatesAutoresizingMaskIntoConstraints = false
-        visualEffectView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        visualEffectView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        visualEffectView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        visualEffectView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-    }
-    
+      
     func tooManyWrongAttempts() {
         self.performSegue(withIdentifier: "tooManyWrongAttemptsLogOutSegue", sender: nil)
     }
     
     func successfullLogIn() {
         self.visualEffectView.effect = nil
+        tableView.isHidden = false
+        emailLabel.isHidden = false
+        cityLabel.isHidden = false
+        
     }
 }
