@@ -127,9 +127,13 @@
 				6E67B6E22180C97900ABE358 /* PostCell.swift */,
 				7FB9ED882184FF7E008A029C /* ReplyCell.swift */,
 				6E24DFEC21934E2E00C5FAF2 /* VerifyUserView.swift */,
+<<<<<<< HEAD
 				164DEB952195EC6D0019B863 /* UserPostCell.swift */,
+||||||| merged common ancestors
+=======
 				6E4936AA2195FC0B00889799 /* SelectSubjectCollectionView.swift */,
 				6E4936AC2195FC4A00889799 /* SubjectCell.swift */,
+>>>>>>> fixed issue that made tableView static
 			);
 			path = View;
 			sourceTree = "<group>";
