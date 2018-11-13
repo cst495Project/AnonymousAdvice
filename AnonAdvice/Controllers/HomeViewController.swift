@@ -25,8 +25,18 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var refreshControl = UIRefreshControl()
     
+    let subjectSelector = SubjectSelector()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.addSubview(subjectSelector)
+        subjectSelector.translatesAutoresizingMaskIntoConstraints = false
+        subjectSelector.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 8).isActive = true
+        subjectSelector.bottomAnchor.constraint(equalTo: tableView.topAnchor).isActive = true
+        subjectSelector.leadingAnchor.constraint(equalTo: tableView.leadingAnchor).isActive = true
+        subjectSelector.trailingAnchor.constraint(equalTo: tableView.trailingAnchor).isActive = true
+        
         
         tableView.delegate = self
         tableView.dataSource = self

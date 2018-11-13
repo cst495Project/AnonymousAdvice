@@ -9,10 +9,12 @@
 import UIKit
 
 class SubjectCell: UICollectionViewCell {
-    private let textButton: UIButton = {
-        let b = UIButton()
-        b.translatesAutoresizingMaskIntoConstraints = false
-        return b
+    
+    let subjectLabel: UILabel = {
+        let l = UILabel()
+        l.translatesAutoresizingMaskIntoConstraints = false
+        l.textAlignment = .center
+        return l
     }()
     
     override init(frame: CGRect) {
@@ -20,13 +22,12 @@ class SubjectCell: UICollectionViewCell {
         layout()
     }
     
-    
     fileprivate func layout(){
-        addSubview(textButton)
-        textButton.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        textButton.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        textButton.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        textButton.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        addSubview(subjectLabel)
+        subjectLabel.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        subjectLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        subjectLabel.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        subjectLabel.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {
