@@ -22,36 +22,36 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var currentUserCity: String!
     var posts: [Post] = []
     var postID: String?
-    
     var refreshControl = UIRefreshControl()
-    
     let subjectSelector = SubjectSelector()
+    
+    let filterButton: UIButton = {
+        let b = UIButton()
+        b.translatesAutoresizingMaskIntoConstraints = false
+        b.setTitle("Filter", for: .normal)
+        b.setTitleColor(.black, for: .normal)
+        b.addTarget(self, action: #selector(fetchFilteredPosts), for: .touchUpInside)
+        return b
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.addSubview(subjectSelector)
-        subjectSelector.translatesAutoresizingMaskIntoConstraints = false
-        subjectSelector.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 8).isActive = true
-        subjectSelector.bottomAnchor.constraint(equalTo: tableView.topAnchor).isActive = true
-        subjectSelector.leadingAnchor.constraint(equalTo: tableView.leadingAnchor).isActive = true
-        subjectSelector.trailingAnchor.constraint(equalTo: tableView.trailingAnchor).isActive = true
-        
-        
+    
         tableView.delegate = self
         tableView.dataSource = self
         
-        segmentedControl.addTarget(self, action: #selector(indexChange), for: .valueChanged)
+        segmentedControl.addTarget(self, action: #selector(fetchFilteredPosts), for: .valueChanged)
         refreshControl.addTarget(self, action: #selector(HomeViewController.didPullToRefresh(_ :)), for: .valueChanged)
         
         getUsersCity()
-        
+        setUpView()
+
         tableView.insertSubview(refreshControl, at: 0)
         activityIndicator.startAnimating()
         
     }
-    @objc func didPullToRefresh(_ refreshControl: UIRefreshControl)
-    {
+    
+    @objc func didPullToRefresh(_ refreshControl: UIRefreshControl){
         activityIndicator.startAnimating()
         indexChange()
     }
@@ -59,7 +59,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func getUsersCity(){
         userRef.child(currentUser!).observeSingleEvent(of: .value) { (snapshot) in
             self.currentUserCity = (snapshot.childSnapshot(forPath: "city").value as? String ?? "")
-            self.fetchLocalPosts()
+            self.fetchFilteredPosts()
         }
     }
     
@@ -110,6 +110,28 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    @objc func fetchFilteredPosts(){
+        if subjectSelector.currentSelectedSubject() == "All"{
+            indexChange()
+            return
+        }
+        if segmentedControl.selectedSegmentIndex == 0{
+            AnonFB.fetchFilteredPosts(local: true ,self.currentUserCity, subjectSelector.currentSelectedSubject()) { (Post) in
+                self.posts = Post
+                self.tableView.reloadData()
+                self.refreshControl.endRefreshing()
+                self.activityIndicator.stopAnimating()
+            }
+        }else{
+            AnonFB.fetchFilteredPosts(local: false ,self.currentUserCity, subjectSelector.currentSelectedSubject()) { (Post) in
+                self.posts = Post
+                self.tableView.reloadData()
+                self.refreshControl.endRefreshing()
+                self.activityIndicator.stopAnimating()
+            }
+        }
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         postID = posts[indexPath.row].id
@@ -124,7 +146,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    @objc func indexChange() {
+    func indexChange() {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
             fetchLocalPosts()
@@ -133,6 +155,21 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         default:
             break;
         }
+    }
+    
+    fileprivate func setUpView(){
+        view.addSubview(subjectSelector)
+        subjectSelector.translatesAutoresizingMaskIntoConstraints = false
+        subjectSelector.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 8).isActive = true
+        subjectSelector.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        subjectSelector.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8).isActive = true
+        subjectSelector.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.7).isActive = true
+        
+        view.addSubview(filterButton)
+        filterButton.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 8).isActive = true
+        filterButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        filterButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8).isActive = true
+        filterButton.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.2).isActive = true
     }
 
 }

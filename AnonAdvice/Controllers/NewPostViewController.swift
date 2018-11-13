@@ -52,7 +52,8 @@ class NewPostViewController: UIViewController {
                 "title": titleLabel.text!,
                 "text": textView.text!,
                 "timestamp": [".sv": "timestamp"],
-                "city" : currentUserCity!
+                "city" : currentUserCity!,
+                "subject" : subjectSelector.currentSelectedSubject()
                 ] as [String: Any]
             postRef.setValue(postObject, withCompletionBlock: { error, ref in
                 if error == nil {

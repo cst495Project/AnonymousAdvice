@@ -128,8 +128,9 @@ class AnonFB {  // Singleton class for managing Firebase Events.
                 let text = snap.childSnapshot(forPath: "text").value as? String ?? "No text"
                 let time = snap.childSnapshot(forPath: "timestamp").value as? Double ?? 1
                 let date = Date(timeIntervalSince1970: time/1000)
+                let subject = snap.childSnapshot(forPath: "subject").value as? String ?? "No subject"
                 let timestamp = date.shortTimeAgoSinceNow + " ago"
-                post = Post.init(id: id, author: author, title: title, text: text, timestamp: timestamp, subject: "world")
+                post = Post.init(id: id, author: author, title: title, text: text, timestamp: timestamp, subject: subject)
                 completionblock(post)
             } else {
                 print("No post by that ID found")
@@ -148,6 +149,37 @@ class AnonFB {  // Singleton class for managing Firebase Events.
             }
         }
     }
+    
+    static func fetchFilteredPosts(local: Bool, _ currentCity: String!,_ subject: String, completionblock: @escaping ((_ snapshot: [Post])-> Void )) {
+        var posts: [Post] = []
+        var returned: [Post] = []
+        if local{
+            AnonFB.fetchLocalPosts(currentCity) { (DataSnapshot) in
+                AnonFB.getPostsInfo(DataSnapshot, completionblock: { (Post) in
+                    posts = Post.reversed()
+                    for posts in posts{
+                        if posts.subject == subject{
+                            returned.append(posts)
+                        }
+                    }
+                    completionblock(returned)
+                })
+            }
+        }else{
+            AnonFB.fetchPostsData { (DataSnapshot) in
+                AnonFB.getPostsInfo(DataSnapshot, completionblock: { (Post) in
+                    posts = Post.reversed()
+                    for posts in posts{
+                        if posts.subject == subject{
+                            returned.append(posts)
+                        }
+                    }
+                    completionblock(returned)
+                })
+            }
+        }
+        
+    }
     // Turn posts Snapshot into Post Objects
     static func getPostsInfo(_ snapshot: DataSnapshot, completionblock: @escaping ((_ posts: [Post])-> Void )) {
         var posts: [Post] = []
@@ -160,8 +192,9 @@ class AnonFB {  // Singleton class for managing Firebase Events.
                 let text = snap.childSnapshot(forPath: "text").value as? String ?? "No text"
                 let time = snap.childSnapshot(forPath: "timestamp").value as? Double ?? 1
                 let date = Date(timeIntervalSince1970: time/1000)
+                let subject = snap.childSnapshot(forPath: "subject").value as? String ?? "No subject"
                 let timestamp = date.shortTimeAgoSinceNow + " ago"
-                posts.append(Post.init(id: id, author: author, title: title, text: text, timestamp: timestamp, subject: "world"))
+                posts.append(Post.init(id: id, author: author, title: title, text: text, timestamp: timestamp, subject: subject))
             }
             completionblock(posts)
         } else {
