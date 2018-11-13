@@ -19,9 +19,23 @@ class NewPostViewController: UIViewController {
     var currentUserCity: String!
     var postId: String!
     
+    let subjectSelector = SubjectSelector()
+    let askAdviceButton = UIBarButtonItem(title: "Ask", style: .plain, target: self, action: #selector(onTapAskAdvice))
+
     override func viewDidLoad() {
         super.viewDidLoad()
         getUsersCity()
+        setUpView()
+        self.navigationItem.rightBarButtonItem = askAdviceButton
+    }
+    
+    fileprivate func setUpView(){
+        view.addSubview(subjectSelector)
+        subjectSelector.translatesAutoresizingMaskIntoConstraints = false
+        subjectSelector.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8).isActive = true
+        subjectSelector.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8).isActive = true
+        subjectSelector.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8).isActive = true
+        subjectSelector.heightAnchor.constraint(equalToConstant: 30).isActive = true
     }
     
     func getUsersCity(){
@@ -30,7 +44,7 @@ class NewPostViewController: UIViewController {
         }
     }
     
-    @IBAction func onTapAskAdvice(_ sender: Any) {
+    @objc func onTapAskAdvice() {
         if titleLabel.text != "" && textView.text != "" {
             let postRef = Database.database().reference().child("posts").childByAutoId()
             let postObject = [
