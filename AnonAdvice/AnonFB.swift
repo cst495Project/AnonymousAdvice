@@ -143,6 +143,7 @@ class AnonFB {  // Singleton class for managing Firebase Events.
             if snapshot.exists() {
                 completionblock(snapshot)
             } else {
+                completionblock(snapshot)
                 print("No posts found")
             }
         }
@@ -164,6 +165,7 @@ class AnonFB {  // Singleton class for managing Firebase Events.
             }
             completionblock(posts)
         } else {
+            completionblock(posts)
             print("No posts found")
         }
     }
