@@ -13,10 +13,10 @@
 		16001A3A2177963C00422107 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16001A382177963C00422107 /* LaunchScreen.storyboard */; };
 		164DEB962195EC6D0019B863 /* UserPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164DEB952195EC6D0019B863 /* UserPostCell.swift */; };
 		6E24DFED21934E2E00C5FAF2 /* VerifyUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E24DFEC21934E2E00C5FAF2 /* VerifyUserView.swift */; };
-		6E4936AB2195FC0B00889799 /* SelectSubjectCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4936AA2195FC0B00889799 /* SelectSubjectCollectionView.swift */; };
 		6E4936AD2195FC4A00889799 /* SubjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4936AC2195FC4A00889799 /* SubjectCell.swift */; };
 		6E4A5D07218CB6F70013F62A /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E4A5D06218CB6F70013F62A /* LocalAuthentication.framework */; };
 		6E67B6E32180C97A00ABE358 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E67B6E22180C97900ABE358 /* PostCell.swift */; };
+		6E7E1613219A4EB5001EF1E9 /* SubjectSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7E1612219A4EB5001EF1E9 /* SubjectSelector.swift */; };
 		6EE556E121779A3A009E0C92 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE556E021779A3A009E0C92 /* LogInViewController.swift */; };
 		6EE556E321779B4B009E0C92 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EE556E221779B4B009E0C92 /* GoogleService-Info.plist */; };
 		7F0AF2F9218457EA00DE0955 /* Reply.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0AF2F8218457EA00DE0955 /* Reply.swift */; };
@@ -44,10 +44,10 @@
 		164DEB952195EC6D0019B863 /* UserPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostCell.swift; sourceTree = "<group>"; };
 		3A449EAC7B0D43C41876EDE3 /* Pods-AnonAdvice.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnonAdvice.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AnonAdvice/Pods-AnonAdvice.debug.xcconfig"; sourceTree = "<group>"; };
 		6E24DFEC21934E2E00C5FAF2 /* VerifyUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyUserView.swift; sourceTree = "<group>"; };
-		6E4936AA2195FC0B00889799 /* SelectSubjectCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectSubjectCollectionView.swift; sourceTree = "<group>"; };
 		6E4936AC2195FC4A00889799 /* SubjectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectCell.swift; sourceTree = "<group>"; };
 		6E4A5D06218CB6F70013F62A /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		6E67B6E22180C97900ABE358 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
+		6E7E1612219A4EB5001EF1E9 /* SubjectSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SubjectSelector.swift; path = ../../../../SubjectSelector.swift; sourceTree = "<group>"; };
 		6EE556E021779A3A009E0C92 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		6EE556E221779B4B009E0C92 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7F0AF2F8218457EA00DE0955 /* Reply.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reply.swift; sourceTree = "<group>"; };
@@ -128,7 +128,7 @@
 				7FB9ED882184FF7E008A029C /* ReplyCell.swift */,
 				6E24DFEC21934E2E00C5FAF2 /* VerifyUserView.swift */,
 				164DEB952195EC6D0019B863 /* UserPostCell.swift */,
-				6E4936AA2195FC0B00889799 /* SelectSubjectCollectionView.swift */,
+				6E7E1612219A4EB5001EF1E9 /* SubjectSelector.swift */,
 				6E4936AC2195FC4A00889799 /* SubjectCell.swift */,
 			);
 			path = View;
@@ -327,8 +327,8 @@
 				6E67B6E32180C97A00ABE358 /* PostCell.swift in Sources */,
 				7F0AF2F9218457EA00DE0955 /* Reply.swift in Sources */,
 				7FB9ED9121850EA2008A029C /* ReplyViewController.swift in Sources */,
+				6E7E1613219A4EB5001EF1E9 /* SubjectSelector.swift in Sources */,
 				16001A302177963C00422107 /* AppDelegate.swift in Sources */,
-				6E4936AB2195FC0B00889799 /* SelectSubjectCollectionView.swift in Sources */,
 				6E4936AD2195FC4A00889799 /* SubjectCell.swift in Sources */,
 				7F14AAF3218D5E9C002F22FD /* Comment.swift in Sources */,
 				7F3E61DA2178464B0040AA93 /* User.swift in Sources */,

@@ -448,9 +448,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="KD5-kI-z0z">
-                                <rect key="frame" x="27" y="90" width="361" height="29"/>
+                                <rect key="frame" x="16" y="72" width="382" height="31"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="28" id="Ynh-TF-u4B"/>
+                                    <constraint firstAttribute="height" constant="30" id="Ynh-TF-u4B"/>
                                 </constraints>
                                 <segments>
                                     <segment title="Local"/>
@@ -458,7 +458,7 @@
                                 </segments>
                             </segmentedControl>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="SmQ-0K-gEV">
-                                <rect key="frame" x="0.0" y="126" width="414" height="566"/>
+                                <rect key="frame" x="0.0" y="164" width="414" height="528"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PostCell" rowHeight="103" id="nrU-wZ-pxf" customClass="PostCell" customModule="AnonAdvice" customModuleProvider="target">
@@ -521,13 +521,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="KD5-kI-z0z" firstAttribute="top" secondItem="m74-LT-pqp" secondAttribute="top" constant="26" id="2eD-Xh-iQS"/>
-                            <constraint firstItem="KD5-kI-z0z" firstAttribute="leading" secondItem="m74-LT-pqp" secondAttribute="leading" constant="27" id="INu-SZ-WfX"/>
+                            <constraint firstItem="KD5-kI-z0z" firstAttribute="top" secondItem="m74-LT-pqp" secondAttribute="top" constant="8" id="2eD-Xh-iQS"/>
+                            <constraint firstItem="KD5-kI-z0z" firstAttribute="leading" secondItem="m74-LT-pqp" secondAttribute="leading" constant="16" id="INu-SZ-WfX"/>
                             <constraint firstItem="SmQ-0K-gEV" firstAttribute="leading" secondItem="m74-LT-pqp" secondAttribute="leading" id="Oza-fF-5yD"/>
                             <constraint firstItem="SmQ-0K-gEV" firstAttribute="trailing" secondItem="m74-LT-pqp" secondAttribute="trailing" id="WV3-eh-e0m"/>
-                            <constraint firstItem="SmQ-0K-gEV" firstAttribute="top" secondItem="KD5-kI-z0z" secondAttribute="bottom" constant="8" id="ZEy-DN-jEG"/>
                             <constraint firstItem="SmQ-0K-gEV" firstAttribute="bottom" secondItem="m74-LT-pqp" secondAttribute="bottom" id="d13-UD-cMm"/>
-                            <constraint firstItem="m74-LT-pqp" firstAttribute="trailing" secondItem="KD5-kI-z0z" secondAttribute="trailing" constant="26" id="u2f-9f-uTe"/>
+                            <constraint firstItem="SmQ-0K-gEV" firstAttribute="top" secondItem="m74-LT-pqp" secondAttribute="top" constant="100" id="gAb-zY-fWO"/>
+                            <constraint firstItem="m74-LT-pqp" firstAttribute="trailing" secondItem="KD5-kI-z0z" secondAttribute="trailing" constant="16" id="u2f-9f-uTe"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="m74-LT-pqp"/>
                     </view>
@@ -779,6 +779,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="nGz-dA-NWZ"/>
         <segue reference="OHD-Cw-ih6"/>
-        <segue reference="6b6-2z-6B1"/>
+        <segue reference="zJj-dd-CYl"/>
     </inferredMetricsTieBreakers>
 </document>
