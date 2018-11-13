@@ -137,37 +137,28 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="T4f-Bh-VN2">
-                                <rect key="frame" x="8" y="110" width="398" height="396"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Post Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="s6v-K1-KrU">
-                                <rect key="frame" x="8" y="72" width="398" height="30"/>
+                                <rect key="frame" x="8" y="110" width="398" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="50t-qv-A6w">
-                                <rect key="frame" x="158" y="514" width="98" height="30"/>
-                                <state key="normal" title="Ask for advice"/>
-                                <connections>
-                                    <action selector="onTapAskAdvice:" destination="L6i-EM-0ri" eventType="touchUpInside" id="bPM-64-r4R"/>
-                                </connections>
-                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="T4f-Bh-VN2">
+                                <rect key="frame" x="8" y="148" width="398" height="368"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="s6v-K1-KrU" firstAttribute="leading" secondItem="IJM-Yp-r0E" secondAttribute="leading" constant="8" id="3So-Ry-h40"/>
-                            <constraint firstItem="50t-qv-A6w" firstAttribute="centerX" secondItem="fGL-Gh-Bsv" secondAttribute="centerX" id="3qP-O2-xn9"/>
-                            <constraint firstItem="IJM-Yp-r0E" firstAttribute="trailing" secondItem="T4f-Bh-VN2" secondAttribute="trailing" constant="8" id="5VN-93-QOn"/>
-                            <constraint firstItem="50t-qv-A6w" firstAttribute="top" secondItem="T4f-Bh-VN2" secondAttribute="bottom" constant="8" id="WOY-g4-L2v"/>
-                            <constraint firstItem="T4f-Bh-VN2" firstAttribute="top" secondItem="s6v-K1-KrU" secondAttribute="bottom" constant="8" id="b7m-3N-oa0"/>
-                            <constraint firstItem="IJM-Yp-r0E" firstAttribute="trailing" secondItem="s6v-K1-KrU" secondAttribute="trailing" constant="8" id="d4l-w0-AFN"/>
-                            <constraint firstItem="IJM-Yp-r0E" firstAttribute="bottom" secondItem="50t-qv-A6w" secondAttribute="bottom" constant="148" id="pk9-YR-P89"/>
-                            <constraint firstItem="T4f-Bh-VN2" firstAttribute="leading" secondItem="IJM-Yp-r0E" secondAttribute="leading" constant="8" id="qoi-Mp-BEe"/>
-                            <constraint firstItem="s6v-K1-KrU" firstAttribute="top" secondItem="IJM-Yp-r0E" secondAttribute="top" constant="8" id="zps-S4-gqD"/>
+                            <constraint firstItem="s6v-K1-KrU" firstAttribute="top" secondItem="IJM-Yp-r0E" secondAttribute="top" constant="46" id="4gP-wK-z02"/>
+                            <constraint firstItem="IJM-Yp-r0E" firstAttribute="trailing" secondItem="T4f-Bh-VN2" secondAttribute="trailing" constant="8" id="6XU-lO-xGK"/>
+                            <constraint firstItem="T4f-Bh-VN2" firstAttribute="height" secondItem="fGL-Gh-Bsv" secondAttribute="height" multiplier="1:2" id="IJG-rt-VPc"/>
+                            <constraint firstItem="s6v-K1-KrU" firstAttribute="leading" secondItem="IJM-Yp-r0E" secondAttribute="leading" constant="8" id="WKg-Y0-n8Q"/>
+                            <constraint firstItem="IJM-Yp-r0E" firstAttribute="trailing" secondItem="s6v-K1-KrU" secondAttribute="trailing" constant="8" id="caS-2a-uCZ"/>
+                            <constraint firstItem="T4f-Bh-VN2" firstAttribute="top" secondItem="s6v-K1-KrU" secondAttribute="bottom" constant="8" id="mFe-9J-vd3"/>
+                            <constraint firstItem="T4f-Bh-VN2" firstAttribute="leading" secondItem="IJM-Yp-r0E" secondAttribute="leading" constant="8" id="sdL-Z0-wsW"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="IJM-Yp-r0E"/>
                     </view>
@@ -777,7 +768,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="nGz-dA-NWZ"/>
+        <segue reference="7fz-g3-Xlc"/>
         <segue reference="OHD-Cw-ih6"/>
         <segue reference="zJj-dd-CYl"/>
     </inferredMetricsTieBreakers>
