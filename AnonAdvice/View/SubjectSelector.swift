@@ -37,6 +37,10 @@ class SubjectSelector: UIView, UICollectionViewDelegate, UICollectionViewDataSou
         collectionView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
     
+    func currentSelectedSubject() -> String{
+        return subjects[selectedIndex]
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return subjects.count
     }
@@ -45,6 +49,7 @@ class SubjectSelector: UIView, UICollectionViewDelegate, UICollectionViewDataSou
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! SubjectCell
         cell.subjectLabel.text = subjects[indexPath.row]
         if selectedIndex == indexPath.row{
+            
             cell.subjectLabel.backgroundColor = .blue
         }else{
             cell.subjectLabel.backgroundColor = .white
