@@ -23,15 +23,33 @@ class LogInViewController: UIViewController, GMSAutocompleteViewControllerDelega
     @IBOutlet weak var errorMessageLabel: UILabel!
     @IBOutlet weak var cityTextField: UITextField!
     @IBOutlet weak var cityButton: UIButton!
+    @IBOutlet var tableView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-            
+        
+        setBackground()
         logIn()
         logInSignUpSegmentedControl.addTarget(self, action: #selector(layout), for: .valueChanged)
         confirmPasswordTextField.isSecureTextEntry = true
         passwordTextField.isSecureTextEntry = true
         errorMessageLabel.isHidden = true
+    }
+    
+    func setBackground(){
+        logInSignUpButton.backgroundColor = .white
+        logInSignUpButton.layer.cornerRadius = 5
+        logInSignUpButton.layer.borderWidth = 1
+        logInSignUpButton.layer.borderColor = UIColor.white.cgColor
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 1000, height: 1000))
+        let gradient = CAGradientLayer()
+        
+        gradient.frame = view.bounds
+        gradient.colors = [UIColor.white.cgColor, UIColor.blue.cgColor, UIColor.green]
+        gradient.startPoint = CGPoint.zero
+        gradient.endPoint = CGPoint(x:1, y:1)
+        
+        tableView.layer.insertSublayer(gradient, at: 0)
     }
     
     @objc func layout(){
