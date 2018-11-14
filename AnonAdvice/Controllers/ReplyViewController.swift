@@ -22,15 +22,24 @@ class ReplyViewController: UIViewController {
     var parentTitle: String?
     var parentText: String?
     
+    let askAdviceButton = UIBarButtonItem(title: "Ask", style: .plain, target: self, action: #selector(onPostReply(_:)))
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         parentTitleLabel.text = parentTitle ?? ""
         parentTextLabel.text = parentText ?? ""
         thisView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x800f0f)
         
+        self.navigationItem.rightBarButtonItem = askAdviceButton
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        replyTextView.becomeFirstResponder()
     }
 
-    @IBAction func onPostReply(_ sender: Any) {
+    @objc func onPostReply(_ sender: Any) {
         if replyTextView.text != "" {
             let current = Auth.auth().currentUser!.uid
             let postRef = Database.database().reference().child("posts").child(postID!).child("replies")

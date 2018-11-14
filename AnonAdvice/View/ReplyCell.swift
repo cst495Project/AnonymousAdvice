@@ -23,10 +23,12 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var commentsLabel: UILabel!
     @IBOutlet weak var commentLabel: UILabel!
     @IBOutlet weak var avatarImage: UIImageView!
+    @IBOutlet weak var replyButton: UIButton!
     
     var delegate: cellDelegate?
     var goodTapGesture: UITapGestureRecognizer!
     var badTapGesture: UITapGestureRecognizer!
+    var favoriteGesture: UITapGestureRecognizer!
     var postId: String!
     var replyId: String!
     var reply: Reply!
@@ -35,8 +37,20 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
     let current = Auth.auth().currentUser!.uid
     var currentRating: String!
     
+    var bestAdviceImage = UIImage(named: ImageAssets.unselectedHeart)
+    let bestAdviceButton = UIButton()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
+        bestAdviceButton.setImage(bestAdviceImage, for: .normal)
+        bestAdviceButton.translatesAutoresizingMaskIntoConstraints = false
+        bestAdviceButton.addTarget(self, action: #selector(shit), for: .touchUpInside)
+        addSubview(bestAdviceButton)
+        bestAdviceButton.leadingAnchor.constraint(equalTo: replyButton.trailingAnchor, constant: 8).isActive = true
+        bestAdviceButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        bestAdviceButton.topAnchor.constraint(equalTo: topAnchor, constant: 8).isActive = true
+        bestAdviceButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        
         charCountLabel = UILabel(frame: CGRect(x:0, y:0, width:10, height: 10))
         goodTapGesture = UITapGestureRecognizer(target: self, action: #selector(ReplyCell.tapEdit(sender:)))
         badTapGesture = UITapGestureRecognizer(target: self, action: #selector(ReplyCell.tapEdit(sender:)))
@@ -46,6 +60,16 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+    }
+    
+    @objc func shit(_ sender: Any){
+        if bestAdviceImage == UIImage(named: ImageAssets.unselectedHeart){
+            bestAdviceImage = UIImage(named: ImageAssets.selectedHeart)
+            bestAdviceButton.setImage(bestAdviceImage, for: .normal)
+        }else{
+            bestAdviceImage = UIImage(named: ImageAssets.unselectedHeart)
+            bestAdviceButton.setImage(bestAdviceImage, for: .normal)
+        }
     }
     
     @objc func tapEdit(sender: UITapGestureRecognizer) {
