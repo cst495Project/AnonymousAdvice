@@ -19,6 +19,11 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var goodLabel: UILabel!
     @IBOutlet weak var badLabel: UILabel!
     @IBOutlet var thisView: UIView!
+    @IBOutlet weak var emailField: UILabel!
+    @IBOutlet weak var cityField: UILabel!
+    @IBOutlet weak var advicePointsField: UILabel!
+    @IBOutlet weak var imageViewField: UIImageView!
+    
     
     var posts: [Post] = []
     var currentUserPost: String!
@@ -36,6 +41,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         emailLabel.text = currentUser?.email
         emailLabel.isHidden = true
+        
+        emailField.isHidden=true
+        cityField.isHidden=true
+        advicePointsField.isHidden=true
+        imageViewField.isHidden = true
+        goodLabel.isHidden = true
+        badLabel.isHidden = true
         
         tableView.isHidden = true
         tableView.delegate = self
@@ -157,6 +169,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.isHidden = false
         emailLabel.isHidden = false
         cityLabel.isHidden = false
+        emailField.isHidden = false
+        cityField.isHidden = false
+        advicePointsField.isHidden = false
+        imageViewField.isHidden = false
+        goodLabel.isHidden = false
+        badLabel.isHidden = false
+        
         AnonFB.fetchUserAdviceScore(currentUser!.uid) { (scores) in
             self.goodLabel.text = String(scores["good"]!)
             self.badLabel.text = String(scores["bad"]!)

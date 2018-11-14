@@ -838,10 +838,14 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="advicePointsField" destination="LR7-Zb-eGI" id="KWx-fW-lJE"/>
                         <outlet property="badLabel" destination="NSK-yn-2oq" id="4FX-Ve-HGv"/>
+                        <outlet property="cityField" destination="swi-5O-tRo" id="jsw-Hg-QeR"/>
                         <outlet property="cityLabel" destination="Xb0-zO-RIJ" id="fyc-ok-Z9I"/>
+                        <outlet property="emailField" destination="fx5-5R-NaS" id="evA-dZ-7vB"/>
                         <outlet property="emailLabel" destination="LlB-De-fo5" id="Pg1-g8-kvl"/>
                         <outlet property="goodLabel" destination="RBs-J5-K0u" id="ZdL-PV-dMs"/>
+                        <outlet property="imageViewField" destination="L54-0Q-ESl" id="mGZ-tv-fEf"/>
                         <outlet property="tableView" destination="gZ5-3H-fw8" id="ymj-lv-Qib"/>
                         <outlet property="thisView" destination="h3q-iw-qhZ" id="zCM-8O-m56"/>
                         <segue destination="BYZ-38-t0r" kind="showDetail" identifier="tooManyWrongAttemptsLogOutSegue" id="6b6-2z-6B1"/>
