@@ -195,8 +195,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         fetchUserPosts()
         fetchRepliedPosts()
         AnonFB.fetchUserAdviceScore(currentUser!.uid) { (scores) in
-            self.goodLabel.text = String(scores["good"]!)
-            self.badLabel.text = String(scores["bad"]!)
+            self.goodLabel.text = String(scores["good"] ?? 0)
+            self.badLabel.text = String(scores["bad"] ?? 0)
         }
     }
     
@@ -212,14 +212,11 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     @IBAction func onNightButton(_ sender: Any) {
-        
-        if(NightNight.theme == .night)
-        {
+        if(NightNight.theme == .night){
             NightNight.theme = .normal
             print("normal")
         }
-        else
-        {
+        else{
             NightNight.theme = .night
             print("night")
         }
