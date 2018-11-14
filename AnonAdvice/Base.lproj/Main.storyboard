@@ -1,21 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
-        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="BradleyHand-Bold.ttf">
-            <string>BradleyHandITCTT-Bold</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--Log In View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -201,7 +194,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ReplyCell" rowHeight="96" id="KJ0-SN-Ggg" customClass="ReplyCell" customModule="AnonAdvice">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ReplyCell" rowHeight="96" id="KJ0-SN-Ggg" customClass="ReplyCell" customModule="AnonAdvice">
                                         <rect key="frame" x="0.0" y="28" width="375" height="96"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="KJ0-SN-Ggg" id="2BH-AS-Ajm">
@@ -504,7 +497,7 @@
                                 <rect key="frame" x="0.0" y="164" width="375" height="459"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PostCell" rowHeight="103" id="nrU-wZ-pxf" customClass="PostCell" customModule="AnonAdvice" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PostCell" rowHeight="103" id="nrU-wZ-pxf" customClass="PostCell" customModule="AnonAdvice" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="103"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nrU-wZ-pxf" id="hdI-Hl-lxR">
@@ -705,7 +698,7 @@
                                 <rect key="frame" x="0.0" y="205" width="375" height="462"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserPostCell" rowHeight="107" id="jbu-o7-2d8" customClass="UserPostCell" customModule="AnonAdvice">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserPostCell" rowHeight="107" id="jbu-o7-2d8" customClass="UserPostCell" customModule="AnonAdvice">
                                         <rect key="frame" x="0.0" y="28" width="375" height="107"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jbu-o7-2d8" id="xeq-GW-jTC">
@@ -788,8 +781,8 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="City" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xb0-zO-RIJ">
-                                <rect key="frame" x="137" y="103" width="31" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <rect key="frame" x="137" y="104.5" width="29" height="19.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -818,9 +811,17 @@
                                     <segment title="Replied Posts"/>
                                 </segments>
                             </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BCh-Pn-gdT">
+                                <rect key="frame" x="240" y="98" width="127" height="30"/>
+                                <state key="normal" title="Change Location"/>
+                                <connections>
+                                    <action selector="onChangeLocation:" destination="UqN-qX-60w" eventType="touchUpInside" id="AOs-Kx-lcZ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="VbK-JE-pws" firstAttribute="trailing" secondItem="BCh-Pn-gdT" secondAttribute="trailing" constant="8" id="4cG-vL-Nns"/>
                             <constraint firstItem="NSK-yn-2oq" firstAttribute="bottom" secondItem="LR7-Zb-eGI" secondAttribute="bottom" id="6IM-kq-yk8"/>
                             <constraint firstItem="VbK-JE-pws" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Xb0-zO-RIJ" secondAttribute="trailing" constant="8" id="6jj-Rq-VUu"/>
                             <constraint firstItem="swi-5O-tRo" firstAttribute="leading" secondItem="L54-0Q-ESl" secondAttribute="trailing" constant="8" id="6xz-qQ-vYn"/>
@@ -830,6 +831,7 @@
                             <constraint firstItem="VbK-JE-pws" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="NSK-yn-2oq" secondAttribute="trailing" constant="8" id="AbK-K9-czt"/>
                             <constraint firstItem="hRl-eq-Ybd" firstAttribute="top" secondItem="LR7-Zb-eGI" secondAttribute="bottom" constant="8" id="E57-Q8-mTU"/>
                             <constraint firstItem="VbK-JE-pws" firstAttribute="trailing" secondItem="hRl-eq-Ybd" secondAttribute="trailing" constant="8" id="ECO-P7-uaD"/>
+                            <constraint firstItem="BCh-Pn-gdT" firstAttribute="top" secondItem="VbK-JE-pws" secondAttribute="top" constant="34" id="HSK-Gr-LJ0"/>
                             <constraint firstItem="NSK-yn-2oq" firstAttribute="leading" secondItem="RBs-J5-K0u" secondAttribute="trailing" constant="16" id="Lsv-iP-XQN"/>
                             <constraint firstItem="LR7-Zb-eGI" firstAttribute="leading" secondItem="L54-0Q-ESl" secondAttribute="trailing" constant="8" id="MVS-oQ-7vq"/>
                             <constraint firstItem="Xb0-zO-RIJ" firstAttribute="leading" secondItem="swi-5O-tRo" secondAttribute="trailing" constant="8" id="P3d-A3-mi7"/>
@@ -847,6 +849,7 @@
                             <constraint firstItem="L54-0Q-ESl" firstAttribute="leading" secondItem="VbK-JE-pws" secondAttribute="leading" constant="8" id="u5m-ZY-fHz"/>
                             <constraint firstItem="swi-5O-tRo" firstAttribute="top" secondItem="fx5-5R-NaS" secondAttribute="bottom" constant="8" id="v78-0m-I7O"/>
                             <constraint firstItem="gZ5-3H-fw8" firstAttribute="leading" secondItem="VbK-JE-pws" secondAttribute="leading" id="wBh-Lj-qbH"/>
+                            <constraint firstItem="BCh-Pn-gdT" firstAttribute="leading" secondItem="Xb0-zO-RIJ" secondAttribute="trailing" constant="74" id="xxw-tM-Ncf"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="VbK-JE-pws"/>
                     </view>

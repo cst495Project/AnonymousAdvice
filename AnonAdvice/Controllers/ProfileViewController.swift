@@ -8,10 +8,12 @@
 
 import UIKit
 import Firebase
+import GooglePlaces
+import GooglePlacePicker
 import SCLAlertView
 import NightNight
 
-class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, LogInAttemptDelegate {
+class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, LogInAttemptDelegate, GMSAutocompleteViewControllerDelegate {
     
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
@@ -212,6 +214,30 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         default:
             break;
         }
+    }
+    
+    @IBAction func onChangeLocation(_ sender: Any) {
+        let placePicker = GMSAutocompleteViewController()
+        placePicker.delegate = self
+        let filter = GMSAutocompleteFilter()
+        filter.type = .establishment  //suitable filter type
+        filter.type = .city
+        placePicker.autocompleteFilter = filter
+        
+        present(placePicker, animated: true, completion: nil)
+    }
+    
+    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
+        cityLabel.text = place.formattedAddress!
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
+        print("Error: ", error.localizedDescription)
+    }
+    
+    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
+        self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func onNightButton(_ sender: Any) {
