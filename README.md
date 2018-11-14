@@ -22,7 +22,7 @@ The following **required** functionality is completed:
 
 The following **stretch** features are implemented:
 
-- [ ]  User can select the subject or type of advice they want to view or ask for.
+- [X]  User can select the subject or type of advice they want to view or ask for.
 - [ ]  User can change their location from their profile page.
 - [ ]  User receives a notification when their post is given advice.
 - [x]  User's profile will require password or fingerprint authentication to access after app restart
@@ -78,6 +78,9 @@ The following **stretch** features are implemented:
 
 ## Sprint 3
 <img src='https://i.imgur.com/43P4YsC.gif' title='Wireframes' width='' alt='sprint2' />
+
+## Optional Sprint 1
+<img src='https://imgur.com/qTXBmdO.gif' title='Wireframes' width='' alt='sprint2' />
 
 ## Credits
 
