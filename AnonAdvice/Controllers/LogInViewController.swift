@@ -24,6 +24,8 @@ class LogInViewController: UIViewController, GMSAutocompleteViewControllerDelega
     @IBOutlet weak var errorMessageLabel: UILabel!
     @IBOutlet weak var cityTextField: UITextField!
     @IBOutlet weak var cityButton: UIButton!
+    
+    
     @IBOutlet var tableView: UIView!
     @IBOutlet var thisView: UIView!
     
