@@ -90,6 +90,7 @@ List any 3rd party libraries, icons, graphics, or other assets you used in your 
 - [Adorable-Avatars](https://github.com/adorableio/avatars-api-middleware) - profile avatar API
 - [Google-Place-Picker](https://developers.google.com/places/android-sdk/placepicker) - Places SDK
 - [SCLAlertView](https://github.com/vikmeup/SCLAlertView-Swift) - Custom Alert Views
+- [NightNight](https://github.com/Draveness/NightNight) - Night mode
 - [Firebase](https://firebase.google.com/) - backend database
 
 ## License
