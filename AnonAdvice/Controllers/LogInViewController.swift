@@ -31,7 +31,6 @@ class LogInViewController: UIViewController, GMSAutocompleteViewControllerDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setBackground()
         logIn()
         logInSignUpSegmentedControl.addTarget(self, action: #selector(layout), for: .valueChanged)
@@ -55,6 +54,13 @@ class LogInViewController: UIViewController, GMSAutocompleteViewControllerDelega
         gradient.endPoint = CGPoint(x:1, y:1)
         
         tableView.layer.insertSublayer(gradient, at: 0)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(onTap(_:)))
+        tableView.addGestureRecognizer(tap)
+    }
+    
+    @objc func onTap(_ sender: Any) {
+        view.endEditing(true)
     }
     
     @objc func layout(){
