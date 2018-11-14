@@ -122,22 +122,19 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
-    func fetchRepliedPosts(completionblock: @escaping ((_ posts: [Post])-> Void )) {
+    func fetchRepliedPosts() {
         AnonFB.fetchUserRepliedPosts(current) { (Posts) in
             for postId in Posts {
                 AnonFB.fetchPost(postId, completionblock: { (Post) in
                     self.repliedPosts.append(Post)
                 })
             }
-            completionblock(self.repliedPosts)
         }
     }
     
     func fetchUserRepliedPosts() {
-        fetchRepliedPosts { (Posts) in
-            self.posts = Posts
-            self.tableView.reloadData()
-        }
+        self.posts = repliedPosts
+        self.tableView.reloadData()
     }
     
     func deletePost(indexPath: IndexPath, completionblock: @escaping (()-> Void )) {
@@ -196,6 +193,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         segmentedControl.isHidden = false
         getUsersCity()
         fetchUserPosts()
+        fetchRepliedPosts()
         AnonFB.fetchUserAdviceScore(currentUser!.uid) { (scores) in
             self.goodLabel.text = String(scores["good"]!)
             self.badLabel.text = String(scores["bad"]!)
