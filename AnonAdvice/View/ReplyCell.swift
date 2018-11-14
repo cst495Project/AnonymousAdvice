@@ -35,6 +35,9 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
     let current = Auth.auth().currentUser!.uid
     var currentRating: String!
     
+    let bestAdviceImage = UIImage(named: ImageAssets.unselectedHeart)
+    let bestAdviceImageView = UIImageView()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         charCountLabel = UILabel(frame: CGRect(x:0, y:0, width:10, height: 10))
@@ -42,6 +45,14 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
         badTapGesture = UITapGestureRecognizer(target: self, action: #selector(ReplyCell.tapEdit(sender:)))
         self.goodPoints.addGestureRecognizer(goodTapGesture)
         self.badPoints.addGestureRecognizer(badTapGesture)
+        
+        bestAdviceImageView.image = bestAdviceImage
+        addSubview(bestAdviceImageView)
+        bestAdviceImageView.translatesAutoresizingMaskIntoConstraints = false
+        bestAdviceImageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        bestAdviceImageView.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        bestAdviceImageView.topAnchor.constraint(equalTo: topAnchor, constant: 8).isActive = true
+        bestAdviceImageView.heightAnchor.constraint(equalToConstant: 25).isActive = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
