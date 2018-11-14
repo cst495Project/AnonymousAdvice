@@ -23,13 +23,15 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var cityField: UILabel!
     @IBOutlet weak var advicePointsField: UILabel!
     @IBOutlet weak var imageViewField: UIImageView!
-    
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     
     var posts: [Post] = []
+    var repliedPosts: [Post] = []
     var currentUserPost: String!
     let postRef = Database.database().reference().child("posts")
     let userRef = Database.database().reference().child("users")
     let currentUser = Auth.auth().currentUser
+    let current = Auth.auth().currentUser!.uid
     var userId: String!
     var postID: String!
     var selectedPostId: String!
@@ -48,6 +50,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         imageViewField.isHidden = true
         goodLabel.isHidden = true
         badLabel.isHidden = true
+        cityLabel.isHidden = true
+        segmentedControl.isHidden = true
+        emailLabel.text = currentUser?.email
         
         tableView.isHidden = true
         tableView.delegate = self
@@ -55,14 +60,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.estimatedRowHeight = 50
         tableView.rowHeight = UITableViewAutomaticDimension
         
-        emailLabel.text = currentUser?.email
-        
         verifyUserView.delegate = self
         
-        cityLabel.isHidden = true
-
-        getUsersCity()
-        getPosts()
+        segmentedControl.addTarget(self, action: #selector(indexChange), for: .valueChanged)
+        
         logInScreen()
         thisView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x800f0f)
         
@@ -112,13 +113,30 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
-    func getPosts() {
-        let current = Auth.auth().currentUser!.uid
+    func fetchUserPosts() {
         AnonFB.fetchUserPosts(current) { (Post) in
             AnonFB.getPostsInfo(Post, completionblock: { (Post) in
                 self.posts = Post.reversed()
                 self.tableView.reloadData()
             })
+        }
+    }
+    
+    func fetchRepliedPosts(completionblock: @escaping ((_ posts: [Post])-> Void )) {
+        AnonFB.fetchUserRepliedPosts(current) { (Posts) in
+            for postId in Posts {
+                AnonFB.fetchPost(postId, completionblock: { (Post) in
+                    self.repliedPosts.append(Post)
+                })
+            }
+            completionblock(self.repliedPosts)
+        }
+    }
+    
+    func fetchUserRepliedPosts() {
+        fetchRepliedPosts { (Posts) in
+            self.posts = Posts
+            self.tableView.reloadData()
         }
     }
     
@@ -175,12 +193,26 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         imageViewField.isHidden = false
         goodLabel.isHidden = false
         badLabel.isHidden = false
-        
+        segmentedControl.isHidden = false
+        getUsersCity()
+        fetchUserPosts()
         AnonFB.fetchUserAdviceScore(currentUser!.uid) { (scores) in
             self.goodLabel.text = String(scores["good"]!)
             self.badLabel.text = String(scores["bad"]!)
         }
     }
+    
+    @objc func indexChange() {
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            fetchUserPosts()
+        case 1:
+            fetchUserRepliedPosts()
+        default:
+            break;
+        }
+    }
+    
     @IBAction func onNightButton(_ sender: Any) {
         
         if(NightNight.theme == .night)
