@@ -69,11 +69,13 @@ class VerifyUserView: UIView {
     }()
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.logInPopUp()
-        self.emailTextField.text = currentUser?.email
-        self.emailTextField.isUserInteractionEnabled = false
-        self.isBiometricsSetUp()
-
+        let isVerified = UserDefaults.standard.bool(forKey: "verified")
+        if !isVerified{
+            self.logInPopUp()
+            self.emailTextField.text = currentUser?.email
+            self.emailTextField.isUserInteractionEnabled = false
+            self.isBiometricsSetUp()
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
