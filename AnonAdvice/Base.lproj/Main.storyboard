@@ -207,15 +207,15 @@
                                                     <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Good: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X3Z-U8-HnM">
-                                                    <rect key="frame" x="236" y="8" width="51.5" height="17"/>
+                                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X3Z-U8-HnM">
+                                                    <rect key="frame" x="311.5" y="8" width="9" height="17"/>
                                                     <gestureRecognizers/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.072568485246748748" green="1" blue="0.03765791636474769" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bad: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OXr-jn-WzL">
-                                                    <rect key="frame" x="295.5" y="8" width="42" height="17"/>
+                                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OXr-jn-WzL">
+                                                    <rect key="frame" x="328.5" y="8" width="9" height="17"/>
                                                     <gestureRecognizers/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="1" green="0.046832405328050108" blue="0.072401243796129777" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -229,7 +229,7 @@
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Replies: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Igg-Ro-4KQ">
-                                                    <rect key="frame" x="164.5" y="8" width="63.5" height="17"/>
+                                                    <rect key="frame" x="240" y="8" width="63.5" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.16754910379999999" green="0.55555610129999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -308,6 +308,7 @@
                                             <outlet property="commentLabel" destination="Pec-rt-6dd" id="IOs-wY-UYa"/>
                                             <outlet property="commentsLabel" destination="Igg-Ro-4KQ" id="3FZ-ab-EkG"/>
                                             <outlet property="goodPoints" destination="X3Z-U8-HnM" id="6ue-aw-Q3l"/>
+                                            <outlet property="replyButton" destination="GTx-cD-V5T" id="GhA-X0-8Eq"/>
                                             <outlet property="replyTextLabel" destination="zaz-OF-SY8" id="hoL-AC-ZDl"/>
                                             <outlet property="timestampLabel" destination="1dP-5D-vXb" id="k7a-WS-Gyz"/>
                                         </connections>
@@ -425,34 +426,24 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="W83-2q-d31">
-                                <rect key="frame" x="8" y="174" width="359" height="347"/>
+                                <rect key="frame" x="8" y="130" width="359" height="333.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="euK-3Z-Xtu">
-                                <rect key="frame" x="142" y="573" width="92" height="30"/>
-                                <state key="normal" title="Leave some advice"/>
-                                <connections>
-                                    <action selector="onPostReply:" destination="2II-vO-37B" eventType="touchUpInside" id="2ZR-Df-bb2"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="W83-2q-d31" firstAttribute="leading" secondItem="PEn-oO-Keh" secondAttribute="leading" constant="8" id="H4o-FD-Jpg"/>
-                            <constraint firstItem="PEn-oO-Keh" firstAttribute="bottom" secondItem="euK-3Z-Xtu" secondAttribute="bottom" constant="64" id="PSN-ab-b7o"/>
                             <constraint firstItem="kmI-yK-8NO" firstAttribute="leading" secondItem="PEn-oO-Keh" secondAttribute="leading" constant="8" id="Qt9-4D-nMW"/>
-                            <constraint firstItem="PEn-oO-Keh" firstAttribute="trailing" secondItem="W83-2q-d31" secondAttribute="trailing" constant="8" id="RJh-uM-7lN"/>
                             <constraint firstItem="kmI-yK-8NO" firstAttribute="top" secondItem="PEn-oO-Keh" secondAttribute="top" constant="8" id="T1H-TL-yHQ"/>
                             <constraint firstItem="PEn-oO-Keh" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="kmI-yK-8NO" secondAttribute="trailing" symbolic="YES" id="XGu-0A-50I"/>
-                            <constraint firstItem="euK-3Z-Xtu" firstAttribute="top" secondItem="W83-2q-d31" secondAttribute="bottom" constant="52" id="afp-c3-Hg3"/>
-                            <constraint firstItem="PEn-oO-Keh" firstAttribute="trailing" secondItem="euK-3Z-Xtu" secondAttribute="trailing" constant="141" id="faX-3v-h9o"/>
-                            <constraint firstItem="euK-3Z-Xtu" firstAttribute="leading" secondItem="PEn-oO-Keh" secondAttribute="leading" constant="142" id="fjM-Ku-A4g"/>
-                            <constraint firstItem="W83-2q-d31" firstAttribute="top" secondItem="VU3-l0-GCq" secondAttribute="bottom" constant="52" id="ggV-06-Abz"/>
+                            <constraint firstItem="W83-2q-d31" firstAttribute="height" secondItem="hJM-lz-ibX" secondAttribute="height" multiplier="1:2" id="Xq6-w7-r24"/>
+                            <constraint firstItem="PEn-oO-Keh" firstAttribute="trailing" secondItem="W83-2q-d31" secondAttribute="trailing" constant="8" id="YoH-dY-CGM"/>
                             <constraint firstItem="VU3-l0-GCq" firstAttribute="leading" secondItem="PEn-oO-Keh" secondAttribute="leading" constant="8" id="hPg-Ue-hji"/>
                             <constraint firstItem="VU3-l0-GCq" firstAttribute="top" secondItem="kmI-yK-8NO" secondAttribute="bottom" constant="8" id="nQ4-kj-nc7"/>
                             <constraint firstItem="PEn-oO-Keh" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="VU3-l0-GCq" secondAttribute="trailing" symbolic="YES" id="nXe-oL-Vr9"/>
+                            <constraint firstItem="W83-2q-d31" firstAttribute="leading" secondItem="PEn-oO-Keh" secondAttribute="leading" constant="8" id="thh-pM-EuN"/>
+                            <constraint firstItem="W83-2q-d31" firstAttribute="top" secondItem="VU3-l0-GCq" secondAttribute="bottom" constant="8" id="vb6-Qf-a5H"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="PEn-oO-Keh"/>
                     </view>
@@ -886,7 +877,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="aYb-1E-4nK"/>
-        <segue reference="OHD-Cw-ih6"/>
+        <segue reference="UiA-7p-fkG"/>
         <segue reference="6b6-2z-6B1"/>
     </inferredMetricsTieBreakers>
 </document>
