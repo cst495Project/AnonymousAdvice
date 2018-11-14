@@ -26,6 +26,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     
     var posts: [Post] = []
+    var repliedPosts: [Post] = []
     var currentUserPost: String!
     let postRef = Database.database().reference().child("posts")
     let userRef = Database.database().reference().child("users")
@@ -60,9 +61,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         verifyUserView.delegate = self
         
         cityLabel.isHidden = true
-
-        getUsersCity()
-        getPosts()
+        
         logInScreen()
         thisView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x800f0f)
         
@@ -120,6 +119,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
                 self.tableView.reloadData()
             })
         }
+        AnonFB.fetchUserRepliedPosts(current) { (Posts) in
+            for postId in Posts {
+                AnonFB.fetchPost(postId, completionblock: { (Post) in
+                    self.repliedPosts.append(Post)
+                })
+            }
+        }
     }
     
     func deletePost(indexPath: IndexPath, completionblock: @escaping (()-> Void )) {
@@ -175,7 +181,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         imageViewField.isHidden = false
         goodLabel.isHidden = false
         badLabel.isHidden = false
-        
+        getUsersCity()
+        getPosts()
         AnonFB.fetchUserAdviceScore(currentUser!.uid) { (scores) in
             self.goodLabel.text = String(scores["good"]!)
             self.badLabel.text = String(scores["bad"]!)

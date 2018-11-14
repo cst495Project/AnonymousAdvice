@@ -92,6 +92,23 @@ class AnonFB {  // Singleton class for managing Firebase Events.
             }
         }
     }
+    // Retrieve all PostIds a User has replied to
+    static func fetchUserRepliedPosts(_ userId: String!, completionblock: @escaping ((_ postIds: [String])-> Void )) {
+        var postIds: [String] = []
+        let query = usersRef.child(userId).child("replies")
+        query.observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.exists() {
+                for child in snapshot.children {
+                    let snap = child as! DataSnapshot
+                    let postId = snap.value as! String
+                    postIds.append(postId)
+                }
+                completionblock(postIds)
+            } else {
+                print("No posts replied to")
+            }
+        })
+    }
     // retrieve a User's total Advice Score (good and bad)
     static func fetchUserAdviceScore(_ userId: String!, completionblock: @escaping ((_ scores: [String: Int])-> Void )) {
         var scores = [ "good": 0, "bad": 0 ] as [String: Int]
