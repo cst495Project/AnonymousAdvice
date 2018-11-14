@@ -30,7 +30,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func setRootViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
+        let defaults = UserDefaults.standard
+        defaults.set(false, forKey: "verified")
+        defaults.synchronize()
         if Auth.auth().currentUser != nil {
             self.window?.rootViewController = storyboard.instantiateViewController(withIdentifier: "NavigationController")
             
@@ -60,6 +62,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        let defaults = UserDefaults.standard
+        defaults.set(false, forKey: "verified")
+        defaults.synchronize()
     }
 
 

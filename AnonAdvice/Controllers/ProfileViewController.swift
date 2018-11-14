@@ -37,6 +37,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     var selectedPostId: String!
     let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.extraLight))
     let verifyUserView = VerifyUserView()
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,9 +65,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         segmentedControl.addTarget(self, action: #selector(indexChange), for: .valueChanged)
         
-        logInScreen()
-        thisView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x800f0f)
+        checkIfVerified()
         
+        thisView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x800f0f)
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -198,6 +199,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.goodLabel.text = String(scores["good"] ?? 0)
             self.badLabel.text = String(scores["bad"] ?? 0)
         }
+        defaults.set(true, forKey: "verified")
+        defaults.synchronize()
     }
     
     @objc func indexChange() {
@@ -221,5 +224,14 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             print("night")
         }
         
+    }
+    
+    func checkIfVerified(){
+        let isVerified = UserDefaults.standard.bool(forKey: "verified")
+        if !isVerified{
+            logInScreen()
+        }else{
+            successfullLogIn()
+        }
     }
 }
