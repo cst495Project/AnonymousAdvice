@@ -103,6 +103,7 @@ class AnonFB {  // Singleton class for managing Firebase Events.
                     let postId = snap.value as! String
                     postIds.append(postId)
                 }
+                let postIds = Array(Set(postIds)).sorted()
                 completionblock(postIds)
             } else {
                 print("No posts replied to")
