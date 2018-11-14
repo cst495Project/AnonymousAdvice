@@ -33,6 +33,11 @@ class NewPostViewController: UIViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        titleLabel.becomeFirstResponder()
+    }
+    
     fileprivate func setUpView(){
         view.addSubview(subjectSelector)
         subjectSelector.translatesAutoresizingMaskIntoConstraints = false

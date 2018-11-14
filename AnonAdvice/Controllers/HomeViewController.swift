@@ -56,7 +56,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @objc func didPullToRefresh(_ refreshControl: UIRefreshControl){
         activityIndicator.startAnimating()
-        indexChange()
+        fetchFilteredPosts()
     }
     
     func getUsersCity(){
