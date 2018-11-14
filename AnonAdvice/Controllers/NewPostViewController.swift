@@ -9,11 +9,13 @@
 import UIKit
 import Firebase
 import SCLAlertView
+import NightNight
 
 class NewPostViewController: UIViewController {
     
     @IBOutlet weak var titleLabel: UITextField!
     @IBOutlet weak var textView: UITextView!
+    @IBOutlet var thisView: UIView!
     
     let current = Auth.auth().currentUser!.uid
     var currentUserCity: String!
@@ -27,6 +29,8 @@ class NewPostViewController: UIViewController {
         getUsersCity()
         setUpView()
         self.navigationItem.rightBarButtonItem = askAdviceButton
+        thisView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x800f0f)
+        
     }
     
     fileprivate func setUpView(){

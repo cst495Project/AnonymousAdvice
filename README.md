@@ -32,7 +32,7 @@ The following **stretch** features are implemented:
 - [X]  Users have a total advice score (good or bad advice points)
 - [ ]  Posts in the local or global section are sorted by popularity or newest.
 - [X]  Advice in a post is sorted by good or bad rating.
-- [ ]  Views can be switched to night mode.
+- [x]  Views can be switched to night mode.
 - [ ]  Admins and moderators can close posts, delete advice, and ban users.
 
 ## Firebase Backend

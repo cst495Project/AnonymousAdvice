@@ -9,12 +9,14 @@
 import UIKit
 import Firebase
 import SCLAlertView
+import NightNight
 
 class ReplyViewController: UIViewController {
 
     @IBOutlet weak var parentTitleLabel: UILabel!
     @IBOutlet weak var parentTextLabel: UILabel!
     @IBOutlet weak var replyTextView: UITextView!
+    @IBOutlet var thisView: UIView!
     
     var postID: String?
     var parentTitle: String?
@@ -24,6 +26,8 @@ class ReplyViewController: UIViewController {
         super.viewDidLoad()
         parentTitleLabel.text = parentTitle ?? ""
         parentTextLabel.text = parentText ?? ""
+        thisView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x800f0f)
+        
     }
 
     @IBAction func onPostReply(_ sender: Any) {
