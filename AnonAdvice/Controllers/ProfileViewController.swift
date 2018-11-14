@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import SCLAlertView
+import NightNight
 
 class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, LogInAttemptDelegate {
     
@@ -17,6 +18,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var goodLabel: UILabel!
     @IBOutlet weak var badLabel: UILabel!
+    @IBOutlet var thisView: UIView!
     
     var posts: [Post] = []
     var currentUserPost: String!
@@ -50,6 +52,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         getUsersCity()
         getPosts()
         logInScreen()
+        thisView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x800f0f)
+        
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -157,5 +161,19 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.goodLabel.text = String(scores["good"]!)
             self.badLabel.text = String(scores["bad"]!)
         }
+    }
+    @IBAction func onNightButton(_ sender: Any) {
+        
+        if(NightNight.theme == .night)
+        {
+            NightNight.theme = .normal
+            print("normal")
+        }
+        else
+        {
+            NightNight.theme = .night
+            print("night")
+        }
+        
     }
 }

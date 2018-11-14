@@ -9,12 +9,14 @@
 import UIKit
 import Firebase
 import DateToolsSwift
+import NightNight
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet var thisView: UIView!
     
     let postRef = Database.database().reference().child("posts")
     let userRef = Database.database().reference().child("users")
@@ -49,6 +51,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.insertSubview(refreshControl, at: 0)
         activityIndicator.startAnimating()
         
+        thisView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x800f0f)
     }
     
     @objc func didPullToRefresh(_ refreshControl: UIRefreshControl){

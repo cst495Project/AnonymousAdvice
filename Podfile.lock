@@ -79,6 +79,7 @@ PODS:
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
+  - NightNight (0.5.0)
   - SCLAlertView (0.8)
 
 DEPENDENCIES:
@@ -90,6 +91,7 @@ DEPENDENCIES:
   - GoogleMaps
   - GooglePlacePicker
   - GooglePlaces
+  - NightNight
   - SCLAlertView
 
 SPEC REPOS:
@@ -112,6 +114,7 @@ SPEC REPOS:
     - GTMSessionFetcher
     - leveldb-library
     - nanopb
+    - NightNight
     - SCLAlertView
 
 SPEC CHECKSUMS:
@@ -133,8 +136,9 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  NightNight: 2a5550fdd9cf424b75ebaab022c26aaba35304c8
   SCLAlertView: 6a77bb2edfc65e04dbe57725546cb4107a506b85
 
-PODFILE CHECKSUM: 0f82a4efa252227f1919416cc72406c1be154cb3
+PODFILE CHECKSUM: aafe9b907a9aabe6ec2e3e09722f3a261b891fe4
 
 COCOAPODS: 1.5.3

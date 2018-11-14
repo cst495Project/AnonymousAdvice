@@ -15,5 +15,6 @@ target 'AnonAdvice' do
   pod 'GoogleMaps'
   pod 'SCLAlertView'
   pod 'AlamofireImage'
+  pod 'NightNight'
 
 end

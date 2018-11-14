@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -129,6 +129,7 @@
                         <outlet property="logInSignUpSegmentedControl" destination="rDl-P8-hcV" id="3CJ-Xc-jIp"/>
                         <outlet property="passwordTextField" destination="hP3-XM-RQC" id="u1Y-kJ-1F0"/>
                         <outlet property="tableView" destination="8bC-Xf-vdC" id="eOB-Tr-Xpj"/>
+                        <outlet property="thisView" destination="8bC-Xf-vdC" id="aop-eW-YfJ"/>
                         <segue destination="GV8-US-9XA" kind="show" identifier="loginSegue" id="OHD-Cw-ih6"/>
                     </connections>
                 </viewController>
@@ -171,6 +172,7 @@
                     </view>
                     <connections>
                         <outlet property="textView" destination="T4f-Bh-VN2" id="6Yp-z2-7sr"/>
+                        <outlet property="thisView" destination="fGL-Gh-Bsv" id="eLC-kR-BuJ"/>
                         <outlet property="titleLabel" destination="s6v-K1-KrU" id="7D8-c1-TMw"/>
                         <segue destination="jgf-W4-hof" kind="show" identifier="createPost" id="7fz-g3-Xlc"/>
                     </connections>
@@ -189,7 +191,8 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dnT-sq-jjC">
                                 <rect key="frame" x="0.0" y="179" width="414" height="683"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ReplyCell" rowHeight="96" id="KJ0-SN-Ggg" customClass="ReplyCell" customModule="AnonAdvice">
                                         <rect key="frame" x="0.0" y="28" width="414" height="96"/>
@@ -252,6 +255,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstItem="OXr-jn-WzL" firstAttribute="top" secondItem="2BH-AS-Ajm" secondAttribute="top" constant="8" id="2hC-SN-yCw"/>
                                                 <constraint firstItem="zaz-OF-SY8" firstAttribute="leading" secondItem="xfm-Ai-psO" secondAttribute="trailing" constant="8" id="3CO-xX-pvf"/>
@@ -280,8 +284,24 @@
                                                 <constraint firstItem="X3Z-U8-HnM" firstAttribute="top" secondItem="2BH-AS-Ajm" secondAttribute="top" constant="8" id="sLR-sj-kcq"/>
                                                 <constraint firstItem="Pec-rt-6dd" firstAttribute="leading" secondItem="xfm-Ai-psO" secondAttribute="trailing" constant="8" id="xUp-fw-Mtu"/>
                                             </constraints>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="nightBackgroundColor">
+                                                    <color key="value" cocoaTouchSystemColor="darkTextColor"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="normalBackgroundColor">
+                                                    <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="nightBackgroundColor">
+                                                <color key="value" cocoaTouchSystemColor="darkTextColor"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="normalBackgroundColor">
+                                                <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <outlet property="avatarImage" destination="xfm-Ai-psO" id="uoN-GL-RKu"/>
                                             <outlet property="badPoints" destination="OXr-jn-WzL" id="9O3-jT-zHq"/>
@@ -318,7 +338,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="9ox-0U-zTd" firstAttribute="leading" secondItem="OQN-lr-E7f" secondAttribute="leading" constant="11" id="Fg2-Bu-t7j"/>
                             <constraint firstItem="TvZ-b5-eC4" firstAttribute="top" secondItem="Gz3-uH-MDQ" secondAttribute="bottom" constant="8" id="FqL-d4-vPX"/>
@@ -336,6 +356,14 @@
                             <constraint firstItem="dnT-sq-jjC" firstAttribute="trailing" secondItem="OQN-lr-E7f" secondAttribute="trailing" id="vx5-5C-XyE"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="OQN-lr-E7f"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="nightBackgroundColor">
+                                <color key="value" cocoaTouchSystemColor="darkTextColor"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="normalBackgroundColor">
+                                <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </view>
                     <navigationItem key="navigationItem" title="Anon Post" id="hVS-3R-mfW">
                         <barButtonItem key="leftBarButtonItem" style="plain" id="30D-ld-Aur">
@@ -366,6 +394,7 @@
                         <outlet property="rightButton" destination="pht-9l-RTP" id="StG-lk-aug"/>
                         <outlet property="tableView" destination="dnT-sq-jjC" id="0tx-CD-7zD"/>
                         <outlet property="textLabel" destination="TvZ-b5-eC4" id="Kly-ly-PvT"/>
+                        <outlet property="thisView" destination="3Zf-5e-i09" id="4Xs-ss-7Lb"/>
                         <outlet property="titleLabel" destination="Gz3-uH-MDQ" id="gpX-Rh-n7e"/>
                         <segue destination="GV8-US-9XA" kind="show" identifier="home" id="UiA-7p-fkG"/>
                         <segue destination="2II-vO-37B" kind="show" identifier="createReply" id="9E5-gk-4O0"/>
@@ -431,6 +460,7 @@
                         <outlet property="parentTextLabel" destination="VU3-l0-GCq" id="eor-jw-yMC"/>
                         <outlet property="parentTitleLabel" destination="kmI-yK-8NO" id="3EB-5p-zoi"/>
                         <outlet property="replyTextView" destination="W83-2q-d31" id="yBf-RY-gTm"/>
+                        <outlet property="thisView" destination="hJM-lz-ibX" id="cQ1-ge-Tjz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zlC-SK-5ww" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -454,10 +484,18 @@
                                     <segment title="Local"/>
                                     <segment title="World"/>
                                 </segments>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="nightBackgroundColor">
+                                        <color key="value" cocoaTouchSystemColor="darkTextColor"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="normalBackgroundColor">
+                                        <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </segmentedControl>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="SmQ-0K-gEV">
                                 <rect key="frame" x="0.0" y="188" width="414" height="625"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PostCell" rowHeight="103" id="nrU-wZ-pxf" customClass="PostCell" customModule="AnonAdvice" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="103"/>
@@ -491,6 +529,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="edh-Ho-iPB" secondAttribute="bottom" constant="16" id="25h-Cb-9BE"/>
                                                 <constraint firstAttribute="trailing" secondItem="SRC-ja-zMk" secondAttribute="trailing" constant="16" id="3OG-ER-QET"/>
@@ -503,7 +542,24 @@
                                                 <constraint firstItem="edh-Ho-iPB" firstAttribute="leading" secondItem="hdI-Hl-lxR" secondAttribute="leading" constant="16" id="nOB-Vs-DU0"/>
                                                 <constraint firstAttribute="trailing" secondItem="edh-Ho-iPB" secondAttribute="trailing" constant="16" id="wEN-fo-dQX"/>
                                             </constraints>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="nightBackgroundColor">
+                                                    <color key="value" cocoaTouchSystemColor="darkTextColor"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="normalBackgroundColor">
+                                                    <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="nightBackgroundColor">
+                                                <color key="value" cocoaTouchSystemColor="darkTextColor"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="normalBackgroundColor">
+                                                <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <outlet property="postTextLabel" destination="edh-Ho-iPB" id="7Do-OF-DKY"/>
                                             <outlet property="timestampLabel" destination="RkP-YP-Wzg" id="cKy-Iy-mcZ"/>
@@ -511,13 +567,20 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="nightBackgroundColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="normalBackgroundColor">
+                                        <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </tableView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Or4-r2-LIA">
                                 <rect key="frame" x="197" y="358" width="20" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </activityIndicatorView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="KD5-kI-z0z" firstAttribute="top" secondItem="m74-LT-pqp" secondAttribute="top" constant="8" id="2eD-Xh-iQS"/>
                             <constraint firstItem="KD5-kI-z0z" firstAttribute="leading" secondItem="m74-LT-pqp" secondAttribute="leading" constant="16" id="INu-SZ-WfX"/>
@@ -528,6 +591,14 @@
                             <constraint firstItem="m74-LT-pqp" firstAttribute="trailing" secondItem="KD5-kI-z0z" secondAttribute="trailing" constant="16" id="u2f-9f-uTe"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="m74-LT-pqp"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="nightBackgroundColor">
+                                <color key="value" cocoaTouchSystemColor="darkTextColor"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="normalBackgroundColor">
+                                <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Home" id="uSh-F0-3FB">
@@ -571,6 +642,7 @@
                         <outlet property="activityIndicator" destination="Or4-r2-LIA" id="aLI-Uh-JDM"/>
                         <outlet property="segmentedControl" destination="KD5-kI-z0z" id="6BA-gb-sRp"/>
                         <outlet property="tableView" destination="SmQ-0K-gEV" id="MbU-s6-E5a"/>
+                        <outlet property="thisView" destination="ZPj-L7-nyb" id="XfW-Ev-WV5"/>
                         <segue destination="jgf-W4-hof" kind="show" identifier="reply" id="nGz-dA-NWZ"/>
                     </connections>
                 </viewController>
@@ -758,13 +830,20 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="VbK-JE-pws"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Profile" id="ijF-1h-fyD"/>
+                    <navigationItem key="navigationItem" title="Profile" id="ijF-1h-fyD">
+                        <barButtonItem key="rightBarButtonItem" title="Night" image="moon_icon.jpg" id="1Pw-VX-YdV">
+                            <connections>
+                                <action selector="onNightButton:" destination="UqN-qX-60w" id="D8m-pV-7V9"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="badLabel" destination="NSK-yn-2oq" id="4FX-Ve-HGv"/>
                         <outlet property="cityLabel" destination="Xb0-zO-RIJ" id="fyc-ok-Z9I"/>
                         <outlet property="emailLabel" destination="LlB-De-fo5" id="Pg1-g8-kvl"/>
                         <outlet property="goodLabel" destination="RBs-J5-K0u" id="ZdL-PV-dMs"/>
                         <outlet property="tableView" destination="gZ5-3H-fw8" id="ymj-lv-Qib"/>
+                        <outlet property="thisView" destination="h3q-iw-qhZ" id="zCM-8O-m56"/>
                         <segue destination="BYZ-38-t0r" kind="showDetail" identifier="tooManyWrongAttemptsLogOutSegue" id="6b6-2z-6B1"/>
                         <segue destination="jgf-W4-hof" kind="show" identifier="userPost" id="aYb-1E-4nK"/>
                     </connections>
@@ -774,9 +853,12 @@
             <point key="canvasLocation" x="2205.7971014492755" y="875.54347826086962"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="moon_icon.jpg" width="72" height="72"/>
+    </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="7fz-g3-Xlc"/>
+        <segue reference="aYb-1E-4nK"/>
         <segue reference="OHD-Cw-ih6"/>
-        <segue reference="zJj-dd-CYl"/>
+        <segue reference="6b6-2z-6B1"/>
     </inferredMetricsTieBreakers>
 </document>

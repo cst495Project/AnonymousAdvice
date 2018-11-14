@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import DateToolsSwift
 import AlamofireImage
+import NightNight
 
 class PostViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, cellDelegate {
     
@@ -25,6 +26,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var avatarImage: UIImageView!
     
+    @IBOutlet var thisView: UIView!
     var postId: String?
     var replies: [Reply] = []
     var refreshControl = UIRefreshControl()
@@ -42,6 +44,9 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         getPost()
         getPostReplies()
+        
+        thisView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x800f0f)
+        
     }
     
     @IBAction func onHome(_ sender: Any) {

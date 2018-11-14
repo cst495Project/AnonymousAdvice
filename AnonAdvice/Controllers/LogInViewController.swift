@@ -12,6 +12,7 @@ import GooglePlaces
 import GooglePlacePicker
 import FirebaseDatabase
 import FirebaseAuth
+import NightNight
 
 class LogInViewController: UIViewController, GMSAutocompleteViewControllerDelegate {
 
@@ -24,6 +25,7 @@ class LogInViewController: UIViewController, GMSAutocompleteViewControllerDelega
     @IBOutlet weak var cityTextField: UITextField!
     @IBOutlet weak var cityButton: UIButton!
     @IBOutlet var tableView: UIView!
+    @IBOutlet var thisView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +36,7 @@ class LogInViewController: UIViewController, GMSAutocompleteViewControllerDelega
         confirmPasswordTextField.isSecureTextEntry = true
         passwordTextField.isSecureTextEntry = true
         errorMessageLabel.isHidden = true
+        thisView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x800f0f)
     }
     
     func setBackground(){
