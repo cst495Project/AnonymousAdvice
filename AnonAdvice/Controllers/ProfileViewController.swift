@@ -162,4 +162,18 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.badLabel.text = String(scores["bad"]!)
         }
     }
+    @IBAction func onNightButton(_ sender: Any) {
+        
+        if(NightNight.theme == .night)
+        {
+            NightNight.theme = .normal
+            print("normal")
+        }
+        else
+        {
+            NightNight.theme = .night
+            print("night")
+        }
+        
+    }
 }

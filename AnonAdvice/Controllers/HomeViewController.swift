@@ -175,17 +175,4 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         filterButton.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.2).isActive = true
     }
 
-    @IBAction func onNightButton(_ sender: Any) {
-        if(NightNight.theme == .night)
-        {
-            NightNight.theme = .normal
-            print("normal")
-        }
-        else
-        {
-            NightNight.theme = .night
-            print("night")
-            
-        }
-    }
 }

@@ -622,27 +622,20 @@
                                 </connections>
                             </barButtonItem>
                         </leftBarButtonItems>
-                        <rightBarButtonItems>
-                            <barButtonItem title="Night" id="1Pw-VX-YdV">
+                        <barButtonItem key="rightBarButtonItem" title="Item" style="plain" id="8dJ-u5-gkT">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="xS4-Pq-eEM">
+                                <rect key="frame" x="302" y="7" width="92" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Compose"/>
                                 <connections>
-                                    <action selector="onNightButton:" destination="lAA-84-D0P" id="WPB-UC-9tc"/>
+                                    <action selector="onCompose:" destination="lAA-84-D0P" eventType="touchUpInside" id="eEk-Fi-heJ"/>
                                 </connections>
-                            </barButtonItem>
-                            <barButtonItem title="Item" style="plain" id="8dJ-u5-gkT">
-                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="xS4-Pq-eEM">
-                                    <rect key="frame" x="252.5" y="7" width="92" height="30"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" title="Compose"/>
-                                    <connections>
-                                        <action selector="onCompose:" destination="lAA-84-D0P" eventType="touchUpInside" id="eEk-Fi-heJ"/>
-                                    </connections>
-                                </button>
-                                <connections>
-                                    <action selector="onCompose:" destination="lAA-84-D0P" id="GK3-Y2-JW5"/>
-                                    <segue destination="L6i-EM-0ri" kind="show" identifier="composeSegue" id="40P-2d-1NX"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
+                            </button>
+                            <connections>
+                                <action selector="onCompose:" destination="lAA-84-D0P" id="GK3-Y2-JW5"/>
+                                <segue destination="L6i-EM-0ri" kind="show" identifier="composeSegue" id="40P-2d-1NX"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -837,7 +830,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="VbK-JE-pws"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Profile" id="ijF-1h-fyD"/>
+                    <navigationItem key="navigationItem" title="Profile" id="ijF-1h-fyD">
+                        <barButtonItem key="rightBarButtonItem" title="Night" image="moon_icon.jpg" id="1Pw-VX-YdV">
+                            <connections>
+                                <action selector="onNightButton:" destination="UqN-qX-60w" id="D8m-pV-7V9"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="badLabel" destination="NSK-yn-2oq" id="4FX-Ve-HGv"/>
                         <outlet property="cityLabel" destination="Xb0-zO-RIJ" id="fyc-ok-Z9I"/>
@@ -854,6 +853,9 @@
             <point key="canvasLocation" x="2205.7971014492755" y="875.54347826086962"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="moon_icon.jpg" width="72" height="72"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="aYb-1E-4nK"/>
         <segue reference="OHD-Cw-ih6"/>
