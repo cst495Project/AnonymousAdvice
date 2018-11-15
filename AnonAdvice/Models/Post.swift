@@ -15,13 +15,15 @@ class Post {
     var text: String
     var timestamp: String
     var subject: String
+    var favorite: String
     
-    init(id: String, author: String, title: String, text: String, timestamp: String, subject: String) {
+    init(id: String, author: String, title: String, text: String, timestamp: String, subject: String, favorite: String) {
         self.id = id
         self.author = author
         self.title = title
         self.text = text
         self.timestamp = timestamp
         self.subject = subject
+        self.favorite = favorite
     }
 }

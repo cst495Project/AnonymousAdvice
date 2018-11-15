@@ -28,8 +28,11 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBOutlet var thisView: UIView!
     var postId: String?
+    var author: String?
     var replies: [Reply] = []
     var refreshControl = UIRefreshControl()
+    let currentUser = Auth.auth().currentUser?.uid
+    var adviceFavorited: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,15 +69,13 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    @objc func didPullToRefresh(_ refreshControl: UIRefreshControl)
-    {
+    @objc func didPullToRefresh(_ refreshControl: UIRefreshControl){
         activityIndicator.startAnimating()
         getPostReplies()
     }
     
     func cellDelegate() {
-        getPostReplies()
-        tableView.reloadData()
+        getPost()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -96,6 +97,20 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.replyId = replies[indexPath.row].id
         cell.postId = postId
         
+        if author != currentUser{
+            cell.bestAdviceButton.isHidden = true
+        }
+        
+        if cell.replyId == self.adviceFavorited {
+            cell.bestAdviceButton.isEnabled = true
+            cell.bestAdviceButton.setImage(ImageAssets.selectedHeart, for: .normal)
+        }else if self.adviceFavorited != "n/a" && cell.replyId != self.adviceFavorited{
+            cell.bestAdviceButton.setImage(ImageAssets.unselectedHeart, for: .normal)
+            cell.bestAdviceButton.isEnabled = false
+        }else if self.adviceFavorited == "n/a"{
+            cell.bestAdviceButton.isEnabled = true
+            cell.bestAdviceButton.setImage(ImageAssets.unselectedHeart, for: .normal)
+        }
         let urlBaseString = "https://api.adorable.io/avatars/75/"
         let urlMiddleString1 = replies[indexPath.row].author
         var urlMiddleString2 = postId!
@@ -126,12 +141,19 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.avatarImage.af_setImage(withURL: url!)
             self.titleLabel.text = post.title
             self.textLabel.text = post.text
+            self.author = post.author
+            self.adviceFavorited = post.favorite
         }
+        getPostReplies()
     }
     
     func getPostReplies() {
         AnonFB.fetchReplies(postId!) { (Replies) in
             self.replies = Replies.sorted(by: {$0.good > $1.good})
+            self.tableView.reloadData()
+        }
+    Database.database().reference().child("posts").child(postId!).child("favorite").observeSingleEvent(of: .value) { (DataSnapshot) in
+            self.adviceFavorited = DataSnapshot.value as? String
             self.tableView.reloadData()
         }
         self.refreshControl.endRefreshing()
