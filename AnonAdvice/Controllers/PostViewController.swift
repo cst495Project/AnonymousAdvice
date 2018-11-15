@@ -25,11 +25,13 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var navBar: UINavigationItem!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var avatarImage: UIImageView!
+    @IBOutlet weak var leftButton: UIButton!
     
     @IBOutlet var thisView: UIView!
     var postId: String?
     var replies: [Reply] = []
     var refreshControl = UIRefreshControl()
+    var sourceView: String! = "Home"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +42,13 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         refreshControl.addTarget(self, action: #selector(PostViewController.didPullToRefresh(_ :)), for: .valueChanged)
         tableView.insertSubview(refreshControl, at: 0)
+        
+        if sourceView == "Home"{
+            leftButton.setTitle("Home", for: .normal)
+        } else {
+            leftButton.setTitle("Profile", for: .normal)
+        }
+        
         activityIndicator.startAnimating()
         
         getPost()
@@ -50,7 +59,11 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @IBAction func onHome(_ sender: Any) {
-        performSegue(withIdentifier: "home", sender: nil)
+        if sourceView == "Home" {
+            self.performSegue(withIdentifier: "unwindToHome", sender: self)
+        } else {
+            self.performSegue(withIdentifier: "unwindToProfile", sender: self)
+        }
     }
     
     @IBAction func onRightButton(_ sender: UIButton) {

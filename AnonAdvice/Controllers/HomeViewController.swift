@@ -79,6 +79,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.performSegue(withIdentifier: "logoutSegue", sender: nil)
     }
     
+    @IBAction func unwindToHome(segue: UIStoryboardSegue) { }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return posts.count
     }
@@ -146,6 +148,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             let dest = segue.destination as! UINavigationController
             let pvc = dest.topViewController as! PostViewController
             pvc.postId = postID
+            pvc.sourceView = "Home"
         }
     }
     
