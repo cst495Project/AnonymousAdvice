@@ -204,6 +204,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.goodLabel.text = String(scores["good"] ?? 0)
             self.badLabel.text = String(scores["bad"] ?? 0)
         }
+        
         defaults.set(true, forKey: "verified")
         defaults.synchronize()
     }
