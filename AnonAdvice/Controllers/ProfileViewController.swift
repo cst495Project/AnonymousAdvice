@@ -108,11 +108,14 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
+    @IBAction func unwindToProfile(segue: UIStoryboardSegue) { }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "userPost") {
             let dest = segue.destination as! UINavigationController
             let pvc = dest.topViewController as! PostViewController
             pvc.postId = postID
+            pvc.sourceView = "Profile"
         }
     }
     

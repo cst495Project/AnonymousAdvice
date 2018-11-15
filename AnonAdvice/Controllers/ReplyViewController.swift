@@ -22,7 +22,7 @@ class ReplyViewController: UIViewController {
     var parentTitle: String?
     var parentText: String?
     
-    let askAdviceButton = UIBarButtonItem(title: "Ask", style: .plain, target: self, action: #selector(onPostReply(_:)))
+    let askAdviceButton = UIBarButtonItem(title: "Reply", style: .plain, target: self, action: #selector(onPostReply(_:)))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,7 +53,7 @@ class ReplyViewController: UIViewController {
                 if error == nil {
                     let user = Database.database().reference().child("users").child(current).child("replies")
                     user.child(replyRef.key!).setValue(self.postID!)
-                    self.dismiss(animated: true, completion: nil)
+                    let _ = self.navigationController?.popViewController(animated: true)
                 } else {
                     print(error?.localizedDescription as Any)
                 }
