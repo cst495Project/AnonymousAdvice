@@ -28,6 +28,6 @@ class UserPostCell: UITableViewCell {
 }
 
 enum ImageAssets {
-    static let selectedHeart = "selectedHeart"
-    static let unselectedHeart = "unselectedHeart"
+    static let selectedHeart = UIImage(named: "selectedHeart")
+    static let unselectedHeart = UIImage(named: "unselectedHeart")
 }

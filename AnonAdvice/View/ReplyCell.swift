@@ -37,19 +37,13 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
     let current = Auth.auth().currentUser!.uid
     var currentRating: String!
     
-    var bestAdviceImage = UIImage(named: ImageAssets.unselectedHeart)
     let bestAdviceButton = UIButton()
+    var adviceID: String?
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        bestAdviceButton.setImage(bestAdviceImage, for: .normal)
-        bestAdviceButton.translatesAutoresizingMaskIntoConstraints = false
-        bestAdviceButton.addTarget(self, action: #selector(shit), for: .touchUpInside)
-        addSubview(bestAdviceButton)
-        bestAdviceButton.leadingAnchor.constraint(equalTo: replyButton.trailingAnchor, constant: 8).isActive = true
-        bestAdviceButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
-        bestAdviceButton.topAnchor.constraint(equalTo: topAnchor, constant: 8).isActive = true
-        bestAdviceButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        
+        setUpView()
         
         charCountLabel = UILabel(frame: CGRect(x:0, y:0, width:10, height: 10))
         goodTapGesture = UITapGestureRecognizer(target: self, action: #selector(ReplyCell.tapEdit(sender:)))
@@ -57,19 +51,38 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
         self.goodPoints.addGestureRecognizer(goodTapGesture)
         self.badPoints.addGestureRecognizer(badTapGesture)
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     
-    @objc func shit(_ sender: Any){
-        if bestAdviceImage == UIImage(named: ImageAssets.unselectedHeart){
-            bestAdviceImage = UIImage(named: ImageAssets.selectedHeart)
-            bestAdviceButton.setImage(bestAdviceImage, for: .normal)
-        }else{
-            bestAdviceImage = UIImage(named: ImageAssets.unselectedHeart)
-            bestAdviceButton.setImage(bestAdviceImage, for: .normal)
+    func setUpView(){
+        bestAdviceButton.translatesAutoresizingMaskIntoConstraints = false
+        bestAdviceButton.addTarget(self, action: #selector(favoriteTapDetected), for: .touchUpInside)
+        addSubview(bestAdviceButton)
+        bestAdviceButton.leadingAnchor.constraint(equalTo: replyButton.trailingAnchor, constant: 8).isActive = true
+        bestAdviceButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        bestAdviceButton.topAnchor.constraint(equalTo: topAnchor, constant: 8).isActive = true
+        bestAdviceButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
+    }
+    
+    @objc func favoriteTapDetected(_ sender: Any){
+        let blah = Database.database().reference().child("posts").child(postId).child("favorite")
+        blah.observeSingleEvent(of: .value) { (DataSnapshot) in
+            self.adviceID = DataSnapshot.value as? String
+            if self.bestAdviceButton.imageView?.image == ImageAssets.unselectedHeart &&
+                self.adviceID! == "n/a"{
+                blah.setValue(self.reply.id)
+                self.bestAdviceButton.setImage(ImageAssets.selectedHeart, for: .normal)
+            }else if self.bestAdviceButton.imageView?.image == ImageAssets.unselectedHeart &&
+                self.adviceID! != "n/a"{
+                self.bestAdviceButton.isEnabled = false
+            }else if self.bestAdviceButton.imageView?.image == ImageAssets.selectedHeart{
+                blah.setValue("n/a")
+                self.bestAdviceButton.setImage(ImageAssets.unselectedHeart, for: .normal)
+            }
         }
+        self.delegate?.cellDelegate()
     }
     
     @objc func tapEdit(sender: UITapGestureRecognizer) {

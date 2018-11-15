@@ -148,7 +148,8 @@ class AnonFB {  // Singleton class for managing Firebase Events.
                 let date = Date(timeIntervalSince1970: time/1000)
                 let subject = snap.childSnapshot(forPath: "subject").value as? String ?? "No subject"
                 let timestamp = date.shortTimeAgoSinceNow + " ago"
-                post = Post.init(id: id, author: author, title: title, text: text, timestamp: timestamp, subject: subject)
+                let favorite = snap.childSnapshot(forPath: "favorite").value as? String ?? "n/a"
+                post = Post.init(id: id, author: author, title: title, text: text, timestamp: timestamp, subject: subject, favorite: favorite)
                 completionblock(post)
             } else {
                 print("No post by that ID found")
@@ -212,7 +213,8 @@ class AnonFB {  // Singleton class for managing Firebase Events.
                 let date = Date(timeIntervalSince1970: time/1000)
                 let subject = snap.childSnapshot(forPath: "subject").value as? String ?? "No subject"
                 let timestamp = date.shortTimeAgoSinceNow + " ago"
-                posts.append(Post.init(id: id, author: author, title: title, text: text, timestamp: timestamp, subject: subject))
+                let favorite = snap.childSnapshot(forPath: "favorite").value as? String ?? "n/a"
+                posts.append(Post.init(id: id, author: author, title: title, text: text, timestamp: timestamp, subject: subject, favorite: favorite))
             }
             completionblock(posts)
         } else {

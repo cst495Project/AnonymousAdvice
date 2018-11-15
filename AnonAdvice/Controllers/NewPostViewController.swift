@@ -22,13 +22,13 @@ class NewPostViewController: UIViewController {
     var postId: String!
     
     let subjectSelector = SubjectSelector()
-    let askAdviceButton = UIBarButtonItem(title: "Ask", style: .plain, target: self, action: #selector(onTapAskAdvice))
+    let replyButton = UIBarButtonItem(title: "Reply", style: .plain, target: self, action: #selector(onTapAskAdvice))
 
     override func viewDidLoad() {
         super.viewDidLoad()
         getUsersCity()
         setUpView()
-        self.navigationItem.rightBarButtonItem = askAdviceButton
+        self.navigationItem.rightBarButtonItem = replyButton
         thisView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x800f0f)
         
     }
@@ -62,7 +62,8 @@ class NewPostViewController: UIViewController {
                 "text": textView.text!,
                 "timestamp": [".sv": "timestamp"],
                 "city" : currentUserCity!,
-                "subject" : subjectSelector.currentSelectedSubject()
+                "subject" : subjectSelector.currentSelectedSubject(),
+                "favorite" : "n/a"
                 ] as [String: Any]
             postRef.setValue(postObject, withCompletionBlock: { error, ref in
                 if error == nil {
