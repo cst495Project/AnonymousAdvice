@@ -26,9 +26,9 @@ The following **stretch** features are implemented:
 - [ ]  User can change their location from their profile page.
 - [ ]  User receives a notification when their post is given advice.
 - [x]  User's profile will require password or fingerprint authentication to access after app restart
-- [ ]  User can view open threads they have given advice on.
+- [X]  User can view open threads they have given advice on.
 - [X]  User can rate advice good or bad.
-- [ ]  User can select the best advice on their own post.
+- [X]  User can select the best advice on their own post.
 - [X]  Users have a total advice score (good or bad advice points)
 - [ ]  Posts in the local or global section are sorted by popularity or newest.
 - [X]  Advice in a post is sorted by good or bad rating.
