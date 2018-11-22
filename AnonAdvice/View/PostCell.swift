@@ -13,7 +13,8 @@ class PostCell: UITableViewCell {
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var postTextLabel: UILabel!
-
+    @IBOutlet weak var repliesLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }

@@ -1,5 +1,5 @@
 //
-//  ComposeViewController.swift
+//  NewPostViewController.swift
 //  AnonAdvice
 //
 //  Created by Devin Hight on 10/17/18.
@@ -22,7 +22,7 @@ class NewPostViewController: UIViewController {
     var postId: String!
     
     let subjectSelector = SubjectSelector()
-    let replyButton = UIBarButtonItem(title: "Reply", style: .plain, target: self, action: #selector(onTapAskAdvice))
+    let replyButton = UIBarButtonItem(title: "Ask", style: .plain, target: self, action: #selector(onTapAskAdvice))
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +30,10 @@ class NewPostViewController: UIViewController {
         setUpView()
         self.navigationItem.rightBarButtonItem = replyButton
         thisView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x800f0f)
-        
+        let borderColor: UIColor = UIColor(red:0.85, green:0.85, blue:0.85, alpha:1.0)
+        textView.layer.borderWidth = 1
+        textView.layer.borderColor = borderColor.cgColor
+        textView.layer.cornerRadius = 5.0
     }
     
     override func viewWillAppear(_ animated: Bool) {

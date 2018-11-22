@@ -104,8 +104,8 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: "ReplyCell", for: indexPath) as! ReplyCell
         cell.replyTextLabel.text = replies[indexPath.row].text
         cell.timestampLabel.text = "\(String(describing: replies[indexPath.row].timestamp))"
-        cell.goodPoints.text = "\(String(replies[indexPath.row].good))"
-        cell.badPoints.text = "\(String(replies[indexPath.row].bad))"
+        cell.goodPoints.text = "Good: \(String(replies[indexPath.row].good))"
+        cell.badPoints.text = "Bad: \(String(replies[indexPath.row].bad))"
         cell.reply = replies[indexPath.row]
         cell.replyId = replies[indexPath.row].id
         cell.postId = postId

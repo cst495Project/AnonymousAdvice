@@ -24,8 +24,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var emailField: UILabel!
     @IBOutlet weak var cityField: UILabel!
     @IBOutlet weak var advicePointsField: UILabel!
-    @IBOutlet weak var imageViewField: UIImageView!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
+    @IBOutlet weak var changeCity: UIButton!
+    @IBOutlet weak var nightButton: UIButton!
     
     var posts: [Post] = []
     var repliedPosts: [Post] = []
@@ -50,11 +51,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         emailField.isHidden=true
         cityField.isHidden=true
         advicePointsField.isHidden=true
-        imageViewField.isHidden = true
         goodLabel.isHidden = true
         badLabel.isHidden = true
         cityLabel.isHidden = true
         segmentedControl.isHidden = true
+        changeCity.isHidden = true
+        nightButton.isHidden = true
         emailLabel.text = currentUser?.email
         
         tableView.isHidden = true
@@ -193,10 +195,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         emailField.isHidden = false
         cityField.isHidden = false
         advicePointsField.isHidden = false
-        imageViewField.isHidden = false
         goodLabel.isHidden = false
         badLabel.isHidden = false
         segmentedControl.isHidden = false
+        changeCity.isHidden = false
+        nightButton.isHidden = false
+        nightButton.imageView?.contentMode = .scaleAspectFit
         getUsersCity()
         fetchUserPosts()
         fetchRepliedPosts()
@@ -245,15 +249,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     @IBAction func onNightButton(_ sender: Any) {
-        if(NightNight.theme == .night){
+        if (NightNight.theme == .night) {
             NightNight.theme = .normal
             print("normal")
-        }
-        else{
+        } else {
             NightNight.theme = .night
             print("night")
         }
-        
     }
     
     func checkIfVerified(){
