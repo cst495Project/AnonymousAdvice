@@ -90,6 +90,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.titleLabel.text = posts[indexPath.row].title
         cell.postTextLabel.text = posts[indexPath.row].text
         cell.timestampLabel.text = "\(String(describing: posts[indexPath.row].timestamp))"
+        AnonFB.getReplyCount(posts[indexPath.row].id, completionblock: { (count) in
+            cell.repliesLabel.text = "Replies: \(String(count))"
+        })
         return cell
     }
     

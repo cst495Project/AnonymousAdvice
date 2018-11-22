@@ -24,6 +24,7 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var commentLabel: UILabel!
     @IBOutlet weak var avatarImage: UIImageView!
     @IBOutlet weak var replyButton: UIButton!
+    @IBOutlet weak var bestAdviceButton: UIButton!
     
     var delegate: cellDelegate?
     var goodTapGesture: UITapGestureRecognizer!
@@ -36,15 +37,10 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
     var commentCount: Int!
     let current = Auth.auth().currentUser!.uid
     var currentRating: String!
-    
-    let bestAdviceButton = UIButton()
     var adviceID: String?
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        setUpView()
-        
         charCountLabel = UILabel(frame: CGRect(x:0, y:0, width:10, height: 10))
         goodTapGesture = UITapGestureRecognizer(target: self, action: #selector(ReplyCell.tapEdit(sender:)))
         badTapGesture = UITapGestureRecognizer(target: self, action: #selector(ReplyCell.tapEdit(sender:)))
@@ -56,17 +52,7 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
         super.setSelected(selected, animated: animated)
     }
     
-    func setUpView(){
-        bestAdviceButton.translatesAutoresizingMaskIntoConstraints = false
-        bestAdviceButton.addTarget(self, action: #selector(favoriteTapDetected), for: .touchUpInside)
-        addSubview(bestAdviceButton)
-        bestAdviceButton.leadingAnchor.constraint(equalTo: replyButton.trailingAnchor, constant: 8).isActive = true
-        bestAdviceButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
-        bestAdviceButton.topAnchor.constraint(equalTo: topAnchor, constant: 8).isActive = true
-        bestAdviceButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
-    }
-    
-    @objc func favoriteTapDetected(_ sender: Any){
+    @IBAction func onFavorite(_ sender: Any) {
         let blah = Database.database().reference().child("posts").child(postId).child("favorite")
         blah.observeSingleEvent(of: .value) { (DataSnapshot) in
             self.adviceID = DataSnapshot.value as? String
