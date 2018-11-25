@@ -45,8 +45,8 @@ class ReplyViewController: UIViewController {
     @objc func onPostReply(_ sender: Any) {
         if replyTextView.text != "" {
             let current = Auth.auth().currentUser!.uid
-            let postRef = Database.database().reference().child("posts").child(postID!).child("replies")
-            let replyRef = postRef.childByAutoId()
+            let postRef = Database.database().reference().child("posts").child(postID!)
+            let replyRef = postRef.child("replies").childByAutoId()
             let replyObject = [
                 "author": current,
                 "text": replyTextView.text,
@@ -56,6 +56,14 @@ class ReplyViewController: UIViewController {
                 if error == nil {
                     let user = Database.database().reference().child("users").child(current).child("replies")
                     user.child(replyRef.key!).setValue(self.postID!)
+                    postRef.child("count").observeSingleEvent(of: .value, with: { (snapshot) in
+                        if snapshot.exists() {
+                            let count = snapshot.value as? Int
+                            postRef.child("count").setValue(count! + 1)
+                        } else {
+                            postRef.child("count").setValue(1)
+                        }
+                    })
                     let _ = self.navigationController?.popViewController(animated: true)
                 } else {
                     print(error?.localizedDescription as Any)

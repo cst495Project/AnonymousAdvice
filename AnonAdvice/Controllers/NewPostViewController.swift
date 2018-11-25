@@ -66,7 +66,8 @@ class NewPostViewController: UIViewController {
                 "timestamp": [".sv": "timestamp"],
                 "city" : currentUserCity!,
                 "subject" : subjectSelector.currentSelectedSubject(),
-                "favorite" : "n/a"
+                "favorite" : "n/a",
+                "count": 0
                 ] as [String: Any]
             postRef.setValue(postObject, withCompletionBlock: { error, ref in
                 if error == nil {
