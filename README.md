@@ -23,7 +23,7 @@ The following **required** functionality is completed:
 The following **stretch** features are implemented:
 
 - [X]  User can select the subject or type of advice they want to view or ask for.
-- [ ]  User can change their location from their profile page.
+- [x]  User can change their location from their profile page.
 - [ ]  User receives a notification when their post is given advice.
 - [x]  User's profile will require password or fingerprint authentication to access after app restart
 - [X]  User can view open threads they have given advice on.
