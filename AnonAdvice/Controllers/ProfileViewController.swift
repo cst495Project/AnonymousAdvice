@@ -272,6 +272,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
         cityLabel.text = place.formattedAddress!
+        userRef.child(self.current).child("city").setValue(cityLabel.text)
         self.dismiss(animated: true, completion: nil)
     }
     
