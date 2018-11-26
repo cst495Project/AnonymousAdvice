@@ -33,7 +33,7 @@ class AnonFB {  // Singleton class for managing Firebase Events.
         Auth.auth().createUser(withEmail: email, password: password, completion: {(user, error) in
             if user != nil{
                 let userObject = [
-                    "username": email,
+                    //"username": email,
                     "city": city,
                     "timestamp": [".sv": "timestamp"],
                     "score": ["good": 0, "bad": 0] ] as [String: Any]
@@ -70,11 +70,11 @@ class AnonFB {  // Singleton class for managing Firebase Events.
         var user: User!
         self.usersRef.child(userId).observeSingleEvent(of: .value) { (snap) in
             if snap.exists(){
-                let username = snap.childSnapshot(forPath: "username").value as? String ?? "No username"
+                //let username = snap.childSnapshot(forPath: "username").value as? String ?? "No username"
                 let timestamp = snap.childSnapshot(forPath: "timestamp").value as? Double ?? 1
                 let good = snap.childSnapshot(forPath: "good").value as? Int ?? 0
                 let bad = snap.childSnapshot(forPath: "bad").value as? Int ?? 0
-                user = User.init(userID: userId, username: username, timestamp: timestamp, good: good, bad: bad)
+                user = User.init(userID: userId, timestamp: timestamp, good: good, bad: bad)
                 completionblock(user)
             } else {
                 print("No author found")
@@ -82,19 +82,27 @@ class AnonFB {  // Singleton class for managing Firebase Events.
         }
     }
     // Retrieve all Posts created by a User as Post snapshot
-    static func fetchUserPosts(_ userId: String!, completionblock: @escaping ((_ posts: DataSnapshot)-> Void )) {
-        let query = postRef.queryOrdered(byChild: "author").queryEqual(toValue: userId)
-        query.observeSingleEvent(of: .value) { (snapshot) in
+    static func fetchUserPosts(_ userId: String!, completionblock: @escaping ((_ posts: [String])-> Void )) {
+        var postIds: [String] = []
+        let posts = usersRef.child(userId).child("posts")
+        posts.observeSingleEvent(of: .value) { (snapshot) in
             if snapshot.exists() {
-                completionblock(snapshot)
+                for child in snapshot.children {
+                    let snap = child as! DataSnapshot
+                    let postId = snap.key
+                    postIds.append(postId)
+                }
+                let postIds = Array(Set(postIds)).sorted()
+                completionblock(postIds)
             } else {
-                print("No posts found")
+                print("No posts created by user")
             }
         }
     }
     // Retrieve all PostIds a User has replied to
-    static func fetchUserRepliedPosts(_ userId: String!, completionblock: @escaping ((_ postIds: [String])-> Void )) {
+    static func fetchUserRepliedPosts(_ userId: String!, completionblock: @escaping ((_ postIds: [String], _ replyIds:[String])-> Void )) {
         var postIds: [String] = []
+        var replyIds: [String] = []
         let query = usersRef.child(userId).child("replies")
         query.observeSingleEvent(of: .value, with: { (snapshot) in
             if snapshot.exists() {
@@ -102,9 +110,11 @@ class AnonFB {  // Singleton class for managing Firebase Events.
                     let snap = child as! DataSnapshot
                     let postId = snap.value as! String
                     postIds.append(postId)
+                    replyIds.append(snap.key)
                 }
                 let postIds = Array(Set(postIds)).sorted()
-                completionblock(postIds)
+                let replyIds = Array(Set(replyIds)).sorted()
+                completionblock(postIds, replyIds)
             } else {
                 print("No posts replied to")
             }
@@ -126,7 +136,7 @@ class AnonFB {  // Singleton class for managing Firebase Events.
     }
     // Retrieve all posts as snapshot
     static func fetchPostsData(completionblock: @escaping ((_ data: DataSnapshot)-> Void )) {
-        postRef.observeSingleEvent(of: .value) { (snapshot) in
+        postRef.queryLimited(toLast: 20).observeSingleEvent(of: .value) { (snapshot) in
             if snapshot.exists() {
                 completionblock(snapshot)
             } else {
@@ -149,7 +159,8 @@ class AnonFB {  // Singleton class for managing Firebase Events.
                 let subject = snap.childSnapshot(forPath: "subject").value as? String ?? "No subject"
                 let timestamp = date.shortTimeAgoSinceNow + " ago"
                 let favorite = snap.childSnapshot(forPath: "favorite").value as? String ?? "n/a"
-                post = Post.init(id: id, author: author, title: title, text: text, timestamp: timestamp, subject: subject, favorite: favorite)
+                let replyCount = snap.childSnapshot(forPath: "count").value as? Int ?? 0
+                post = Post.init(id: id, author: author, title: title, text: text, timestamp: timestamp, subject: subject, favorite: favorite, replyCount: replyCount)
                 completionblock(post)
             } else {
                 print("No post by that ID found")
@@ -158,7 +169,7 @@ class AnonFB {  // Singleton class for managing Firebase Events.
     }
     // Retrieve all Local Posts as Post Snapshot
     static func fetchLocalPosts(_ currentCity: String!, completionblock: @escaping ((_ snapshot: DataSnapshot)-> Void )) {
-        let query = postRef.queryOrdered(byChild: "city").queryEqual(toValue: currentCity)
+        let query = postRef.queryOrdered(byChild: "city").queryEqual(toValue: currentCity).queryLimited(toLast: 20)
         query.observeSingleEvent(of: .value) { (snapshot) in
             if snapshot.exists() {
                 completionblock(snapshot)
@@ -214,7 +225,8 @@ class AnonFB {  // Singleton class for managing Firebase Events.
                 let subject = snap.childSnapshot(forPath: "subject").value as? String ?? "No subject"
                 let timestamp = date.shortTimeAgoSinceNow + " ago"
                 let favorite = snap.childSnapshot(forPath: "favorite").value as? String ?? "n/a"
-                posts.append(Post.init(id: id, author: author, title: title, text: text, timestamp: timestamp, subject: subject, favorite: favorite))
+                let replyCount = snap.childSnapshot(forPath: "count").value as? Int ?? 0
+                posts.append(Post.init(id: id, author: author, title: title, text: text, timestamp: timestamp, subject: subject, favorite: favorite, replyCount: replyCount))
             }
             completionblock(posts)
         } else {
@@ -222,14 +234,49 @@ class AnonFB {  // Singleton class for managing Firebase Events.
             print("No posts found")
         }
     }
-    // Delete a Post from Firebase
+    // Delete a Post from Posts and User's list of Posts
     static func deletePost(_ postId: String!, completionblock: @escaping ((_ error: Error?)-> Void )) {
         let deleteRef = postRef.child(postId!)
         deleteRef.removeValue() { error, completed  in
             if error != nil {
                 print(error?.localizedDescription as Any)
             } else {
-                completionblock(error)
+                let current = Auth.auth().currentUser?.uid
+                let user = usersRef.child(current!).child("posts").child(postId)
+                user.removeValue()  { error, completed  in
+                    if error != nil {
+                        print(error?.localizedDescription as Any)
+                    } else {
+                        completionblock(error)
+                    }
+                }
+            }
+        }
+    }
+    // Delete a Reply from a Post
+    static func deleteReply(_ postId: String!, replyId: String!, completionblock: @escaping ((_ error: Error?)-> Void )) {
+        let deleteRef = postRef.child(postId!).child("replies").child(replyId!)
+        deleteRef.removeValue() { error, completed  in
+            if error != nil {
+                print(error?.localizedDescription as Any)
+            } else {
+                let current = Auth.auth().currentUser?.uid
+                let user = usersRef.child(current!).child("replies").child(replyId)
+                user.removeValue()  { error, completed  in
+                    if error != nil {
+                        print(error?.localizedDescription as Any)
+                    } else {
+                        postRef.child(postId!).child("count").observeSingleEvent(of: .value, with: { (snapshot) in
+                            if snapshot.exists() {
+                                let count = snapshot.value as? Int
+                                if count! > 0 {
+                                    postRef.child(postId!).child("count").setValue(count! - 1)
+                                }
+                                completionblock(error)
+                            }
+                        })
+                    }
+                }
             }
         }
     }
@@ -313,8 +360,8 @@ class AnonFB {  // Singleton class for managing Firebase Events.
             ] as [String: Any]
         replyRef.setValue(commentObject, withCompletionBlock: { error, ref  in
             if error == nil {
-//                let user = usersRef.child(current).child("comments")
-//                user.child(replyRef.key!).setValue(comment)
+                let user = usersRef.child(current).child("comments")
+                user.child(replyRef.key!).setValue(comment)
                 completionblock(error)
             } else {
                 print(error?.localizedDescription as Any)

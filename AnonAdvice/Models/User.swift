@@ -10,14 +10,12 @@ import Foundation
 
 class User {
     var userID: String
-    var username: String
     var timestamp: Double
     var good: Int
     var bad: Int
     
-    init(userID: String, username: String,timestamp: Double, good: Int, bad: Int) {
+    init(userID: String, timestamp: Double, good: Int, bad: Int) {
         self.userID = userID
-        self.username = username
         self.timestamp = timestamp
         self.good = good
         self.bad = bad

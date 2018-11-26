@@ -10,12 +10,14 @@ import UIKit
 import Firebase
 import DateToolsSwift
 import NightNight
+import SCLAlertView
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var sortSwitch: UISwitch!
     @IBOutlet var thisView: UIView!
     
     let postRef = Database.database().reference().child("posts")
@@ -23,6 +25,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     let currentUser = Auth.auth().currentUser?.uid
     var currentUserCity: String!
     var posts: [Post] = []
+    var original: [Post] = []
     var postID: String?
     var refreshControl = UIRefreshControl()
     let subjectSelector = SubjectSelector()
@@ -52,6 +55,17 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         activityIndicator.startAnimating()
         
         thisView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x800f0f)
+        
+        sortSwitch.addTarget(self, action: #selector(stateChanged), for: UIControlEvents.valueChanged)
+    }
+    
+    @objc func stateChanged(switchState: UISwitch) {
+        if switchState.isOn {
+            posts = posts.sorted(by: {$0.replyCount > $1.replyCount})
+        } else {
+            posts = original
+        }
+        tableView.reloadData()
     }
     
     @objc func didPullToRefresh(_ refreshControl: UIRefreshControl){
@@ -67,7 +81,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @IBAction func onCompose(_ sender: Any) {
-        self.performSegue(withIdentifier: "composeSegue", sender: self)
+        userRef.child(currentUser!).child("posts").observeSingleEvent(of: .value) { (snapshot) in
+            if snapshot.childrenCount < 5 {
+                self.performSegue(withIdentifier: "composeSegue", sender: self)
+            } else {
+                SCLAlertView().showError("Too many posts!", subTitle: "You have too many open posts, delete some posts from your profile to continue.")
+            }
+        }
     }
     
     @IBAction func onLogout(_ sender: Any) {
@@ -90,9 +110,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.titleLabel.text = posts[indexPath.row].title
         cell.postTextLabel.text = posts[indexPath.row].text
         cell.timestampLabel.text = "\(String(describing: posts[indexPath.row].timestamp))"
-        AnonFB.getReplyCount(posts[indexPath.row].id, completionblock: { (count) in
-            cell.repliesLabel.text = "Replies: \(String(count))"
-        })
+        cell.repliesLabel.text = "Replies: \(String(posts[indexPath.row].replyCount))"
         return cell
     }
     
@@ -100,6 +118,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         AnonFB.fetchPostsData { (snapshot) in
             AnonFB.getPostsInfo(snapshot, completionblock: { (Post) in
                 self.posts = Post.reversed()
+                self.original = self.posts
                 self.tableView.reloadData()
                 self.refreshControl.endRefreshing()
                 self.activityIndicator.stopAnimating()
@@ -111,6 +130,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         AnonFB.fetchLocalPosts(self.currentUserCity) { (snapshot) in
             AnonFB.getPostsInfo(snapshot, completionblock: { (Post) in
                 self.posts = Post.reversed()
+                self.original = self.posts
                 self.tableView.reloadData()
                 self.refreshControl.endRefreshing()
                 self.activityIndicator.stopAnimating()

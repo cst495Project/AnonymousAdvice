@@ -72,29 +72,31 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
     }
     
     @objc func tapEdit(sender: UITapGestureRecognizer) {
-        let replyRef = Database.database().reference().child("posts").child(postId!).child("replies").child(replyId).child("rated")
-        replyRef.child(self.current).observeSingleEvent(of: .value, with: { (snapshot) in
-            if snapshot.exists() {
-                self.currentRating = snapshot.value! as? String
-                if self.currentRating == "good" && sender == self.badTapGesture {
-                    self.rate(type: "bad")
-                    self.increaseScore(type: "bad")
-                    self.decreaseScore(type: self.currentRating)
-                } else if self.currentRating == "bad" && sender == self.goodTapGesture {
-                    self.rate(type: "good")
-                    self.increaseScore(type: "good")
-                    self.decreaseScore(type: self.currentRating)
-                }
-            } else {
-                if sender == self.goodTapGesture {
-                    self.rate(type: "good")
-                    self.increaseScore(type: "good")
+        if current != reply.author {
+            let replyRef = Database.database().reference().child("posts").child(postId!).child("replies").child(replyId).child("rated")
+            replyRef.child(self.current).observeSingleEvent(of: .value, with: { (snapshot) in
+                if snapshot.exists() {
+                    self.currentRating = snapshot.value! as? String
+                    if self.currentRating == "good" && sender == self.badTapGesture {
+                        self.rate(type: "bad")
+                        self.increaseScore(type: "bad")
+                        self.decreaseScore(type: self.currentRating)
+                    } else if self.currentRating == "bad" && sender == self.goodTapGesture {
+                        self.rate(type: "good")
+                        self.increaseScore(type: "good")
+                        self.decreaseScore(type: self.currentRating)
+                    }
                 } else {
-                    self.rate(type: "bad")
-                    self.increaseScore(type: "bad")
+                    if sender == self.goodTapGesture {
+                        self.rate(type: "good")
+                        self.increaseScore(type: "good")
+                    } else {
+                        self.rate(type: "bad")
+                        self.increaseScore(type: "bad")
+                    }
                 }
-            }
-        })
+            })
+        }
     }
     
     func rate(type: String) {

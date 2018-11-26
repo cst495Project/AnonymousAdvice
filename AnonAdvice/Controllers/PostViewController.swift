@@ -11,6 +11,7 @@ import Firebase
 import DateToolsSwift
 import AlamofireImage
 import NightNight
+import SCLAlertView
 
 class PostViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, cellDelegate {
     
@@ -113,6 +114,9 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         if author != currentUser{
             cell.bestAdviceButton.isHidden = true
         }
+        if replies[indexPath.row].author == currentUser {
+            cell.backgroundColor = UIColor.lightText
+        }
         
         if cell.replyId == self.adviceFavorited {
             cell.bestAdviceButton.isEnabled = true
@@ -142,6 +146,22 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         return cell
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return replies[indexPath.row].author == currentUser
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            deleteReply(indexPath: indexPath) {_ in 
+                tableView.beginUpdates()
+                self.replies.remove(at: indexPath.row)
+                self.tableView.deleteRows(at: [indexPath], with: .automatic)
+                tableView.endUpdates()
+                tableView.reloadData()
+            }
+        }
+    }
+    
     // ******** DATABASE & SNAPSHOT CALLS ********
     
     func getPost() {
@@ -160,12 +180,27 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         getPostReplies()
     }
     
+    func deleteReply(indexPath: IndexPath, completionblock: @escaping ((Error?)-> Void )) {
+        let alert = SCLAlertView()
+        alert.addButton("Delete") {
+            let rid = self.replies[indexPath.row].id
+            AnonFB.deleteReply(self.postId, replyId: rid, completionblock: { (Error) in
+                if Error != nil {
+                    print(Error?.localizedDescription as Any)
+                } else {
+                    completionblock(Error)
+                }
+            })
+        }
+        alert.showWarning("Confirmation Needed", subTitle: "Are you sure you want to delete your reply?")
+    }
+    
     func getPostReplies() {
         AnonFB.fetchReplies(postId!) { (Replies) in
             self.replies = Replies.sorted(by: {$0.good > $1.good})
             self.tableView.reloadData()
         }
-    Database.database().reference().child("posts").child(postId!).child("favorite").observeSingleEvent(of: .value) { (DataSnapshot) in
+        Database.database().reference().child("posts").child(postId!).child("favorite").observeSingleEvent(of: .value) { (DataSnapshot) in
             self.adviceFavorited = DataSnapshot.value as? String
             self.tableView.reloadData()
         }

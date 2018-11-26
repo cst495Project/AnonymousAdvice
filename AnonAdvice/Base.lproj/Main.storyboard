@@ -208,16 +208,16 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Good: 100" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X3Z-U8-HnM">
-                                                    <rect key="frame" x="76" y="8" width="71" height="18"/>
+                                                    <rect key="frame" x="76" y="8" width="75" height="18"/>
                                                     <gestureRecognizers/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                     <color key="textColor" red="0.072568485246748748" green="1" blue="0.03765791636474769" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bad: 100" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OXr-jn-WzL">
-                                                    <rect key="frame" x="76" y="50" width="60.5" height="18"/>
+                                                    <rect key="frame" x="76" y="50" width="64.5" height="18"/>
                                                     <gestureRecognizers/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                     <color key="textColor" red="1" green="0.046832405328050108" blue="0.072401243796129777" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -252,8 +252,8 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comments: 30" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Igg-Ro-4KQ">
-                                                    <rect key="frame" x="76" y="29" width="101" height="18"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <rect key="frame" x="76" y="29" width="108" height="18"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                     <color key="textColor" red="0.16754910379999999" green="0.55555610129999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -305,6 +305,7 @@
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                         </tableViewCellContentView>
+                                        <color key="tintColor" cocoaTouchSystemColor="lightTextColor"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="color" keyPath="nightBackgroundColor">
                                                 <color key="value" cocoaTouchSystemColor="darkTextColor"/>
@@ -498,7 +499,7 @@
                                 </userDefinedRuntimeAttributes>
                             </segmentedControl>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="SmQ-0K-gEV">
-                                <rect key="frame" x="0.0" y="164" width="375" height="459"/>
+                                <rect key="frame" x="0.0" y="190" width="375" height="433"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PostCell" rowHeight="103" id="nrU-wZ-pxf" customClass="PostCell" customModule="AnonAdvice" customModuleProvider="target">
@@ -586,23 +587,34 @@
                                 <rect key="frame" x="197" y="358" width="20" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </activityIndicatorView>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="vNz-4E-RQV">
+                                <rect key="frame" x="318" y="156" width="51" height="31"/>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sort by popularity:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mr9-8t-2hD">
+                                <rect key="frame" x="8" y="161" width="141.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <constraints>
                             <constraint firstItem="KD5-kI-z0z" firstAttribute="top" secondItem="m74-LT-pqp" secondAttribute="top" constant="8" id="2eD-Xh-iQS"/>
+                            <constraint firstItem="mr9-8t-2hD" firstAttribute="leading" secondItem="m74-LT-pqp" secondAttribute="leading" constant="8" id="6Ts-sd-su9"/>
+                            <constraint firstItem="SmQ-0K-gEV" firstAttribute="top" secondItem="vNz-4E-RQV" secondAttribute="bottom" constant="3" id="7ma-M7-vHQ"/>
                             <constraint firstItem="KD5-kI-z0z" firstAttribute="leading" secondItem="m74-LT-pqp" secondAttribute="leading" constant="16" id="INu-SZ-WfX"/>
                             <constraint firstItem="SmQ-0K-gEV" firstAttribute="leading" secondItem="m74-LT-pqp" secondAttribute="leading" id="Oza-fF-5yD"/>
                             <constraint firstItem="SmQ-0K-gEV" firstAttribute="trailing" secondItem="m74-LT-pqp" secondAttribute="trailing" id="WV3-eh-e0m"/>
                             <constraint firstItem="SmQ-0K-gEV" firstAttribute="bottom" secondItem="m74-LT-pqp" secondAttribute="bottom" id="d13-UD-cMm"/>
-                            <constraint firstItem="SmQ-0K-gEV" firstAttribute="top" secondItem="m74-LT-pqp" secondAttribute="top" constant="100" id="gAb-zY-fWO"/>
+                            <constraint firstItem="SmQ-0K-gEV" firstAttribute="top" secondItem="m74-LT-pqp" secondAttribute="top" constant="126" id="gAb-zY-fWO"/>
+                            <constraint firstItem="vNz-4E-RQV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="mr9-8t-2hD" secondAttribute="trailing" constant="8" id="n5x-vx-SAb"/>
+                            <constraint firstItem="m74-LT-pqp" firstAttribute="trailing" secondItem="vNz-4E-RQV" secondAttribute="trailing" constant="8" id="nBe-x4-A4v"/>
+                            <constraint firstItem="SmQ-0K-gEV" firstAttribute="top" secondItem="mr9-8t-2hD" secondAttribute="bottom" constant="8" id="ofe-Pm-TbX"/>
                             <constraint firstItem="m74-LT-pqp" firstAttribute="trailing" secondItem="KD5-kI-z0z" secondAttribute="trailing" constant="16" id="u2f-9f-uTe"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="m74-LT-pqp"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="nightBackgroundColor">
                                 <color key="value" cocoaTouchSystemColor="darkTextColor"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="color" keyPath="normalBackgroundColor">
-                                <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
@@ -647,6 +659,7 @@
                     <connections>
                         <outlet property="activityIndicator" destination="Or4-r2-LIA" id="aLI-Uh-JDM"/>
                         <outlet property="segmentedControl" destination="KD5-kI-z0z" id="6BA-gb-sRp"/>
+                        <outlet property="sortSwitch" destination="vNz-4E-RQV" id="f95-Lp-FYR"/>
                         <outlet property="tableView" destination="SmQ-0K-gEV" id="MbU-s6-E5a"/>
                         <outlet property="thisView" destination="ZPj-L7-nyb" id="XfW-Ev-WV5"/>
                         <segue destination="jgf-W4-hof" kind="show" identifier="reply" id="nGz-dA-NWZ"/>
@@ -654,7 +667,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dAC-vv-O22" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1486.9565217391305" y="875.54347826086962"/>
+            <point key="canvasLocation" x="1485.5999999999999" y="874.81259370314854"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="MmV-bq-xeX">
@@ -890,7 +903,7 @@
         <image name="unselectedHeart" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="7fz-g3-Xlc"/>
+        <segue reference="nGz-dA-NWZ"/>
         <segue reference="UiA-7p-fkG"/>
         <segue reference="zJj-dd-CYl"/>
     </inferredMetricsTieBreakers>

@@ -16,8 +16,9 @@ class Post {
     var timestamp: String
     var subject: String
     var favorite: String
+    var replyCount: Int
     
-    init(id: String, author: String, title: String, text: String, timestamp: String, subject: String, favorite: String) {
+    init(id: String, author: String, title: String, text: String, timestamp: String, subject: String, favorite: String, replyCount: Int) {
         self.id = id
         self.author = author
         self.title = title
@@ -25,5 +26,6 @@ class Post {
         self.timestamp = timestamp
         self.subject = subject
         self.favorite = favorite
+        self.replyCount = replyCount
     }
 }

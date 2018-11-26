@@ -29,6 +29,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var nightButton: UIButton!
     
     var posts: [Post] = []
+    var usersPosts: [Post] = []
     var repliedPosts: [Post] = []
     var currentUserPost: String!
     let postRef = Database.database().reference().child("posts")
@@ -41,6 +42,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.extraLight))
     let verifyUserView = VerifyUserView()
     let defaults = UserDefaults.standard
+    var currentSegment: Int! = 0
+    var repliedPostsString: [String] = []
+    var replies: [String] = []
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,9 +88,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         cell.titleLabel.text = posts[indexPath.row].title
         cell.postTextLabel.text = posts[indexPath.row].text
         cell.timestampLabel.text = posts[indexPath.row].timestamp
-        AnonFB.getReplyCount(posts[indexPath.row].id, completionblock: { (count) in
-            cell.replyLabel.text = "Replies: \(String(count))"
-        })
+        cell.replyLabel.text = "Replies: \(String(posts[indexPath.row].replyCount))"
         return cell
     }
     
@@ -96,16 +99,17 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
+        return currentSegment == 0
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            deletePost(indexPath: indexPath) {
+            deletePost(indexPath: indexPath) {_ in 
                 tableView.beginUpdates()
                 self.posts.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .automatic)
                 tableView.endUpdates()
+                tableView.reloadData()
             }
         }
     }
@@ -122,46 +126,72 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func fetchUserPosts() {
-        AnonFB.fetchUserPosts(current) { (Post) in
-            AnonFB.getPostsInfo(Post, completionblock: { (Post) in
-                self.posts = Post.reversed()
-                self.tableView.reloadData()
-            })
+        AnonFB.fetchUserPosts(current) { (Posts) in
+            if !Posts.isEmpty {
+                for postId in Posts {
+                    AnonFB.fetchPost(postId, completionblock: { (Post) in
+                        self.usersPosts.append(Post)
+                    })
+                }
+            }
         }
     }
     
+    func fetchUsersPosts() {
+        self.posts = usersPosts
+        self.tableView.reloadData()
+    }
+    
     func fetchRepliedPosts() {
-        AnonFB.fetchUserRepliedPosts(current) { (Posts) in
-            for postId in Posts {
-                AnonFB.fetchPost(postId, completionblock: { (Post) in
-                    self.repliedPosts.append(Post)
-                })
+        AnonFB.fetchUserRepliedPosts(current) { (Posts, Replies) in
+            if !Posts.isEmpty {
+                self.repliedPostsString = Posts
+                self.replies = Replies
+                for postId in Posts {
+                    AnonFB.fetchPost(postId, completionblock: { (Post) in
+                        self.repliedPosts.append(Post)
+                    })
+                }
             }
         }
     }
     
     func fetchUserRepliedPosts() {
-        self.posts = repliedPosts
+        self.posts = repliedPosts.reversed()
         self.tableView.reloadData()
     }
     
-    func deletePost(indexPath: IndexPath, completionblock: @escaping (()-> Void )) {
+    func removeOldRepliedPosts() {
+        var realPosts: [String] = []
+        for post in repliedPosts{
+            realPosts.append(post.id)
+        }
+        let set1 = Set(realPosts)
+        let difference = Array(set1.symmetricDifference(repliedPostsString))
+        for post in difference {
+            let indexOfPost = repliedPostsString.firstIndex(of: post)
+            let reply = replies[indexOfPost!]
+            let user = Database.database().reference().child("users").child(current).child("replies").child(reply)
+            user.removeValue()  { error, completed  in
+                if error != nil {
+                    print(error?.localizedDescription as Any)
+                } else {
+                    print("Unused data deleted")
+                }
+            }
+        }
+    }
+    
+    func deletePost(indexPath: IndexPath, completionblock: @escaping ((Error?)-> Void )) {
         let alert = SCLAlertView()
         alert.addButton("Delete") {
-        let pid = self.posts[indexPath.row].id
-        AnonFB.deletePost(pid, completionblock: { (Error) in
-            if Error != nil {
-            print(Error?.localizedDescription as Any)
-            } else {
-                let current = Auth.auth().currentUser?.uid
-                let userRef = Database.database().reference().child("users").child(current!).child("posts").child(pid)
-                    userRef.removeValue()  { error, completed  in
-                        if error != nil {
-                            print(error?.localizedDescription as Any)
-                        } else {
-                            completionblock()
-                        }
-                    }
+            let pid = self.posts[indexPath.row].id
+            AnonFB.deletePost(pid, completionblock: { (Error) in
+                if Error != nil {
+                    print(Error?.localizedDescription as Any)
+                } else {
+                    self.tableView.reloadData()
+                    completionblock(Error)
                 }
             })
         }
@@ -208,7 +238,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.goodLabel.text = String(scores["good"] ?? 0)
             self.badLabel.text = String(scores["bad"] ?? 0)
         }
-        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.fetchUsersPosts()
+            self.removeOldRepliedPosts()
+        }
         defaults.set(true, forKey: "verified")
         defaults.synchronize()
     }
@@ -216,9 +249,11 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     @objc func indexChange() {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
-            fetchUserPosts()
+            fetchUsersPosts()
+            currentSegment = 0
         case 1:
             fetchUserRepliedPosts()
+            currentSegment = 1
         default:
             break;
         }
