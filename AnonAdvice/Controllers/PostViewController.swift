@@ -58,8 +58,10 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         getPost()
         getPostReplies()
         
-        thisView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x800f0f)
-        
+        thisView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x0f0f0f)
+        tableView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x0f0f0f)
+        titleLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
+        textLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
     }
     
     @IBAction func onHome(_ sender: Any) {
@@ -104,7 +106,9 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ReplyCell", for: indexPath) as! ReplyCell
         cell.replyTextLabel.text = replies[indexPath.row].text
+        cell.replyTextLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
         cell.timestampLabel.text = "\(String(describing: replies[indexPath.row].timestamp))"
+        cell.timestampLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
         cell.goodPoints.text = "Good: \(String(replies[indexPath.row].good))"
         cell.badPoints.text = "Bad: \(String(replies[indexPath.row].bad))"
         cell.reply = replies[indexPath.row]
@@ -141,8 +145,11 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         let commentLabel = addComments(comments: comments)
         cell.commentCount = comments.count
         cell.commentsLabel.text = "comments: \(String(comments.count))"
+        cell.commentsLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
         cell.commentLabel.text = commentLabel
         cell.delegate = self
+        
+        cell.mixedBackgroundColor = MixedColor(normal: 0xe0e0e0, night: 0x1f1f1f)
         return cell
     }
     

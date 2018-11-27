@@ -34,7 +34,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let b = UIButton()
         b.translatesAutoresizingMaskIntoConstraints = false
         b.setTitle("Filter", for: .normal)
-        b.setTitleColor(.black, for: .normal)
+        b.setTitleColor(.red , for: .normal)
         b.addTarget(self, action: #selector(fetchFilteredPosts), for: .touchUpInside)
         return b
     }()
@@ -54,9 +54,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.insertSubview(refreshControl, at: 0)
         activityIndicator.startAnimating()
         
-        thisView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x800f0f)
+        tableView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x0f0f0f)
+        thisView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x0f0f0f)
         
         sortSwitch.addTarget(self, action: #selector(stateChanged), for: UIControlEvents.valueChanged)
+        
     }
     
     @objc func stateChanged(switchState: UISwitch) {
@@ -111,6 +113,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.postTextLabel.text = posts[indexPath.row].text
         cell.timestampLabel.text = "\(String(describing: posts[indexPath.row].timestamp))"
         cell.repliesLabel.text = "Replies: \(String(posts[indexPath.row].replyCount))"
+        
+        cell.timestampLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
+        cell.titleLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
+        cell.postTextLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
+        cell.repliesLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
+        cell.mixedBackgroundColor = MixedColor(normal: 0xe0e0e0, night: 0x1f1f1f)
         return cell
     }
     

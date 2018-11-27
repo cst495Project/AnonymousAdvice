@@ -11,6 +11,7 @@ import Firebase
 import FirebaseAuth
 import FirebaseDatabase
 import LocalAuthentication
+import NightNight
 
 class VerifyUserView: UIView {
     
@@ -46,6 +47,7 @@ class VerifyUserView: UIView {
         l.translatesAutoresizingMaskIntoConstraints = false
         l.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
         l.text = "We need to verify it is actually you"
+        l.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
         return l
     }()
     
