@@ -24,7 +24,6 @@ The following **stretch** features are implemented:
 
 - [X]  User can select the subject or type of advice they want to view or ask for.
 - [x]  User can change their location from their profile page.
-- [ ]  User receives a notification when their post is given advice.
 - [x]  User's profile will require password or fingerprint authentication to access after app restart
 - [X]  User can view open threads they have given advice on.
 - [X]  User can rate advice good or bad.
@@ -33,32 +32,6 @@ The following **stretch** features are implemented:
 - [X]  Posts in the local or global section are sorted by popularity or newest.
 - [X]  Advice in a post is sorted by good or bad rating.
 - [x]  Views can be switched to night mode.
-
-## Firebase Backend
-
-###### Users Table Example: ######
-
-| ID | Username | Password |
-| --- | --- | --- |
-| 0 | Name | Pass |
-
-###### User Table Example: ######
-
-| ID | Username | Password | Creation Date | Location | Good Points | Bad Points |
-| --- | --- | --- | --- | --- | --- | --- |
-| 0 | Name | Pass | 10/10/18 | California | 10 | 5 |
-
-###### Posts Table Example: ######
-
-| ID | Author | Title | Question | Creation Date | Location | Subject | Reply Count |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| 0 | Name | Short Title | Text | 10/10/18 | California | Relationship | 5 |
-
-###### Post Table Example: ######
-
-| ID | UserID | Avatar | Creation Date | Text | Good Points | Bad Points |
-| --- | --- | --- | --- | --- | --- | --- |
-| 0 | 1111 | Image.jpg | 10/10/18 | Advice | 10 | 5 |
 
 ## API Endpoints
 
@@ -79,12 +52,12 @@ The following **stretch** features are implemented:
 <img src='https://i.imgur.com/43P4YsC.gif' title='Sprint 3' width='' alt='sprint2' />
 
 ## Optional Sprint 1
-<img src='https://imgur.com/qTXBmdO.gif' title='Optional Sprint 1' width='' alt='sprint2' />
+<img src='https://imgur.com/qTXBmdO.gif' title='Optional Sprint 1' width='' alt='optional-sprint1' />
 
 ## Optional Sprint 2
-<img src='https://imgur.com/e8uXy2g.gif' title='Part 1' width='' alt='sprint2' />
-<img src='https://imgur.com/sZPJBEe.gif' title='Part 2' width='' alt='sprint2' />
-<img src='https://imgur.com/nEuFrnG.gif' title='Part 3' width='' alt='sprint2' />
+<img src='https://imgur.com/e8uXy2g.gif' title='Part 1' width='' alt='optional-sprint2' />
+<img src='https://imgur.com/sZPJBEe.gif' title='Part 2' width='' alt='optional-sprint2' />
+<img src='https://imgur.com/nEuFrnG.gif' title='Part 3' width='' alt='optional-sprint2' />
 
 ## Credits
 
