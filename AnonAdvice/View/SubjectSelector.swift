@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import NightNight
 
 class SubjectSelector: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
@@ -20,7 +21,7 @@ class SubjectSelector: UIView, UICollectionViewDelegate, UICollectionViewDataSou
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.backgroundColor = .white
+        cv.backgroundColor = .clear
         cv.delegate = self
         cv.dataSource = self
         return cv
@@ -48,11 +49,12 @@ class SubjectSelector: UIView, UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! SubjectCell
         cell.subjectLabel.text = subjects[indexPath.row]
+        cell.subjectLabel.textColor = .white
         if selectedIndex == indexPath.row{
             
             cell.subjectLabel.backgroundColor = .blue
         }else{
-            cell.subjectLabel.backgroundColor = .white
+            cell.subjectLabel.backgroundColor = .clear
         }
         return cell
     }

@@ -53,22 +53,30 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         emailLabel.text = currentUser?.email
         emailLabel.isHidden = true
         
+        emailLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
         emailField.isHidden=true
+        emailField.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
         cityField.isHidden=true
+        cityField.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
         advicePointsField.isHidden=true
+        advicePointsField.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
         goodLabel.isHidden = true
         badLabel.isHidden = true
         cityLabel.isHidden = true
+        cityLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
         segmentedControl.isHidden = true
+        
         changeCity.isHidden = true
         nightButton.isHidden = true
         emailLabel.text = currentUser?.email
+        emailLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
         
         tableView.isHidden = true
         tableView.delegate = self
         tableView.dataSource = self
         tableView.estimatedRowHeight = 50
         tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x0f0f0f)
         
         verifyUserView.delegate = self
         
@@ -76,7 +84,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         checkIfVerified()
         
-        thisView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x800f0f)
+        thisView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x0f0f0f)
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -89,6 +97,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         cell.postTextLabel.text = posts[indexPath.row].text
         cell.timestampLabel.text = posts[indexPath.row].timestamp
         cell.replyLabel.text = "Replies: \(String(posts[indexPath.row].replyCount))"
+        
+        cell.timestampLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
+        cell.titleLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
+        cell.postTextLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
+        cell.replyLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
+        cell.mixedBackgroundColor = MixedColor(normal: 0xe0e0e0, night: 0x1f1f1f)
         return cell
     }
     

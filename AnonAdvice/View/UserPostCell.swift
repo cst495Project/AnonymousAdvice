@@ -9,6 +9,7 @@
 import UIKit
 import SCLAlertView
 import Firebase
+import NightNight
 
 class UserPostCell: UITableViewCell {
     
