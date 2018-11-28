@@ -183,7 +183,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         let set1 = Set(realPosts)
         let difference = Array(set1.symmetricDifference(repliedPostsString))
         for post in difference {
-            let indexOfPost = repliedPostsString.firstIndex(of: post)
+            let indexOfPost = repliedPostsString.index(of: post)
             let reply = replies[indexOfPost!]
             let user = Database.database().reference().child("users").child(current).child("replies").child(reply)
             user.removeValue()  { error, completed  in
