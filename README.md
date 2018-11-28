@@ -81,6 +81,9 @@ The following **stretch** features are implemented:
 ## Optional Sprint 1
 <img src='https://imgur.com/qTXBmdO.gif' title='Wireframes' width='' alt='sprint2' />
 
+## Optional Sprint 1
+<img src='https://imgur.com/e8uXy2g.gif' title='Wireframes' width='' alt='sprint2' />
+
 ## Credits
 
 List any 3rd party libraries, icons, graphics, or other assets you used in your app.
