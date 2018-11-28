@@ -153,7 +153,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @objc func fetchFilteredPosts(){
-        if subjectSelector.currentSelectedSubject() == "All"{
+        if subjectSelector.currentSelectedSubject() == "Random"{
             indexChange()
             return
         }
