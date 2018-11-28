@@ -70,19 +70,21 @@ The following **stretch** features are implemented:
 
 ## Sprint 1
 
-<img src='https://imgur.com/jr3qrPL.gif' title='Part 1' width='' alt='sprint1' />
+<img src='https://imgur.com/jr3qrPL.gif' title='Sprint 1' width='' alt='sprint1' />
 
 ## Sprint 2
-<img src='https://i.imgur.com/9C1VI15.gif' title='Wireframes' width='' alt='sprint2' />
+<img src='https://i.imgur.com/9C1VI15.gif' title='Sprint 2' width='' alt='sprint2' />
 
 ## Sprint 3
-<img src='https://i.imgur.com/43P4YsC.gif' title='Wireframes' width='' alt='sprint2' />
+<img src='https://i.imgur.com/43P4YsC.gif' title='Sprint 3' width='' alt='sprint2' />
 
 ## Optional Sprint 1
-<img src='https://imgur.com/qTXBmdO.gif' title='Wireframes' width='' alt='sprint2' />
+<img src='https://imgur.com/qTXBmdO.gif' title='Optional Sprint 1' width='' alt='sprint2' />
 
 ## Optional Sprint 1
-<img src='https://imgur.com/e8uXy2g.gif' title='Wireframes' width='' alt='sprint2' />
+<img src='https://imgur.com/e8uXy2g.gif' title='Part 1' width='' alt='sprint2' />
+<img src='https://imgur.com/sZPJBEe.gif' title='Part 2' width='' alt='sprint2' />
+<img src='https://imgur.com/nEuFrnG.gif' title='Part 3' width='' alt='sprint2' />
 
 ## Credits
 
