@@ -36,6 +36,12 @@ class SubjectSelector: UIView, UICollectionViewDelegate, UICollectionViewDataSou
         collectionView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(loadList(notification:)), name: NSNotification.Name(rawValue: "load"), object: nil)
+    }
+    
+    @objc func loadList(notification: Notification){
+        self.collectionView.reloadData()
     }
     
     func currentSelectedSubject() -> String{
@@ -49,7 +55,11 @@ class SubjectSelector: UIView, UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! SubjectCell
         cell.subjectLabel.text = subjects[indexPath.row]
-        cell.subjectLabel.textColor = .white
+        if NightNight.theme == .night{
+            cell.subjectLabel.textColor = .white
+        }else{
+            cell.subjectLabel.textColor = .black
+        }
         if selectedIndex == indexPath.row{
             
             cell.subjectLabel.backgroundColor = .blue

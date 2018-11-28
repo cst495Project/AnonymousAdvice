@@ -59,6 +59,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         sortSwitch.addTarget(self, action: #selector(stateChanged), for: UIControlEvents.valueChanged)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTableView), name: NSNotification.Name(rawValue: "reload"), object: nil)
+        
+    }
+    
+    @objc func reloadTableView(){
+        getUsersCity()
     }
     
     @objc func stateChanged(switchState: UISwitch) {
@@ -72,7 +78,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @objc func didPullToRefresh(_ refreshControl: UIRefreshControl){
         activityIndicator.startAnimating()
-        getUsersCity()
+        self.fetchFilteredPosts()
     }
     
     func getUsersCity(){

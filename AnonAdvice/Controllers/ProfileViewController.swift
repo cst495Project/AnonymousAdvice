@@ -287,6 +287,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
         cityLabel.text = place.formattedAddress!
         userRef.child(self.current).child("city").setValue(cityLabel.text)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reload"), object: nil)
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -299,6 +300,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     @IBAction func onNightButton(_ sender: Any) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
         if (NightNight.theme == .night) {
             NightNight.theme = .normal
             print("normal")
