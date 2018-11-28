@@ -10,9 +10,9 @@ import UIKit
 import NightNight
 
 class SubjectSelector: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
+
     private let cellID = "SubjectCell"
-    let subjects = ["All", "Relationship", "Food", "test", "ahain", "advice", "ios"]
+    let subjects = ["Random", "Parenting", "Political", "Fitness", "Sports", "Cooking", "Legal", "Relationship", "Work"]
     var selectedIndex = 0
     
     lazy var collectionView: UICollectionView = {
@@ -61,10 +61,11 @@ class SubjectSelector: UIView, UICollectionViewDelegate, UICollectionViewDataSou
             cell.subjectLabel.textColor = .black
         }
         if selectedIndex == indexPath.row{
-            
-            cell.subjectLabel.backgroundColor = .blue
+            cell.subjectLabel.backgroundColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+            cell.subjectLabel.textColor = .white
         }else{
             cell.subjectLabel.backgroundColor = .clear
+            cell.subjectLabel.textColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
         }
         return cell
     }
