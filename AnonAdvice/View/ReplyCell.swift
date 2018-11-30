@@ -25,10 +25,10 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var avatarImage: UIImageView!
     @IBOutlet weak var replyButton: UIButton!
     @IBOutlet weak var bestAdviceButton: UIButton!
+    @IBOutlet weak var goodButton: UIButton!
+    @IBOutlet weak var badButton: UIButton!
     
     var delegate: cellDelegate?
-    var goodTapGesture: UITapGestureRecognizer!
-    var badTapGesture: UITapGestureRecognizer!
     var favoriteGesture: UITapGestureRecognizer!
     var postId: String!
     var replyId: String!
@@ -42,10 +42,6 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         charCountLabel = UILabel(frame: CGRect(x:0, y:0, width:10, height: 10))
-        goodTapGesture = UITapGestureRecognizer(target: self, action: #selector(ReplyCell.tapEdit(sender:)))
-        badTapGesture = UITapGestureRecognizer(target: self, action: #selector(ReplyCell.tapEdit(sender:)))
-        self.goodPoints.addGestureRecognizer(goodTapGesture)
-        self.badPoints.addGestureRecognizer(badTapGesture)
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -71,23 +67,31 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
         self.delegate?.cellDelegate()
     }
     
-    @objc func tapEdit(sender: UITapGestureRecognizer) {
+    @IBAction func onRateGood(_ sender: UIButton) {
+        tapEdit(sender: sender)
+    }
+    
+    @IBAction func onRateBad(_ sender: UIButton) {
+        tapEdit(sender: sender)
+    }
+    
+    @objc func tapEdit(sender: UIButton) {
         if current != reply.author {
             let replyRef = Database.database().reference().child("posts").child(postId!).child("replies").child(replyId).child("rated")
             replyRef.child(self.current).observeSingleEvent(of: .value, with: { (snapshot) in
                 if snapshot.exists() {
                     self.currentRating = snapshot.value! as? String
-                    if self.currentRating == "good" && sender == self.badTapGesture {
+                    if self.currentRating == "good" && sender == self.badButton {
                         self.rate(type: "bad")
                         self.increaseScore(type: "bad")
                         self.decreaseScore(type: self.currentRating)
-                    } else if self.currentRating == "bad" && sender == self.goodTapGesture {
+                    } else if self.currentRating == "bad" && sender == self.goodButton {
                         self.rate(type: "good")
                         self.increaseScore(type: "good")
                         self.decreaseScore(type: self.currentRating)
                     }
                 } else {
-                    if sender == self.goodTapGesture {
+                    if sender == self.goodButton {
                         self.rate(type: "good")
                         self.increaseScore(type: "good")
                     } else {
