@@ -85,6 +85,24 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    @IBAction func onExpand(_ sender: Any) {
+        let width = UIScreen.main.bounds.width
+        let appearance = SCLAlertView.SCLAppearance(
+            kWindowWidth: CGFloat(width * 0.9),
+            kTextViewdHeight: 300,
+            kTitleFont: UIFont(name: "HelveticaNeue-Bold", size: 17)!,
+            kTextFont: UIFont(name: "HelveticaNeue", size: 17)!,
+            kButtonFont: UIFont(name: "HelveticaNeue-Bold", size: 14)!,
+            showCloseButton: true,
+            showCircularIcon: false
+        )
+        let alert = SCLAlertView(appearance: appearance)
+        let txt = alert.addTextView()
+        txt.isEditable = false
+        txt.text = textLabel.text
+        alert.showInfo(titleLabel.text!, subTitle: "")
+    }
+    
     @objc func didPullToRefresh(_ refreshControl: UIRefreshControl){
         activityIndicator.startAnimating()
         getPostReplies()
@@ -109,8 +127,8 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.replyTextLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
         cell.timestampLabel.text = "\(String(describing: replies[indexPath.row].timestamp))"
         cell.timestampLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
-        cell.goodPoints.text = "Good: \(String(replies[indexPath.row].good))"
-        cell.badPoints.text = "Bad: \(String(replies[indexPath.row].bad))"
+        cell.goodPoints.text = "Good: \(abbreviate(num: replies[indexPath.row].good))"
+        cell.badPoints.text = "Bad: \(abbreviate(num: replies[indexPath.row].bad))"
         cell.reply = replies[indexPath.row]
         cell.replyId = replies[indexPath.row].id
         cell.postId = postId
@@ -167,6 +185,18 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
                 tableView.reloadData()
             }
         }
+    }
+    
+    func abbreviate(num: Int) -> String {
+        var n = Double(num)
+        if num >= 1000 && num < 1000000 {
+            n = Double( floor(n/100)/10 )
+            return "\(n.description)K"
+        } else if num >= 1000000 {
+            n = Double( floor(n/100000)/10 )
+            return "\(n.description)M"
+        }
+        return "\(num)"
     }
     
     // ******** DATABASE & SNAPSHOT CALLS ********
