@@ -146,7 +146,9 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
         let width = UIScreen.main.bounds.width
         let appearance = SCLAlertView.SCLAppearance(
             kWindowWidth: CGFloat(width * 0.9),
-            kTitleFont: UIFont(name: "HelveticaNeue", size: 14)!,
+            kTextViewdHeight: 250,
+            kTitleFont: UIFont(name: "HelveticaNeue-Bold", size: 17)!,
+            kTextFont: UIFont(name: "HelveticaNeue", size: 17)!,
             kButtonFont: UIFont(name: "HelveticaNeue-Bold", size: 14)!,
             showCloseButton: true,
             showCircularIcon: false
@@ -156,6 +158,9 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
         charCountLabel.sizeToFit()
         charCountLabel.textColor = UIColor.gray
         alert.customSubview = charCountLabel
+        let replytxt = alert.addTextView()
+        replytxt.isEditable = false
+        replytxt.text = reply.text
         let txt = alert.addTextView()
         txt.delegate = self
         alert.addButton("Comment") {
@@ -166,7 +171,7 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
                 SCLAlertView().showError("Comment Creation Error", subTitle: "Comments cannot be empty!")
             }
         }
-        alert.showInfo(reply.text, subTitle: "")
+        alert.showInfo("", subTitle: "")
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {

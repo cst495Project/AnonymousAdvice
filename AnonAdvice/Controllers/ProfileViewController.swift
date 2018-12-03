@@ -249,8 +249,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         fetchUserPosts()
         fetchRepliedPosts()
         AnonFB.fetchUserAdviceScore(currentUser!.uid) { (scores) in
-            self.goodLabel.text = String(scores["good"] ?? 0)
-            self.badLabel.text = String(scores["bad"] ?? 0)
+            self.goodLabel.text = self.abbreviate(num: scores["good"] ?? 0)
+            self.badLabel.text = self.abbreviate(num: scores["bad"] ?? 0)
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.fetchUsersPosts()
@@ -258,6 +258,18 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         defaults.set(true, forKey: "verified")
         defaults.synchronize()
+    }
+    
+    func abbreviate(num: Int) -> String {
+        var n = Double(num)
+        if num >= 1000 && num < 1000000 {
+            n = Double( floor(n/100)/10 )
+            return "\(n.description)K"
+        } else if num >= 1000000 {
+            n = Double( floor(n/100000)/10 )
+            return "\(n.description)M"
+        }
+        return "\(num)"
     }
     
     @objc func indexChange() {
