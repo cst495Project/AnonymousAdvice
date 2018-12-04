@@ -58,10 +58,10 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         getPost()
         getPostReplies()
         
-        thisView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x0f0f0f)
-        tableView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x0f0f0f)
-        titleLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
-        textLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
+        thisView.mixedBackgroundColor = MixedColor(normal: thisView.backgroundColor ?? .white, night: .black)
+        tableView.mixedBackgroundColor = MixedColor(normal: tableView.backgroundColor ?? .white, night: .black)
+        titleLabel.mixedTextColor = MixedColor(normal: titleLabel.textColor, night: .white)
+        textLabel.mixedTextColor = MixedColor(normal: textLabel.textColor, night: .white)
     }
     
     @IBAction func onHome(_ sender: Any) {
@@ -124,9 +124,8 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ReplyCell", for: indexPath) as! ReplyCell
         cell.replyTextLabel.text = replies[indexPath.row].text
-        cell.replyTextLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
+        cell.replyTextLabel.mixedTextColor = MixedColor(normal: cell.replyTextLabel.textColor ?? .black, night: .white)
         cell.timestampLabel.text = "\(String(describing: replies[indexPath.row].timestamp))"
-        cell.timestampLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
         cell.goodPoints.text = "Good: \(abbreviate(num: replies[indexPath.row].good))"
         cell.badPoints.text = "Bad: \(abbreviate(num: replies[indexPath.row].bad))"
         cell.reply = replies[indexPath.row]
@@ -163,11 +162,10 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         let commentLabel = addComments(comments: comments)
         cell.commentCount = comments.count
         cell.commentsLabel.text = "comments: \(String(comments.count))"
-        cell.commentsLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
         cell.commentLabel.text = commentLabel
         cell.delegate = self
         
-        cell.mixedBackgroundColor = MixedColor(normal: 0xe0e0e0, night: 0x1f1f1f)
+        cell.mixedBackgroundColor = MixedColor(normal: cell.backgroundColor ?? .white, night: .black)
         return cell
     }
     

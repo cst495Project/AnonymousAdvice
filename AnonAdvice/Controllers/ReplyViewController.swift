@@ -29,10 +29,10 @@ class ReplyViewController: UIViewController {
         parentTitleLabel.text = parentTitle ?? ""
         parentTextLabel.text = parentText ?? ""
         
-        parentTitleLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
-        parentTextLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
-        replyTextView.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
-        thisView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x0f0f0f)
+        parentTitleLabel.mixedTextColor = MixedColor(normal: parentTitleLabel.textColor  ?? .black, night: .white)
+        parentTextLabel.mixedTextColor = MixedColor(normal: parentTextLabel.textColor ?? .black, night: .white)
+        replyTextView.mixedTextColor = MixedColor(normal: replyTextView.textColor ?? .black, night: .white)
+        thisView.mixedBackgroundColor = MixedColor(normal: thisView.backgroundColor ?? .white, night: .black)
         
         let borderColor: UIColor = UIColor(red:0.85, green:0.85, blue:0.85, alpha:1.0)
         replyTextView.layer.borderWidth = 1

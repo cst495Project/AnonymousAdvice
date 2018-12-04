@@ -29,9 +29,9 @@ class NewPostViewController: UIViewController {
         getUsersCity()
         setUpView()
         self.navigationItem.rightBarButtonItem = replyButton
-        thisView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x0f0f0f)
-        titleLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
-        textView.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
+        thisView.mixedBackgroundColor = MixedColor(normal: thisView.backgroundColor ?? .white, night: .black)
+        titleLabel.mixedTextColor = MixedColor(normal: titleLabel.textColor ?? .black, night: .white)
+        textView.mixedTextColor = MixedColor(normal: textView.textColor ?? .black, night: .white)
         let borderColor: UIColor = UIColor(red:0.85, green:0.85, blue:0.85, alpha:1.0)
         textView.layer.borderWidth = 1
         textView.layer.borderColor = borderColor.cgColor
