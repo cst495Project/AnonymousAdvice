@@ -313,11 +313,16 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBAction func onNightButton(_ sender: Any) {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
         if (NightNight.theme == .night) {
-            NightNight.theme = .normal
-            print("normal")
+            DispatchQueue.main.async {
+                NightNight.theme = .normal
+                print("normal")
+            }
         } else {
-            NightNight.theme = .night
-            print("night")
+            DispatchQueue.main.async {
+                NightNight.theme = .night
+                print("night")
+            }
+            
         }
     }
     
