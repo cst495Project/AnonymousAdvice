@@ -135,8 +135,9 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         if author != currentUser{
             cell.bestAdviceButton.isHidden = true
         }
+        cell.mixedBackgroundColor = MixedColor(normal: cell.backgroundColor ?? .white, night: .black)
         if replies[indexPath.row].author == currentUser {
-            cell.backgroundColor = UIColor.lightText
+            cell.mixedBackgroundColor = MixedColor(normal: 0xe0e0e0, night: 0x303030)
         }
         
         if cell.replyId == self.adviceFavorited {
@@ -165,7 +166,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.commentLabel.text = commentLabel
         cell.delegate = self
         
-        cell.mixedBackgroundColor = MixedColor(normal: cell.backgroundColor ?? .white, night: .black)
+        
         return cell
     }
     
