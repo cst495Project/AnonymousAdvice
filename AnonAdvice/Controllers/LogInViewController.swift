@@ -37,7 +37,7 @@ class LogInViewController: UIViewController, GMSAutocompleteViewControllerDelega
         confirmPasswordTextField.isSecureTextEntry = true
         passwordTextField.isSecureTextEntry = true
         errorMessageLabel.isHidden = true
-        thisView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x0f0f0f)
+        thisView.mixedBackgroundColor = MixedColor(normal: thisView.backgroundColor ?? .white, night: .black)
     }
     
     func setBackground(){

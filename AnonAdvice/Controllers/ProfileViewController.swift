@@ -53,30 +53,30 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         emailLabel.text = currentUser?.email
         emailLabel.isHidden = true
         
-        emailLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
+        emailLabel.mixedTextColor = MixedColor(normal: emailLabel.textColor ?? .black, night: .white)
         emailField.isHidden=true
-        emailField.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
+        emailField.mixedTextColor = MixedColor(normal: emailField.textColor ?? .black, night: .white)
         cityField.isHidden=true
-        cityField.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
+        cityField.mixedTextColor = MixedColor(normal: cityField.textColor ?? .black, night: .white)
         advicePointsField.isHidden=true
-        advicePointsField.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
+        advicePointsField.mixedTextColor = MixedColor(normal: advicePointsField.textColor ?? .black, night: .white)
         goodLabel.isHidden = true
         badLabel.isHidden = true
         cityLabel.isHidden = true
-        cityLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
+        cityLabel.mixedTextColor = MixedColor(normal: cityLabel.textColor ?? .black, night: .white)
         segmentedControl.isHidden = true
         
         changeCity.isHidden = true
         nightButton.isHidden = true
         emailLabel.text = currentUser?.email
-        emailLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
+        emailLabel.mixedTextColor = MixedColor(normal: emailLabel.textColor ?? .black, night: .white)
         
         tableView.isHidden = true
         tableView.delegate = self
         tableView.dataSource = self
         tableView.estimatedRowHeight = 50
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x0f0f0f)
+        tableView.mixedBackgroundColor = MixedColor(normal: tableView.backgroundColor ?? .white, night: .black)
         
         verifyUserView.delegate = self
         
@@ -84,7 +84,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         checkIfVerified()
         
-        thisView.mixedBackgroundColor = MixedColor(normal: 0xf0f0f0, night: 0x0f0f0f)
+        thisView.mixedBackgroundColor = MixedColor(normal: thisView.backgroundColor ?? .white, night: .black)
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -98,11 +98,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         cell.timestampLabel.text = posts[indexPath.row].timestamp
         cell.replyLabel.text = "Replies: \(String(posts[indexPath.row].replyCount))"
         
-        cell.timestampLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
-        cell.titleLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
-        cell.postTextLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
-        cell.replyLabel.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
-        cell.mixedBackgroundColor = MixedColor(normal: 0xe0e0e0, night: 0x1f1f1f)
+        cell.titleLabel.mixedTextColor = MixedColor(normal: cell.titleLabel.textColor ?? .black, night: .white)
+        cell.postTextLabel.mixedTextColor = MixedColor(normal: cell.postTextLabel.textColor ?? .black, night: .white)
+        cell.replyLabel.mixedTextColor = MixedColor(normal: cell.replyLabel.textColor ?? .black, night: .white)
+        cell.mixedBackgroundColor = MixedColor(normal: cell.backgroundColor ?? .white, night: .black)
         return cell
     }
     

@@ -47,7 +47,7 @@ class VerifyUserView: UIView {
         l.translatesAutoresizingMaskIntoConstraints = false
         l.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
         l.text = "We need to verify it is actually you"
-        l.mixedTextColor = MixedColor(normal: 0x0f0f0f, night: 0xf0f0f0)
+        l.mixedTextColor = MixedColor(normal: l.textColor, night: .white)
         return l
     }()
     
