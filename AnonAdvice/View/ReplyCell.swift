@@ -146,7 +146,7 @@ class ReplyCell: UITableViewCell, UITextViewDelegate {
         let width = UIScreen.main.bounds.width
         let appearance = SCLAlertView.SCLAppearance(
             kWindowWidth: CGFloat(width * 0.9),
-            kTextViewdHeight: 250,
+            kTextViewdHeight: 150,
             kTitleFont: UIFont(name: "HelveticaNeue-Bold", size: 17)!,
             kTextFont: UIFont(name: "HelveticaNeue", size: 17)!,
             kButtonFont: UIFont(name: "HelveticaNeue-Bold", size: 14)!,
