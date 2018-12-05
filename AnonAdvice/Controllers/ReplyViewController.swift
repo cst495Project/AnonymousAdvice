@@ -46,7 +46,25 @@ class ReplyViewController: UIViewController {
         super.viewWillAppear(true)
         replyTextView.becomeFirstResponder()
     }
-
+    
+    @IBAction func onExpand(_ sender: Any) {
+        let width = UIScreen.main.bounds.width
+        let appearance = SCLAlertView.SCLAppearance(
+            kWindowWidth: CGFloat(width * 0.9),
+            kTextViewdHeight: 300,
+            kTitleFont: UIFont(name: "HelveticaNeue-Bold", size: 17)!,
+            kTextFont: UIFont(name: "HelveticaNeue", size: 17)!,
+            kButtonFont: UIFont(name: "HelveticaNeue-Bold", size: 14)!,
+            showCloseButton: true,
+            showCircularIcon: false
+        )
+        let alert = SCLAlertView(appearance: appearance)
+        let txt = alert.addTextView()
+        txt.isEditable = false
+        txt.text = parentTextLabel.text
+        alert.showInfo(parentTitleLabel.text!, subTitle: "")
+    }
+    
     @objc func onPostReply(_ sender: Any) {
         if replyTextView.text != "" {
             let current = Auth.auth().currentUser!.uid
