@@ -123,6 +123,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ReplyCell", for: indexPath) as! ReplyCell
+        cell.selectionStyle = .none
         cell.replyTextLabel.text = replies[indexPath.row].text
         cell.replyTextLabel.mixedTextColor = MixedColor(normal: cell.replyTextLabel.textColor ?? .black, night: .white)
         cell.timestampLabel.text = "\(String(describing: replies[indexPath.row].timestamp))"
@@ -164,6 +165,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.commentCount = comments.count
         cell.commentsLabel.text = "comments: \(String(comments.count))"
         cell.commentLabel.text = commentLabel
+        cell.commentLabel.mixedTextColor = MixedColor(normal: .black, night: .white)
         cell.delegate = self
         
         

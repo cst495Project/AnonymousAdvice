@@ -39,6 +39,10 @@ class VerifyUserView: UIView {
         t.backgroundColor = .white
         t.isSecureTextEntry = true
         t.autocapitalizationType = .none
+        let borderColor: UIColor = UIColor(red:0.85, green:0.85, blue:0.85, alpha:1.0)
+        t.layer.borderWidth = 1
+        t.layer.borderColor = borderColor.cgColor
+        t.layer.cornerRadius = 5.0
         return t
     }()
     
@@ -54,7 +58,7 @@ class VerifyUserView: UIView {
     let verifyButton: UIButton = {
         let b = UIButton()
         b.translatesAutoresizingMaskIntoConstraints = false
-        b.backgroundColor = #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)
+        b.backgroundColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
         b.setTitle("Verify", for: .normal)
         b.addTarget(self, action: #selector(verifyUser), for: .touchUpInside)
         return b

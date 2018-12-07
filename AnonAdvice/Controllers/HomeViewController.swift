@@ -99,12 +99,16 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @IBAction func onLogout(_ sender: Any) {
-        do {
-            try Auth.auth().signOut()
-        } catch let logoutError {
-            print(logoutError.localizedDescription)
+        let alert = SCLAlertView()
+        alert.addButton("Logout") {
+            do {
+                try Auth.auth().signOut()
+            } catch let logoutError {
+                print(logoutError.localizedDescription)
+            }
+            self.performSegue(withIdentifier: "logoutSegue", sender: nil)
         }
-        self.performSegue(withIdentifier: "logoutSegue", sender: nil)
+        alert.showWarning("Confirmation Needed", subTitle: "Are you sure you want to logout?")
     }
     
     @IBAction func unwindToHome(segue: UIStoryboardSegue) { }
@@ -120,9 +124,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.timestampLabel.text = "\(String(describing: posts[indexPath.row].timestamp))"
         cell.repliesLabel.text = "Replies: \(String(posts[indexPath.row].replyCount))"
         
-        cell.titleLabel.mixedTextColor = MixedColor(normal: cell.titleLabel.textColor ?? .black, night: .white)
-        cell.postTextLabel.mixedTextColor = MixedColor(normal: cell.postTextLabel.textColor ?? .black, night: .white)
-        cell.mixedBackgroundColor = MixedColor(normal: cell.backgroundColor ?? .white, night: .black)
+        cell.titleLabel.mixedTextColor = MixedColor(normal: .black, night: .white)
+        cell.postTextLabel.mixedTextColor = MixedColor(normal: .black, night: .white)
+        cell.mixedBackgroundColor = MixedColor(normal: .white, night: .black)
         return cell
     }
     
