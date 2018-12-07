@@ -100,7 +100,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         cell.titleLabel.mixedTextColor = MixedColor(normal: cell.titleLabel.textColor ?? .black, night: .white)
         cell.postTextLabel.mixedTextColor = MixedColor(normal: cell.postTextLabel.textColor ?? .black, night: .white)
-        cell.replyLabel.mixedTextColor = MixedColor(normal: cell.replyLabel.textColor ?? .black, night: .white)
         cell.mixedBackgroundColor = MixedColor(normal: cell.backgroundColor ?? .white, night: .black)
         return cell
     }
@@ -248,8 +247,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         fetchUserPosts()
         fetchRepliedPosts()
         AnonFB.fetchUserAdviceScore(currentUser!.uid) { (scores) in
-            self.goodLabel.text = self.abbreviate(num: scores["good"] ?? 0)
-            self.badLabel.text = self.abbreviate(num: scores["bad"] ?? 0)
+            self.goodLabel.text = "Good: \(self.abbreviate(num: scores["good"] ?? 0))"
+            self.badLabel.text = "Bad: \(self.abbreviate(num: scores["bad"] ?? 0))"
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.fetchUsersPosts()
